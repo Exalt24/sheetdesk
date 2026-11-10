@@ -22,9 +22,11 @@ Source: `src/Webhook.js`, `src/Dashboard.html`, `src/Clients.js`. Tests: `test/w
 
 Only `lead_id` and `client` are required. A lead with a `lead_id` in the right shape and a client from the Clients tab is always stored.
 
-- **`lead_id`** is 1 to 64 characters from letters, digits and `_ . : -`. Anything else, such as a space or a slash (a booking link used as an id), is refused with `invalid_field`.
+- **`lead_id`** is 1 to 64 characters from letters, digits and `_ . : -`. Anything else, such as a space or a slash (a booking link used as an id), is refused with `invalid_field`. Send it as text. A number is kept only when it is a whole number up to 9007199254740991, because JSON turns a bigger one (a 17 digit ad platform id) into a nearby number before the script sees it, and two different leads would then share an id. A number that is not exact is refused with `invalid_field` and a `hint` that says to send the id as text.
 - **An odd optional value is kept.** An `email` that is not an address (`ana@gmail`, a comma for the dot, `Ana Archer <ana@example.com>`) and a `name`, `phone`, `source`, `campaign` or `message` longer than its usual size (120, 40, 60, 120 and 2,000 characters) are stored as typed, after the text safety step below. The reply then carries a `warnings` list that names each field, for example `{"ok":true,"duplicate":false,"lead_id":"z-1001","warnings":[{"field":"email","issue":"not_an_email"},{"field":"message","issue":"too_long","max":2000}]}`. A lead with nothing odd has no `warnings` key. A retry of a lead that is already stored answers `duplicate` and carries no warnings. The whole body is still capped at 10,000 characters.
 - **Still refused:** an object, a list or a true or false value in a field, a `client` over 120 characters, an unknown client, an unknown field and a wrong secret.
+
+A body that is a JSON object is read as JSON whatever its content type says, so a Make HTTP step that sends `text/plain` still works. A body that is not an object is read as form fields, or answered `bad_json` when its content type says JSON.
 
 Order of checks: body size (10,000 characters), parse, secret, unknown fields, field values, client name, then the lock. Every reply is a JSON body with `ok`. Errors have an `error` code: `no_body`, `too_large`, `bad_json`, `not_configured`, `unauthorized`, `unknown_field`, `missing_field`, `invalid_field` (a wrong typed value, a `lead_id` of the wrong shape or a `client` over 120 characters), `unknown_client`, `busy` and `server_error`.
 

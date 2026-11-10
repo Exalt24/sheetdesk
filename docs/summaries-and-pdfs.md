@@ -17,6 +17,8 @@ Source: `src/Reporting.js`, `src/Campaigns.js`. Tests: `test/reporting.test.js`,
 
 **Send to me first.** `runClientReport(client, month, { preview: true })` does the same steps but emails the PDF to the person running the script and never to the client. The subject starts with `[Preview]`. The address comes from `Session.getActiveUser()`. Google gives a blank address in some contexts, so the script then uses the `REPORT_CC` property, and if that is empty too the result is `no_preview_address` and nothing is sent. A preview does not count as the email to the client: it never sets `emailed_at` in the Report Log. When the figures have changed since the last email, the row starts with an empty `emailed_at`, so the next real run sends. A failed email for changed figures works the same way. The sidebar passes its "Send to me first" box to this option, and the box starts ticked.
 
+Two client names that would share one PDF file name or one summary tab (`Harbor Lane Bakery` and `harbor lane bakery`, `A/B Co` and `A-B Co`) stop only those clients. Run report refuses either name with a message that names both, Rebuild summaries leaves both tabs out and lists the clash in `skipped`, and the month close lists each of them as an error and reports every other client. A Campaigns row whose client is not the exact name of any client in the Clients tab is in no report, so the result carries `unmatched` with the row count and the names (at most 10), and the menu message, the sidebar and the month close dialog say so.
+
 `runMonthClose(month)` rebuilds the summaries and runs the same steps for every client whose status is `active`. It stops before the 4.5 minute budget and returns the clients still waiting, so a second call finishes them. A client whose PDF is current and who has been emailed (or has no address) is skipped. A report that was only previewed, or whose email failed, is not skipped, so the close sends it. One failing client is reported and does not stop the rest.
 
 Spend in another currency is converted to USD with the rate of that day from the Rates sheet, or the latest earlier day within 7 days (weekends have no rate). A row with no usable rate is counted as rejected and left out. Money is summed in whole cents.
@@ -39,7 +41,7 @@ Against the fake in `test/fake/gas.js`. The totals in the summary tabs are compa
 - months such as `2026-10` come back from the Report Log, the summary tabs and the Job Log as text
 - a mail quota of zero, and a client with no address
 - bad input refused before anything is created
-- a client name with a dollar sign, and two client names that would share a file name
+- a client name with a dollar sign, and two client names that would share a file name (`test/name-collisions.test.js` runs each kind of clash against the report, the summaries, the month close and the intake form)
 - a month close that needs two calls to finish
 
 ## What it does NOT do

@@ -96,14 +96,19 @@ function summaryTable_(byMonth) {
 /**
  * Rebuilds one summary tab per client from the Campaigns sheet. Reads the
  * sheet once, writes each tab with one setValues call. Safe to rerun.
- * @return {{tabs: number, rows: number, rejected: number}}
+ * Two names that would share a tab or a PDF name are both left out and named
+ * in `skipped`; every other client is rebuilt. A Campaigns row whose client is
+ * no client in the Clients tab is counted and named in `unmatched`. Both keys
+ * are present only when there is something to say.
+ * @return {{tabs: number, rows: number, rejected: number, skipped: (string[]|undefined),
+ *   unmatched: ({rows: number, clients: string[]}|undefined)}}
  */
 function buildClientSummaries() {
   const ss = spreadsheet_();
   const parsed = readCampaigns_(ss);
   const agg = aggregate_(parsed.rows);
-  const names = Object.keys(agg).sort();
-  assertDistinctNames_(names);
+  const clashes = nameClashes_(Object.keys(agg));
+  const names = Object.keys(agg).sort().filter(function (n) { return clashes[n] === undefined; });
   let rowCount = 0;
   names.forEach(function (client) {
     const table = summaryTable_(agg[client]);
@@ -115,7 +120,12 @@ function buildClientSummaries() {
     sheet.setFrozenRows(1);
     rowCount += table.length - 1;
   });
-  return { tabs: names.length, rows: rowCount, rejected: parsed.rejected.length };
+  const result = { tabs: names.length, rows: rowCount, rejected: parsed.rejected.length };
+  const skipped = clashMessages_(clashes);
+  if (skipped.length) result.skipped = skipped;
+  const unmatched = unmatchedRows_(parsed.rows, ss.getSheetByName(SD.SHEETS.CLIENTS) ? loadClients_(ss) : undefined);
+  if (unmatched) result.unmatched = unmatched;
+  return result;
 }
 
 /**
@@ -125,30 +135,109 @@ function buildClientSummaries() {
  * @return {string}
  */
 function reportPdfName_(client, month) {
-  const slug = client.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-  return (slug || 'client') + '-' + month + '.pdf';
+  return reportSlug_(client) + '-' + month + '.pdf';
 }
 
 /**
- * Throws when two client names would share a PDF file name or a summary tab
- * name, because the second would silently overwrite the first.
- * @param {string[]} names client names
+ * The part of a report file name that comes from the client name.
+ * @param {string} client
+ * @return {string}
  */
-function assertDistinctNames_(names) {
-  const pdf = {};
-  const tab = {};
+function reportSlug_(client) {
+  const slug = client.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  return slug || 'client';
+}
+
+/**
+ * Finds the client names that would share a PDF file name or a summary tab
+ * name with another name, because the second would silently overwrite the
+ * first. Every name of a clash is listed, with the message that names the
+ * names it clashes with. The same name twice is one name.
+ * @param {string[]} names client names
+ * @return {Object} name to message; a name that is clear of the others is not a key
+ */
+function nameClashes_(names) {
+  const byPdf = Object.create(null);
+  const byTab = Object.create(null);
+  const add = function (map, key, n) {
+    const list = map[key] || (map[key] = []);
+    if (list.indexOf(n) === -1) list.push(n);
+  };
   names.forEach(function (n) {
-    const p = reportPdfName_(n, '2000-01');
-    const t = summaryTabName_(n);
-    if (pdf[p] !== undefined && pdf[p] !== n) {
-      throw new Error('Clients "' + pdf[p] + '" and "' + n + '" would share one report file name.');
-    }
-    if (tab[t] !== undefined && tab[t] !== n) {
-      throw new Error('Clients "' + tab[t] + '" and "' + n + '" would share one summary tab name.');
-    }
-    pdf[p] = n;
-    tab[t] = n;
+    add(byPdf, reportSlug_(n), n);
+    add(byTab, summaryTabName_(n), n);
   });
+  const out = Object.create(null);
+  const mark = function (map, what) {
+    Object.keys(map).forEach(function (key) {
+      const group = map[key];
+      if (group.length < 2) return;
+      const quoted = group.map(function (n) { return '"' + n + '"'; });
+      const list = quoted.slice(0, -1).join(', ') + ' and ' + quoted[quoted.length - 1];
+      group.forEach(function (n) {
+        if (out[n] === undefined) out[n] = 'Clients ' + list + ' would share one ' + what + '.';
+      });
+    });
+  };
+  mark(byPdf, 'report file name');
+  mark(byTab, 'summary tab name');
+  return out;
+}
+
+/**
+ * The distinct messages of a nameClashes_ result, in the order of the names.
+ * @param {Object} clashes from nameClashes_
+ * @return {string[]}
+ */
+function clashMessages_(clashes) {
+  const out = [];
+  Object.keys(clashes).forEach(function (n) {
+    if (out.indexOf(clashes[n]) === -1) out.push(clashes[n]);
+  });
+  return out;
+}
+
+/**
+ * True when two client names would share a PDF file name or a summary tab
+ * name. The intake form uses it so a name the reports would refuse is held
+ * for review and not confirmed.
+ * @param {string} a
+ * @param {string} b
+ * @return {boolean}
+ */
+function namesClash_(a, b) {
+  return reportSlug_(a) === reportSlug_(b) || summaryTabName_(a) === summaryTabName_(b);
+}
+
+/**
+ * Campaigns rows whose client is not the exact name of any client. They are
+ * in no client's report, so they are counted and named instead of dropped.
+ * @param {Object[]} rows parsed rows from readCampaigns_
+ * @param {(Client[]|undefined)} clients nothing when there is no Clients tab to compare with
+ * @return {({rows: number, clients: string[]}|undefined)} nothing when every row has a client
+ */
+function unmatchedRows_(rows, clients) {
+  if (!clients) return;
+  const known = clients.map(function (c) { return c.client; });
+  const names = [];
+  let count = 0;
+  rows.forEach(function (r) {
+    if (known.indexOf(r.client) !== -1) return;
+    count++;
+    if (names.indexOf(r.client) === -1) names.push(r.client);
+  });
+  if (count === 0) return;
+  return { rows: count, clients: names.sort().slice(0, 10) };
+}
+
+/**
+ * One sentence for a result of unmatchedRows_.
+ * @param {{rows: number, clients: string[]}} u
+ * @return {string}
+ */
+function unmatchedText_(u) {
+  return u.rows + (u.rows === 1 ? ' Campaigns row names' : ' Campaigns rows name') + ' a client that is not in the Clients tab (' +
+    u.clients.join(', ') + '), so ' + (u.rows === 1 ? 'it is' : 'they are') + ' in no report.';
 }
 
 /**
@@ -295,9 +384,13 @@ function runClientReport(clientName, month, options) {
   const ss = spreadsheet_();
   const clients = loadClients_(ss);
   const client = assertClient_(clients, clientName);
-  assertDistinctNames_(clients.map(function (c) { return c.client; }));
-  const agg = aggregate_(readCampaigns_(ss).rows);
-  return buildReport_(ss, client, month, agg, options || {});
+  const clash = nameClashes_(clients.map(function (c) { return c.client; }))[client.client];
+  if (clash !== undefined) throw new Error(clash);
+  const rows = readCampaigns_(ss).rows;
+  const result = buildReport_(ss, client, month, aggregate_(rows), options || {});
+  const unmatched = unmatchedRows_(rows, clients);
+  if (unmatched) result.unmatched = unmatched;
+  return result;
 }
 
 /**
@@ -463,8 +556,12 @@ function pdfStillExists_(id) {
  * before the time budget runs out and lists the clients still waiting, so a
  * second call finishes the rest. Reports already done are replaced, not
  * duplicated, and not emailed again unless the figures changed.
+ * A client whose name would share a PDF file name or a summary tab with another
+ * is not reported: its result is an error that names both, the other clients
+ * run, and the messages are also listed in `clashes` (present only when there
+ * are any).
  * @param {string} month yyyy-MM
- * @return {{month: string, results: Object[], pending: string[], summaries: Object}}
+ * @return {{month: string, results: Object[], pending: string[], summaries: Object, clashes: (string[]|undefined)}}
  */
 function runMonthClose(month) {
   assertMonth_(month);
@@ -472,13 +569,17 @@ function runMonthClose(month) {
   const ss = spreadsheet_();
   const allClients = loadClients_(ss);
   const clients = allClients.filter(function (c) { return c.status === 'active'; });
-  assertDistinctNames_(allClients.map(function (c) { return c.client; }));
+  const clashes = nameClashes_(allClients.map(function (c) { return c.client; }));
   const summaries = buildClientSummaries();
   const agg = aggregate_(readCampaigns_(ss).rows);
   const results = [];
   const pending = [];
   let slowest = 0;
   clients.forEach(function (c) {
+    if (clashes[c.client] !== undefined) {
+      results.push({ status: 'error', client: c.client, month: month, error: clashes[c.client] });
+      return;
+    }
     if (Date.now() - started + slowest * 1.5 > SD.BUDGET_MS) {
       pending.push(c.client);
       return;
@@ -494,5 +595,8 @@ function runMonthClose(month) {
   writeJobLog_(ss, ['month close', month, new Date(started), new Date(), results.length,
     pending.length ? 'pending: ' + pending.join('; ') : 'complete']);
   SpreadsheetApp.flush();
-  return { month: month, results: results, pending: pending, summaries: summaries };
+  const out = { month: month, results: results, pending: pending, summaries: summaries };
+  const clashed = clashMessages_(clashes);
+  if (clashed.length) out.clashes = clashed;
+  return out;
 }

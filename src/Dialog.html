@@ -27,8 +27,13 @@
     setStatus('Working');
     google.script.run
       .withSuccessHandler(function (r) {
-        setStatus(r.done + ' done, ' + r.errors + ' failed, ' + r.pending + ' waiting, ' + r.emailed + ' emailed, ' +
-          r.emailFailed + ' not emailed (mail refused; the next close sends them).');
+        var text = r.done + ' done, ' + r.errors + ' failed, ' + r.pending + ' waiting, ' + r.emailed + ' emailed, ' +
+          r.emailFailed + ' not emailed (mail refused; the next close sends them).';
+        if (r.clashes) text += ' Not reported: ' + r.clashes.join(' ');
+        if (r.skipped) text += ' Summaries left out: ' + r.skipped.join(' ');
+        if (r.unmatched) text += ' ' + r.unmatched.rows + ' Campaigns row(s) name a client that is not in the Clients tab (' +
+          r.unmatched.clients.join(', ') + ').';
+        setStatus(text);
         document.getElementById('confirm').disabled = false;
       })
       .withFailureHandler(function (err) {

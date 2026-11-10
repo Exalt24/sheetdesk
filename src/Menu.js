@@ -63,7 +63,20 @@ function openMonthCloseDialog() {
 /** Menu item. */
 function menuRebuildSummaries() {
   const r = buildClientSummaries();
-  SpreadsheetApp.getActiveSpreadsheet().toast(r.tabs + ' tabs, ' + r.rows + ' rows', 'Summaries');
+  SpreadsheetApp.getActiveSpreadsheet().toast(summariesMessage_(r), 'Summaries');
+}
+
+/**
+ * The toast text for Rebuild summaries: the counts, then every name clash
+ * that left clients out and every Campaigns row that matches no client.
+ * @param {{tabs: number, rows: number, skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined)}} r
+ * @return {string}
+ */
+function summariesMessage_(r) {
+  let text = r.tabs + ' tabs, ' + r.rows + ' rows';
+  if (r.skipped) text += '. Left out: ' + r.skipped.join(' ');
+  if (r.unmatched) text += '. ' + unmatchedText_(r.unmatched);
+  return text;
 }
 
 /** Menu item: last 30 days of ad costs. */
@@ -171,12 +184,13 @@ function sidebarRequestMonthClose(month) {
 /**
  * Dialog button: runs the month close.
  * @param {string} month
- * @return {{month: string, done: number, errors: number, pending: number, emailed: number, emailFailed: number}}
+ * @return {{month: string, done: number, errors: number, pending: number, emailed: number, emailFailed: number,
+ *   clashes: (string[]|undefined), skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined)}}
  */
 function dialogConfirmMonthClose(month) {
   // runMonthClose checks the month first.
   const r = runMonthClose(month);
-  return {
+  const out = {
     month: r.month,
     done: r.results.filter(function (x) { return x.status === 'ok' || x.status === 'no_data'; }).length,
     errors: r.results.filter(function (x) { return x.status === 'error'; }).length,
@@ -185,4 +199,8 @@ function dialogConfirmMonthClose(month) {
     // A report that was built but whose email the mail service refused (for example on quota). The next close sends it.
     emailFailed: r.results.filter(function (x) { return /^failed/.test(String(x.email)); }).length
   };
+  if (r.clashes) out.clashes = r.clashes;
+  if (r.summaries.skipped) out.skipped = r.summaries.skipped;
+  if (r.summaries.unmatched) out.unmatched = r.summaries.unmatched;
+  return out;
 }

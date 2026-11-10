@@ -12,7 +12,7 @@ The form has six items: client name, contact name, contact email, primary channe
 
 1. Reads the answers by item title and checks them: a client name, a valid email, a budget that is a number of zero or more (commas are fine).
 2. Takes the script lock, and looks for the response id in the Clients sheet. A response that was already stored returns `duplicate` and does nothing more.
-3. Appends one row to Clients. The status is `active`, or `needs_review` when a check failed or the client name already exists (ignoring case). Nothing is thrown away, so a person can look at the odd ones.
+3. Appends one row to Clients. The status is `active`, or `needs_review` when a check failed or the client name would share a report file name or a summary tab with a client already listed (`Harbor Lane Bakery.` and `harbor lane bakery` both clash with `Harbor Lane Bakery`). Nothing is thrown away, so a person can look at the odd ones.
 4. Flushes, then clears the cached client list so the webhook accepts the new client at once.
 5. Sends a confirmation email to the contact with `MailApp.sendEmail`, only for an `active` row. If the email fails (for example, no mail quota left) the row stays and the error goes to the log.
 

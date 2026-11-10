@@ -1,6 +1,7 @@
 'use strict';
 /**
- * Replays every case of test/corpus/corpus_sheetdesk_1.jsonl through the real
+ * Replays every case of test/corpus/corpus_sheetdesk_1.jsonl (and, at the end of
+ * this file, of corpus_sheetdesk_blind_2.jsonl) through the real
  * src/ code. The file is an independent adversary's corpus: each line holds an
  * input (a surface of webhook, summary, bulk or util, and the result the docs
  * promise in input.want), a why and whether the code was expected to pass.
@@ -13,6 +14,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadProject, loadSeeded, HEADERS } = require('./helpers/load');
 const { ExecutionKilled } = require('./fake/gas');
+const { RUNNERS: BLIND_RUNNERS } = require('./helpers/blind2');
 
 const FILE = path.join(__dirname, 'corpus', 'corpus_sheetdesk_1.jsonl');
 const SECRET = 'corpus-secret-value';
@@ -182,5 +184,31 @@ for (const c of CASES) {
     test(name, { skip: 'DISPUTED: ' + DISPUTED.get(c.line) }, () => {});
   } else {
     test(name, () => RUNNERS[c.input.surface](c.input));
+  }
+}
+
+// ---- the blind adversary corpus: test/helpers/blind2.js holds the runner of each line
+const BLIND_FILE = path.join(__dirname, 'corpus', 'corpus_sheetdesk_blind_2.jsonl');
+const BLIND_DISPUTED = new Map([
+  [14, 'the case expects both 17 digit numbers to be stored, but a JSON number past 2^53 has lost its last digits when it is parsed, so the fix refuses it with a reply that says to send lead_id as text (docs/webhook.md); test/webhook-numbers.test.js holds the class']
+]);
+const BLIND = fs.readFileSync(BLIND_FILE, 'utf8').trim().split('\n').map((line, i) => Object.assign({ line: i + 1 }, JSON.parse(line)));
+
+test('the blind corpus file holds the 53 cases of the blind adversary pass, each with a runner', () => {
+  assert.equal(BLIND.length, 53);
+  for (const c of BLIND) {
+    assert.equal(typeof BLIND_RUNNERS[c.line], 'function', 'line ' + c.line + ' has a runner');
+    assert.ok(c.why.length >= 10, 'line ' + c.line + ' says why');
+    assert.ok(c.source === 'real' || c.source === 'invented', 'line ' + c.line + ' has a source');
+    assert.ok(c.expect === 'pass' || c.expect === 'fail', 'line ' + c.line + ' has an expect');
+  }
+});
+
+for (const c of BLIND) {
+  const name = 'corpus_sheetdesk_blind_2.jsonl line ' + c.line + ' (' + c.input.entry + '): ' + c.why.slice(0, 90);
+  if (BLIND_DISPUTED.has(c.line) && !process.env.CORPUS_RUN_DISPUTED) {
+    test(name, { skip: 'DISPUTED: ' + BLIND_DISPUTED.get(c.line) }, () => {});
+  } else {
+    test(name, () => BLIND_RUNNERS[c.line](c));
   }
 }

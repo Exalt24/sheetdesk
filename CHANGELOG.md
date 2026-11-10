@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+Changes after a third pass, a blind adversary corpus of 53 cases (now in `test/corpus/corpus_sheetdesk_blind_2.jsonl`).
+
+- A numeric `lead_id` that is not an exact whole number (a 17 digit id, 1.5) is refused with a hint to send it as text. JSON had already changed its last digits, so two leads shared an id and the second was answered `duplicate` and never stored.
+- A JSON body sent as `text/plain` is read as JSON, so the right secret is no longer answered `unauthorized`.
+- Two client names that would share a PDF file name or a summary tab stop only those two clients, not Run report, Rebuild summaries and the month close for everyone. The result names both.
+- The intake form holds a name that would clash with a listed client as `needs_review` and sends no confirmation.
+- A Campaigns row whose client matches no client is counted and named in the result and the menu message, not dropped silently.
+
 Changes after a second independent review, which sent 98 test cases through the code (now in `test/corpus/`).
 
 - A lead with a `lead_id` and a client is always stored. An email that is not an address, or a name, phone, source, campaign or message over its usual size, is kept as typed and the reply lists it in `warnings`. It used to refuse the whole lead and lose the phone and message with it. The `lead_id` shape, the secret and the unknown field checks are unchanged.

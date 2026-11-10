@@ -18,7 +18,7 @@ Three ways, all end in a row in the Clients tab.
 
 The webhook keeps the client list for 5 minutes. A client you type by hand is accepted by the webhook within 5 minutes. The intake form clears that list at once.
 
-Client names must differ after punctuation is removed: `A/B Co` and `A-B Co` would share one summary tab and one PDF name, so the script refuses both.
+Client names must differ after punctuation is removed: `A/B Co` and `A-B Co` would share one summary tab and one PDF name, so the script reports neither of them, says so in the result, and carries on with every other client.
 
 ## Add a channel
 

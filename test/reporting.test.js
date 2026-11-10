@@ -49,7 +49,7 @@ test('summary tabs: batch reads and writes, never cell by cell', () => {
   p.call('buildClientSummaries');
   assert.equal(counts['Range.getValue'], undefined);
   assert.equal(counts['Range.setValue'], undefined);
-  assert.ok(counts['Range.getValues'] <= 4, 'getValues calls: ' + counts['Range.getValues']);
+  assert.ok(counts['Range.getValues'] <= 5, 'getValues calls (one more than before: the Clients read for the unmatched Campaigns rows): ' + counts['Range.getValues']);
   assert.equal(counts['Range.setValues'], 9, 'one setValues per tab');
   assert.ok(p.w.calls < 400, 'service calls stay small for 2,000 rows');
 });
@@ -109,18 +109,20 @@ test('a rate older than 7 days is not used', () => {
   assert.equal(p.plain(p.call('buildClientSummaries')).rejected, 1);
 });
 
-test('two clients whose names clean to one tab name are refused', () => {
+test('two clients whose names clean to one tab name are both skipped and named, not thrown', () => {
   const p = loadProject();
   p.fill('Campaigns', HEADERS.campaigns, [
     ['A/B Co', 'search', '2026-10-02', 9, 1, 1, 'USD'],
     ['A-B Co', 'search', '2026-10-02', 9, 1, 1, 'USD']
   ]);
-  assert.throws(() => p.call('buildClientSummaries'), /share one (report file|summary tab) name/);
+  const r = p.plain(p.call('buildClientSummaries'));
+  assert.equal(r.tabs, 0, 'neither of the two is written');
+  assert.deepEqual(r.skipped, ['Clients "A/B Co" and "A-B Co" would share one report file name.']);
 
   const long = 'x'.repeat(80);
   const q = loadProject();
   q.fill('Campaigns', HEADERS.campaigns, [[long + '1', 'search', '2026-10-02', 9, 1, 1, 'USD'], [long + '2', 'search', '2026-10-02', 9, 1, 1, 'USD']]);
-  assert.throws(() => q.call('buildClientSummaries'), /share one summary tab name/);
+  assert.match(q.plain(q.call('buildClientSummaries')).skipped[0], /share one summary tab name/);
 });
 
 test('a client name with a slash gets a safe tab name', () => {

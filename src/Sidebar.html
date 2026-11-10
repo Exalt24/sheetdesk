@@ -62,8 +62,12 @@
   }
   function done(result) {
     busy(false);
-    if (result.status === 'no_data') setStatus('No data for that month.', false);
-    else setStatus('Report ready: ' + result.pdfName + '. Email: ' + emailWords(result.email) + '.', false);
+    var text = result.status === 'no_data'
+      ? 'No data for that month.'
+      : 'Report ready: ' + result.pdfName + '. Email: ' + emailWords(result.email) + '.';
+    if (result.unmatched) text += ' ' + result.unmatched.rows + ' Campaigns row(s) name a client that is not in the Clients tab (' +
+      result.unmatched.clients.join(', ') + ') and are in no report.';
+    setStatus(text, false);
   }
   document.getElementById('run-report').onclick = function () {
     busy(true);

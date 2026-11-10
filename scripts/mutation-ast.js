@@ -49,7 +49,21 @@ const TARGETS = [
   { file: 'Reporting.js', within: 'sumChannels_', marker: /addCount_/, mode: 'inner' },
   { file: 'BulkProcess.js', within: 'runBulkSlice_', marker: /BULK_MIN_RATE_ROWS/, mode: 'inner' },
   { file: 'BulkProcess.js', within: null, marker: /BULK_MIN_RATE_ROWS =/, mode: 'inner' },
-  { file: 'BulkProcess.js', within: 'writeRollup_', marker: /addCount_/, mode: 'inner' }
+  { file: 'BulkProcess.js', within: 'writeRollup_', marker: /addCount_/, mode: 'inner' },
+  // round 3: a body read as JSON whatever its type, an exact lead_id, one colliding name stopping only itself
+  { file: 'Webhook.js', within: 'webhookParse_', marker: /./, mode: 'all' },
+  { file: 'Webhook.js', within: 'webhookValidate_', marker: /isSafeInteger/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'nameClashes_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'clashMessages_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'namesClash_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'unmatchedRows_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'unmatchedText_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'buildClientSummaries', marker: /clashes|skipped|unmatched/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'runClientReport', marker: /clash|unmatched/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'runMonthClose', marker: /clashes|clashed/, mode: 'inner' },
+  { file: 'Forms.js', within: 'onIntakeSubmit', marker: /nameTaken|namesClash_/, mode: 'inner' },
+  { file: 'Menu.js', within: 'summariesMessage_', marker: /./, mode: 'all' },
+  { file: 'Menu.js', within: 'dialogConfirmMonthClose', marker: /clashes|skipped|unmatched/, mode: 'inner' }
 ];
 
 const CONDITIONAL = ['IfStatement', 'ConditionalExpression', 'WhileStatement', 'ForStatement'];

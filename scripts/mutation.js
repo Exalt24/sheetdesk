@@ -49,7 +49,7 @@ const M = [
   ['idempotency', 'Webhook.js', "      if (String(known[i][0]) === lead.lead_id) return jsonOut_({ ok: true, duplicate: true, lead_id: lead.lead_id });\n", '', 'a repeated lead_id adds a second row'],
   ['idempotency-lock', 'Webhook.js', "  if (!lock.tryLock(10000)) return webhookError_('busy', { retry: true });\n", '', 'the webhook takes no lock'],
   ['unknown-field', 'Webhook.js', "  if (unknown.length) return { lead: null, error: 'unknown_field', detail: { fields: unknown.slice(0, 10) } };\n", '', 'unknown fields are accepted'],
-  ['bad-json-shape', 'Webhook.js', "    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return { fields: null, error: 'bad_json' };\n", '', 'a JSON array or string passes as a lead'],
+  ['bad-json-shape', 'Webhook.js', "typeof parsed === 'object' && !Array.isArray(parsed)", "typeof parsed === 'object'", 'a JSON array passes as a lead'],
   ['body-size', 'Webhook.js', "  if (e.postData.contents.length > WEBHOOK_MAX_BODY) return { fields: null, error: 'too_large' };\n", '', 'there is no body size limit'],
   ['value-types', 'Webhook.js', "      return { lead: null, error: 'invalid_field', detail: { field: k } };", '      clean[k] = String(v);', 'objects and arrays are stored as text'],
   ['lead-id-shape', 'Webhook.js', "  if (!/^[A-Za-z0-9_.:-]{1,64}$/.test(clean.lead_id)) return { lead: null, error: 'invalid_field', detail: { field: 'lead_id' } };\n", '', 'lead_id can hold any characters'],
@@ -99,8 +99,8 @@ const M = [
   ['report-month-check', 'Reporting.js', 'function runClientReport(clientName, month, options) {\n  assertMonth_(month);', 'function runClientReport(clientName, month, options) {', 'a bad month reaches the report'],
   ['report-client-check', 'Reporting.js', '  const client = assertClient_(clients, clientName);', "  const client = clients.filter(function (c) { return c.client === clientName; })[0] || { client: clientName, contact_email: '' };", 'an unknown client gets a report'],
   ['close-month-check', 'Reporting.js', 'function runMonthClose(month) {\n  assertMonth_(month);', 'function runMonthClose(month) {', 'a bad month reaches the month close'],
-  ['distinct-names', 'Reporting.js', '  assertDistinctNames_(clients.map(function (c) { return c.client; }));\n  const agg', '  const agg', 'two clients can overwrite each other PDF'],
-  ['summary-tab-names', 'Reporting.js', '  assertDistinctNames_(names);\n', '', 'two clients can share a summary tab'],
+  ['distinct-names', 'Reporting.js', '  if (clash !== undefined) throw new Error(clash);\n', '', 'two clients can overwrite each other PDF'],
+  ['summary-tab-names', 'Reporting.js', '.sort().filter(function (n) { return clashes[n] === undefined; });', '.sort();', 'two clients can share a summary tab'],
   ['summary-clear', 'Reporting.js', '    sheet.clearContents();\n    ensureGrid_(sheet, table.length, table[0].length);', '    ensureGrid_(sheet, table.length, table[0].length);', 'old rows stay in a rebuilt summary'],
   ['close-skip-current', 'Reporting.js', '  if (opts.skipIfCurrent && prior && String(prior[4]) === figures && clientMailed && pdfStillExists_(String(prior[3]))) {', '  if (false) {', 'a month close rebuilds every report again'],
   ['close-skip-needs-mail', 'Reporting.js', "prior && (prior[5] !== '' || !client.contact_email || !isEmail_(client.contact_email));", 'prior;', 'a report that was only previewed or failed to send is skipped as current'],
@@ -208,7 +208,7 @@ const M = [
 const EQUIVALENT = {};
 
 /** Tests that judge the syntax tree mutants: the corpus replay and every test named CLASS-TABLE. */
-const TEST_PATTERN = '^(CLASS-TABLE|corpus_sheetdesk_1)';
+const TEST_PATTERN = '^(CLASS-TABLE|corpus_sheetdesk)';
 const TEST_DIR = path.join(ROOT, 'test');
 function classTestFiles() {
   return fs.readdirSync(TEST_DIR).filter((f) => f.endsWith('.test.js'))

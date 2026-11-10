@@ -99,8 +99,9 @@ function checkIntake_(a) {
 /**
  * Installable trigger handler. Writes the response to Clients once (the
  * response id is the key) and emails a confirmation. A response that fails
- * validation or repeats an existing client name is stored with the status
- * needs_review and no email is sent.
+ * validation, or whose client name would share a report file name or a summary
+ * tab with an existing client, is stored with the status needs_review and no
+ * email is sent.
  * @param {{response: GoogleAppsScript.Forms.FormResponse}} e
  * @return {{status: string, client: string, emailed: boolean}}
  */
@@ -118,8 +119,10 @@ function onIntakeSubmit(e) {
     for (let i = 0; i < rows.length; i++) {
       if (String(rows[i][7]) === responseId) return { status: 'duplicate', client: String(rows[i][0]), emailed: false };
     }
+    // A name that would share a PDF file name or a summary tab with a listed client (other case, a trailing
+    // period, other spacing) is held for review: the reports refuse both names, so it must not be confirmed.
     const nameTaken = rows.some(function (r) {
-      return String(r[0]).trim().toLowerCase() === parsed.client.toLowerCase();
+      return String(r[0]).trim() !== '' && namesClash_(String(r[0]).trim(), parsed.client);
     });
     status = parsed.ok && !nameTaken ? 'active' : 'needs_review';
     sheet.appendRow([

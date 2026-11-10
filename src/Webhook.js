@@ -23,24 +23,24 @@ function webhookError_(code, extra) {
 }
 
 /**
- * Pulls the fields out of the request: a JSON body, or form fields.
+ * Pulls the fields out of the request: a JSON object body (whatever the content type), or form fields.
  * @param {Object} e the doPost event
  * @return {{fields: ?Object, error: ?string}}
  */
 function webhookParse_(e) {
   if (!e || !e.postData || typeof e.postData.contents !== 'string') return { fields: null, error: 'no_body' };
   if (e.postData.contents.length > WEBHOOK_MAX_BODY) return { fields: null, error: 'too_large' };
-  const type = String(e.postData.type || '').toLowerCase();
-  if (type.indexOf('json') !== -1) {
-    let parsed;
-    try {
-      parsed = JSON.parse(e.postData.contents);
-    } catch (err) {
-      return { fields: null, error: 'bad_json' };
-    }
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return { fields: null, error: 'bad_json' };
-    return { fields: parsed, error: null };
+  const type = String(e.postData.type).toLowerCase();
+  // A body that parses to an object is JSON whatever the content type says: an HTTP step in Make can
+  // send JSON as text/plain, and ignoring the body would answer "unauthorized" to the right secret.
+  let parsed = null;
+  try {
+    parsed = JSON.parse(e.postData.contents);
+  } catch (err) {
+    // not JSON: a form body, or bad_json below when the type says JSON
   }
+  if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return { fields: parsed, error: null };
+  if (type.indexOf('json') !== -1) return { fields: null, error: 'bad_json' };
   const form = {};
   Object.keys(e.parameter || {}).forEach(function (k) { form[k] = e.parameter[k]; });
   return { fields: form, error: null };
@@ -64,6 +64,11 @@ function webhookValidate_(fields, clientNames) {
     const k = WEBHOOK_FIELDS[i];
     if (k === 'secret') continue;
     const v = fields[k];
+    // A JSON number past 2^53 has already lost its last digits when it was parsed, so two different ids can
+    // arrive as one. Only text keeps every digit.
+    if (k === 'lead_id' && typeof v === 'number' && !Number.isSafeInteger(v)) {
+      return { lead: null, error: 'invalid_field', detail: { field: 'lead_id', hint: 'Send lead_id as text, in quotes: a number that large or that fractional is not kept exactly.' } };
+    }
     if (v === undefined || v === null) {
       clean[k] = '';
     } else if (typeof v === 'string' || (typeof v === 'number' && isFinite(v))) {
