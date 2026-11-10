@@ -6,16 +6,16 @@ Tests: `test/*.test.js`. Mutation harness: `scripts/mutation.js`. Fake: `test/fa
 
 ```bash
 npm install
-npm test            # 340 tests
+npm test            # 344 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 151 typed and 108 syntax tree mutants, over 30 minutes
+npm run mutation    # 151 typed and 108 syntax tree mutants, about 40 minutes
 ```
 
 | Command | Result |
 |---|---|
-| `npm test` | 340 tests (339 run, 1 skipped by name) pass in about 16 seconds on Windows 11 with Node 24 |
+| `npm test` | 344 tests (343 run, 1 skipped by name) pass in about 16 seconds on Windows 11 with Node 24 |
 | `npm run lint` | 0 errors, 0 warnings |
-| `npm run mutation` | the 143 mutants of 0.2.0: 143 caught. The 112 added later: no survivor in the part of the run that finished, see below |
+| `npm run mutation` | a full run on 2026-11-10: 259 mutants (151 typed, 108 from the syntax tree), 259 caught, 0 survived |
 
 The tests do not touch Google. One run by hand on a live account is written up in [live-run.md](live-run.md). The tests prove the code against [a local fake of Google's services](fake-and-seed.md) that was written from Google's reference, so they are as accurate as that fake.
 

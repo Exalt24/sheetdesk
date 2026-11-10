@@ -156,12 +156,12 @@ The 50,000 row job has no menu item. In the editor pick `startBulkNormalize` and
 
 ```bash
 npm install
-npm test            # 340 tests
+npm test            # 344 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 151 typed and 108 syntax tree mutants, over 30 minutes
+npm run mutation    # 151 typed and 108 syntax tree mutants, about 40 minutes
 ```
 
-The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and the 143 mutants of 0.2.0 were all caught. The 112 added after the second review have not finished a full run yet. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
+The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and a full mutation run on 2026-11-10 caught all 259 mutants (151 typed, 108 from the syntax tree), none survived. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
 
 ## Limits
 
