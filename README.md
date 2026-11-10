@@ -6,15 +6,28 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 
 ![The sidebar with a client and month picked and its result line, next to the leads by client dashboard served by doGet](docs/preview.png)
 
-*The real sidebar and dashboard HTML in Chromium, filled with what the server functions return against the local fake ([script](scripts/screenshot.js)). Not Google's iframe.*
+*The real sidebar and dashboard HTML in Chromium, filled with what the server functions return against the local fake, after 300 generated leads went through the webhook ([script](scripts/screenshot.js)). Not Google's iframe.*
 
-A made-up agency, Fernwood Digital, runs on it: nine invented clients, 2,024 generated campaign rows and 300 generated leads. 173 tests run against a local fake of Google's services. 100 mutants are all caught. A 50,000 row job finishes across 3 runs with no row lost or counted twice. The code has not run on a live Google account, see [Limits](#limits).
+## What it does
 
-## What it is and why it exists
+A small agency repeats the same chores every month. Add up each client's ad spend, build a report, email it, and keep new leads and new clients in the right place. sheetdesk does these chores from one Google Sheet.
 
-A small agency keeps its clients, campaign numbers and leads in Sheets. Each month the same chores eat hours: summing spend per client, building a report, mailing it, keeping lead forms and ad numbers in step. Apps Script can do all of that inside the Sheet. A script that works once when you click it is not a tool, though. Here each chore is a module that is safe to run twice, checks its input, and has tests.
+- **Reports.** Pick a client and a month in a sidebar and get a PDF report. Tick "Send to me first" and the PDF comes to you. Check it, then untick the box and send it to the client.
+- **Month close.** One button builds a report for every active client. A client is not emailed the same figures twice.
+- **Summaries.** One tab per client with spend, clicks, conversions, cost per click and cost per conversion, by month and channel. Money in euros or pounds is converted to dollars with the rate of the day.
+- **Leads.** Zapier or Make posts new leads to a web address. Each lead lands in the Leads tab once, even when Zapier retries.
+- **New clients.** A Google Form collects a client's details, adds a row to the Clients tab and sends a confirmation.
+- **Ad costs and rates.** Pull daily ad costs and currency rates into the Sheet.
+- **Big sheets.** Clean and roll up 50,000 rows inside Google's 6 minute limit, in several runs.
 
-Everything runs on invented data from a seeded generator. There are no real clients, no real people and no secrets in the repo.
+A made-up agency, Fernwood Digital, runs on it: nine invented clients, 2,024 generated campaign rows and 300 generated leads.
+
+<!-- READY-TO-USE LINE: one plain sentence. Replace it with the result of the first live deployment. -->
+**Ready to use for:** trying on a copy of a Sheet. The Google side is described from Google's documentation and has not been proven on a live account yet. See [Limits](#limits).
+
+## Why it exists
+
+A script that works once when you click it is not a tool. Here each chore is a module that is safe to run twice, checks its input, and has tests. Everything runs on invented data from a seeded generator. There are no real clients, no real people and no secrets in the repo.
 
 ## How it works
 
@@ -32,7 +45,7 @@ flowchart LR
   P --> U[(Summary tabs)]
   K --> D[Doc from template]
   D --> PDF[PDF in Drive]
-  PDF --> M[Gmail]
+  PDF --> M[Email]
   K --> B[bulk job, chunked]
   B --> Q[(Clean and Rollup)]
   B -. time trigger resumes .-> B
@@ -53,73 +66,106 @@ Apps Script loads every file in `src/` into one global scope, so the modules cal
 | Ad costs and rates | A `UrlFetchApp` client with backoff, `Retry-After`, pagination and a response check. Pulls daily ad costs and USD rates. | [ad-and-fx.md](docs/ad-and-fx.md) |
 | Scale | 50,000 rows in chunks, a time budget, a saved cursor and a continuation trigger. | [scale.md](docs/scale.md) |
 | Fake and data | The local fake of Google's services, and the seeded generator behind every number here. | [fake-and-seed.md](docs/fake-and-seed.md) |
+| Running it | Add a client, a channel or a column, rename the agency, read the logs, roll a version, fix a stopped trigger, and why each permission is asked for. | [maintenance.md](docs/maintenance.md) |
 
 ## Deploy with clasp
 
-You need Node 22, a Google account and `clasp`. Nothing here has been deployed yet, so these are the documented steps, not a recorded run.
+You need a Google account, Node 24 and `clasp`, Google's command line tool for Apps Script. Nothing here has been deployed yet, so these are the documented steps, not a recorded run.
+
+1. Switch on the Apps Script API for your account at [script.google.com/home/usersettings](https://script.google.com/home/usersettings). clasp cannot push without it.
+2. Install clasp and sign in. The sign in opens a browser.
+
+   ```bash
+   npm install -g @google/clasp
+   clasp login
+   ```
+
+3. Make a new Google Sheet. In it choose Extensions, then Apps Script. This makes the script that belongs to the Sheet. In the editor open Project settings (the gear) and copy the Script ID.
+4. Put the id in `.clasp.json`, which already sets the folder and the file order. Do not commit your id.
+
+   ```json
+   {
+     "scriptId": "PASTE_THE_SCRIPT_ID_HERE",
+     "rootDir": "src",
+     "filePushOrder": ["src/Config.js", "src/Util.js"]
+   }
+   ```
+
+5. Upload the code. If clasp asks whether to overwrite the manifest, answer yes, because `src/appsscript.json` is the one to keep.
+
+   ```bash
+   clasp push
+   ```
+
+6. Reload the Sheet. A **sheetdesk** menu appears. Choose **sheetdesk**, then **Set up**. This creates the Campaigns, Clients, Leads and Rates tabs and saves a random webhook secret in the script properties. The first time, Google asks for permission:
+
+   - Google shows "Google hasn't verified this app", because the script has not been submitted for Google's review. You deployed it yourself, so choose Advanced, then Go to the project, then Allow.
+   - The permissions are one line each. Spreadsheets: read and write the Sheet. Documents: build the report from a template Doc. Drive: save the PDF and trash the working copy. Send mail: email the report. Forms: create the intake form. External requests: call the ad platform and the rates API. Triggers: run the intake form and the bulk job. Menus and sidebars: show the menu and sidebar. Email address: find your address for "Send to me first". The table in [maintenance.md](docs/maintenance.md) says which call needs each one.
+
+7. Load the sample data. In the Sheet open the **Clients** tab, click cell A1, then File, Import, Upload, choose `fixtures/clients.csv`, set the import location to "Replace data at selected cell" and import. Do the same with `fixtures/campaigns.csv` on the **Campaigns** tab and `fixtures/rates.csv` on the **Rates** tab. `node scripts/seed.js` rewrites the fixtures. The leads file is not imported, because leads arrive through the webhook.
+8. Make the intake form. In the Sheet choose Extensions, then Apps Script to open the editor. Pick `installIntakeTrigger` in the function list at the top and press Run. Accept the permission screen. When it finishes, the execution log at the bottom shows the form link. Open that link to see the form.
+9. Deploy the web app and copy its URL.
+
+   ```bash
+   clasp create-deployment --description "v1"
+   clasp list-deployments
+   ```
+
+   The web app URL is `https://script.google.com/macros/s/` followed by the deployment id, then `/exec`. These are the clasp 3 command names. Older clasp versions call them `deploy` and `deployments`.
+
+The manifest in `src/appsscript.json` already asks for the web app to run as you and to accept anonymous callers, because Zapier and Make do not sign in with Google. The shared secret is the only gate. Add `AD_API_KEY` in Project settings, Script properties, only if you point the ad sync at an API. The optional `REPORT_CC` and `AD_API_BASE` properties are explained in [maintenance.md](docs/maintenance.md).
+
+### Try it
+
+1. Open the Sheet and the sidebar: **sheetdesk**, then **Open desk**.
+2. Pick **Harbor Lane Bakery** and **2026-10**. Leave "Send to me first" ticked and press **Run report**. The status line says the report is ready and sent to you.
+3. Open your mail for the PDF. In Drive, the folder `Fernwood Digital reports` holds `harbor-lane-bakery-2026-10.pdf`. The **Report Log** tab has one row for that client and month, and its `emailed_at` column is empty because the client has not been emailed.
+4. The sample clients have invented addresses, so first change `contact_email` of Harbor Lane Bakery in the Clients tab to an address you own. Then untick the box and run it again to email the client. The row now has an `emailed_at` time. Running it a third time sends nothing, because the figures have not changed.
+5. Send a test lead, as in the next section, and look for the row in the **Leads** tab.
+
+### Send a lead to the web app
+
+Zapier and Make post to the web app URL. This is the same call from a terminal. Use your URL and the `WEBHOOK_SECRET` value from Project settings, Script properties.
 
 ```bash
-npm install -g @google/clasp
-clasp login
-clasp create --type sheets --title "sheetdesk" --rootDir src   # new Sheet with a bound script
-clasp push                                                    # uploads src/ and the manifest
+curl -L -X POST "https://script.google.com/macros/s/DEPLOYMENT_ID/exec" \
+  -H "Content-Type: application/json" \
+  -d '{"secret":"SECRET_VALUE","lead_id":"curl-1001","client":"Harbor Lane Bakery","name":"Ana Archer","email":"ana.archer@example.com","message":"Interested in a quote"}'
 ```
 
-1. In the Sheet, reload and use **sheetdesk, Set up**. It creates the Campaigns, Clients, Leads and Rates tabs and saves a random webhook secret in the script properties.
-2. Import `fixtures/clients.csv` and `fixtures/campaigns.csv` (`node scripts/seed.js` rewrites them) into the Clients and Campaigns tabs with File, Import, Replace data at selected cell.
-3. Add `AD_API_KEY` in Project settings, Script properties, if you point the ad sync at an API. Run `installIntakeTrigger` once from the editor to authorise the script and create the form.
-4. Deploy the web app and copy its URL:
+A good reply is `{"ok":true,"duplicate":false,"lead_id":"curl-1001"}`. Apps Script web apps cannot read request headers and cannot set an HTTP status code. The secret therefore travels in the body, every reply has HTTP status 200, and the caller must read `ok` in the JSON. Google also answers with a redirect, so the caller must follow redirects (`-L` in curl). [webhook.md](docs/webhook.md) has the details, the error codes and what to do about the shared secret.
 
-```bash
-clasp deploy --description "v1"
-clasp deployments
-```
+In Zapier (Webhooks, POST, payload type JSON) or Make (HTTP, Make a request, JSON body), send the same body with your secret in the `secret` field.
 
-The manifest in `src/appsscript.json` already asks for the web app to run as you and to accept anonymous callers, because Zapier and Make do not sign in with Google. The shared secret is the only gate.
+### Start the big job
 
-In Zapier (Webhooks, POST, payload type JSON) or Make (HTTP, Make a request, JSON body), send the body shown in [webhook.md](docs/webhook.md) with your secret in the `secret` field.
-
-Apps Script web apps cannot read request headers and cannot set an HTTP status code. The secret therefore travels in the body or in the URL, every reply is HTTP 200, and the caller must read `ok` in the JSON.
+The 50,000 row job has no menu item. In the editor pick `startBulkNormalize` and press Run. See [maintenance.md](docs/maintenance.md).
 
 ## Tests
 
 ```bash
 npm install
-npm test            # 173 tests
+npm test            # 227 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 100 mutants, about 3 minutes
+npm run mutation    # 142 mutants, about 15 minutes
 ```
 
-| Command | Result |
-|---|---|
-| `npm test` | 173 tests pass in about 4 seconds on Windows 11 with Node 24 |
-| `npm run lint` | 0 errors, 0 warnings |
-| `npm run mutation` | 100 mutants, 100 caught, 0 survived |
-
-The tests load the files in `src/` into one `vm` context beside [a fake of the Google services](docs/fake-and-seed.md) written from Google's reference. The fake enforces the 6 minute limit, the lock rules, the 20 trigger limit and the quotas it knows. It also checks manifest scopes and the simple trigger restrictions. A few rules come from practice, such as `007` becoming 7 when a cell is set. Each rule has its own test.
-
-- **Totals** are compared with an independent calculation (`referenceRollup` in `scripts/seed.js`) for every client and month of the generated agency.
-- **Scale.** 50,000 generated rows, about 1 in 60 bad on purpose. The simulated clock charges 0.3 ms per cell read and 0.85 ms per cell written, chosen so the job needs more than one run. Result: 3 runs, 50,000 Clean rows with each source row once at its own row number, 49,166 valid rows counted once, and a 198 line rollup equal to the reference. At most one trigger existed at a time and none were left. The timings are simulated, real timings were not measured.
-- **Kills.** 25 seeded worlds where each run is killed at a random service call about 4 times in 5. That is over 40 kills, and every world ends with every row once.
-- **Webhook.** 25 random sequences of 40 requests must end with each accepted lead stored once. They mix wrong secrets, extra fields, lock contention and look-alike ids like `007` and `7`.
-- **HTTP client.** The waits are asserted exactly (500, 1000, 2000, 4000 ms). 30 random fault sequences must end in data or a clear error.
-- **Mutation.** `scripts/mutation.js` removes or flips one guard at a time and the suite must fail for each. The guards include the secret check, the lock, the idempotency check, the chunk cursor, the time budget, retry on 429, the PDF replace, the sidebar input checks and the formula guard, plus 91 more. The first run missed three. A test read the HTML from disk instead of from the loader. A flush was written twice, so neither copy was needed. And no test covered a job that finishes twice after a kill. All three are fixed.
+The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and all 142 mutants are caught. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
 
 ## Limits
 
-- **Tested against a local fake written from Google's documentation, not yet deployed or run on a live Google account.** The fake can differ from the real services in ways this repo cannot see. Behaviour the reference does not state is handled strictly in the fake, so it may refuse something the real service accepts.
+- **Tested against a local fake written from Google's documentation, not yet deployed or run on a live Google account.** The fake can differ from the real services in ways this repo cannot see. Where the reference is silent the fake is strict, so it may refuse something the real service accepts.
 - The PDF in the fake is text with a PDF header. Page layout, fonts and the real Doc to PDF conversion are untested.
 - Apps Script quotas apply. One execution runs at most 6 minutes. A consumer account has 90 minutes of trigger runtime a day, 100 email recipients a day, 20,000 URL fetch calls a day and 20 triggers per script (Workspace accounts have more of the first three). The scale job keeps inside 6 minutes with a budget check, but its chunk size and budget are not tuned to real speeds.
 - The Frankfurter reply shape was checked by hand with a few `curl` requests on 2026-11-10. The script has not called it. The ad platform is invented, and real platforms need OAuth, which is not built.
 - The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs.
-- The HTML was never rendered inside Google's iframe, and `google.script.run` was never called from a browser.
-- No Looker Studio report yet.
-- CI runs lint and tests on Linux. The mutation run is not in CI because it takes minutes.
+- Nothing here has rendered the HTML inside Google's iframe or called `google.script.run` from a browser.
+- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It has not run yet, because the repo is not pushed. The mutation run is not in CI because it takes minutes.
 
 ## Stack
 
-Google Apps Script (V8), clasp layout under `src/`, Node `node:test`, ESLint 9.
+Google Apps Script (V8), clasp layout under `src/`, Node 24 with `node:test`, ESLint 9.
 
-## License
+## Author and license
 
-MIT, see [LICENSE](LICENSE).
+Daniel Alexis Cruz, [github.com/Exalt24](https://github.com/Exalt24), [dacruz.vercel.app](https://dacruz.vercel.app). MIT, see [LICENSE](LICENSE). Changes are in [CHANGELOG.md](CHANGELOG.md).

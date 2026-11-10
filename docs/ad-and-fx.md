@@ -15,7 +15,7 @@ Source: `src/HttpClient.js`, `src/AdPlatform.js`. Tests: `test/http.test.js`.
 
 **Ad costs.** `syncAdCosts(from, to)` pulls `GET {base}/v1/costs?from=&to=&page_token=` from a stand-in ad platform with `Authorization: Bearer <AD_API_KEY>`. Each record has a date, account id, channel, `cost_micros`, currency, clicks and conversions. The script checks each record, maps the account id to a client through the Clients sheet, and upserts into Campaigns by client, channel and day. Changed rows are written in contiguous runs and new rows in one block. A rerun for the same days changes nothing. Records for an unknown account, and records that fail the check, are counted and skipped. The write happens under the script lock. A range is at most 92 days.
 
-The stand-in host `ads.example.test` exists only in the test fake (`test/fake/services.js`). To use a real platform, change the base URL property and the field mapping in `checkAdItem_` and `syncAdCosts`.
+The stand-in host `ads.example.test` exists only in the test fake (`test/fake/services.js`). To use a real platform, set the `AD_API_BASE` script property to its base URL, put its key in `AD_API_KEY`, and change the field mapping in `checkAdItem_` and `syncAdCosts`.
 
 **Currency rates.** `syncCurrencyRates(from, to)` asks the Frankfurter API for rates against USD for every non USD currency used in Campaigns: `https://api.frankfurter.dev/v2/rates?base=USD&quotes=EUR,GBP&from=2026-10-01&to=2026-10-10`. The reply is a list of `{date, base, quote, rate}`. The script checks every record and upserts into the Rates sheet. A rate is units of the currency per 1 USD, so a euro amount is divided by it.
 

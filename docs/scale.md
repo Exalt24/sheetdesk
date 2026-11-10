@@ -4,11 +4,11 @@ Source: `src/BulkProcess.js`. Tests: `test/bulk.test.js`.
 
 ## What it does
 
-`startBulkNormalize()` cleans every Campaigns row into the Clean sheet (same row number, a status of `ok` or `bad:<reason>`, spend converted to USD) and then writes a client and month rollup to the Rollup sheet. It works in chunks of 5,000 rows and stays inside one Apps Script run by checking a time budget.
+`startBulkNormalize()` (start it from the editor, see [maintenance.md](maintenance.md)) cleans every Campaigns row into the Clean sheet (same row number, a status of `ok` or `bad:<reason>`, spend converted to USD) and then writes a client and month rollup to the Rollup sheet. It works in chunks of 5,000 rows and stays inside one Apps Script run by checking a time budget.
 
 How a run works:
 
-1. It takes the script lock. If another run holds it, it returns `locked` and does nothing.
+1. It takes the script lock. If another run holds it, it returns `locked` and does nothing. The time budget below counts from the start of the first run, so the time spent clearing the Clean sheet and growing the grid is part of it.
 2. It creates a continuation trigger with `ScriptApp.newTrigger('continueBulkJob').timeBased().after(7 minutes)` first. If the run is killed, that trigger resumes the job.
 3. It reads a chunk with one `getValues`, cleans it in memory, and writes it to the same row numbers in Clean with one `setValues`. Writing to fixed rows means a chunk done twice (for example after a kill) rewrites the same rows and cannot add rows or count anything twice.
 4. It saves the cursor (next row, rows done, last chunk time) in the `BULK_CURSOR` script property after every chunk.
@@ -32,7 +32,7 @@ Against the fake, which enforces the 6 minute limit, charges simulated time for 
 
 ## What it does NOT do
 
-- It was not run on a real account, so the chunk size and the budget are not tuned to real speeds. Reading 5,000 rows by 7 columns and writing 5,000 rows by 9 columns is probably much faster than the simulated clock; the budget check makes the job correct either way.
-- Rows added to Campaigns while a job runs are picked up by the next job, not this one. The job works on the row count it saw at the start.
+- It was not run on a real account, so the chunk size and the budget are not tuned to real speeds. Reading 5,000 rows by 7 columns and writing 5,000 rows by 9 columns is expected to be faster than the simulated clock. That is expected, not measured. The budget check makes the job correct at any speed.
+- Rows added to Campaigns while a job runs are picked up by the next job, not this one. The job works on the row count it saw at the start. A test adds two rows between runs and checks both halves of that.
 - The cursor is one script property, so there is one job at a time per script.
 - Time driven triggers have their own daily runtime limit (90 minutes on a consumer account, 6 hours on Workspace). A very large sheet can hit it.

@@ -4,7 +4,7 @@ Source: `src/Forms.js`. Tests: `test/forms.test.js`.
 
 ## What it does
 
-`installIntakeTrigger()` creates a Google Form (if the `INTAKE_FORM_ID` script property does not point at a form that still opens) and installs a form submit trigger for `onIntakeSubmit`. Running it again keeps one form and one trigger. Run it once from the editor, after you authorise the script; a simple trigger context is refused.
+`installIntakeTrigger()` creates a Google Form (if the `INTAKE_FORM_ID` script property does not point at a form that still opens) and installs a form submit trigger for `onIntakeSubmit`. Running it again keeps one form and one trigger. Run it once from the editor, after you authorise the script; a simple trigger context is refused. The form link (the published URL) is written to the execution log at the bottom of the editor, and the form is a file in your Drive named after the agency, for example `Fernwood Digital client intake`.
 
 The form has six items: client name, contact name, contact email, primary channel (a choice), monthly budget (USD) and notes. The first four are required.
 
@@ -14,7 +14,7 @@ The form has six items: client name, contact name, contact email, primary channe
 2. Takes the script lock, and looks for the response id in the Clients sheet. A response that was already stored returns `duplicate` and does nothing more.
 3. Appends one row to Clients. The status is `active`, or `needs_review` when a check failed or the client name already exists (ignoring case). Nothing is thrown away, so a person can look at the odd ones.
 4. Flushes, then clears the cached client list so the webhook accepts the new client at once.
-5. Sends a confirmation email to the contact, only for an `active` row. If the email fails (for example, no mail quota left) the row stays and the error goes to the log.
+5. Sends a confirmation email to the contact with `MailApp.sendEmail`, only for an `active` row. If the email fails (for example, no mail quota left) the row stays and the error goes to the log.
 
 Text from the form is written with the same guard as the webhook, so an answer that starts with `=` stays text.
 
