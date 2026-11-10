@@ -9,6 +9,7 @@
  * Needs Playwright, which is not a dependency of this repo:
  *   npm install --no-save playwright && npx playwright install chromium
  *   node scripts/screenshot.js
+ * A Playwright that is installed elsewhere can be named in PLAYWRIGHT_PATH.
  */
 
 const fs = require('node:fs');
@@ -19,7 +20,7 @@ const { installAdPlatform } = require('../test/fake/services');
 async function main() {
   let chromium;
   try {
-    ({ chromium } = require('playwright'));
+    ({ chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright'));
   } catch (e) {
     console.error('Playwright is not installed. See the comment at the top of this file.');
     process.exit(1);
@@ -29,14 +30,14 @@ async function main() {
   installAdPlatform(p.w, { days: p.fx.adDays, apiKey: 'k' });
   p.setProp('WEBHOOK_SECRET', 'preview-secret');
   p.fill('Leads', ['lead_id', 'received_at', 'client', 'name', 'email', 'phone', 'source', 'campaign', 'message'], []);
-  // Leads arrive through the real webhook, so the dashboard counts are real too.
-  p.fx.leads.slice(0, 120).forEach((l, i) => {
+  // Leads arrive through the real webhook, so the dashboard counts are real too. All 300 generated leads go in.
+  p.fx.leads.forEach((l, i) => {
     const body = JSON.stringify({ secret: 'preview-secret', lead_id: l[0], client: l[2], name: l[3], email: l[4], phone: l[5], source: l[6], campaign: l[7], message: l[8] });
     p.w.now += 3600000 * (i % 5);
     p.call('doPost', { postData: { contents: body, type: 'application/json' }, parameter: {} });
   });
   const options = p.plain(p.call('sidebarGetOptions'));
-  const result = p.plain(p.call('sidebarRunReport', 'Harbor Lane Bakery', '2026-10'));
+  const result = p.plain(p.call('sidebarRunReport', 'Harbor Lane Bakery', '2026-10', true));
   const dashboard = p.call('doGet', { parameter: { view: 'dashboard', secret: 'preview-secret' } }).getContent();
   const sidebar = p.w.htmlFiles.Sidebar;
 

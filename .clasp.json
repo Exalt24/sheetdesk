@@ -1,0 +1,4 @@
+{
+  "rootDir": "src",
+  "filePushOrder": ["src/Config.js", "src/Util.js"]
+}

@@ -227,11 +227,14 @@ function writeFixtures(dir, seed) {
   const H = {
     clients: ['client', 'contact_name', 'contact_email', 'ad_account_id', 'primary_channel', 'monthly_budget', 'status', 'intake_response_id', 'created_at'],
     campaigns: ['client', 'channel', 'date', 'spend', 'clicks', 'conversions', 'currency'],
-    leads: ['lead_id', 'received_at', 'client', 'name', 'email', 'phone', 'source', 'campaign', 'message']
+    leads: ['lead_id', 'received_at', 'client', 'name', 'email', 'phone', 'source', 'campaign', 'message'],
+    rates: ['date', 'currency', 'per_usd']
   };
   fs.writeFileSync(path.join(dir, 'clients.csv'), toCsv(H.clients, data.clients));
   fs.writeFileSync(path.join(dir, 'campaigns.csv'), toCsv(H.campaigns, data.campaigns));
   fs.writeFileSync(path.join(dir, 'leads.csv'), toCsv(H.leads, data.leads));
+  // The same rates in the column layout of the Rates tab, ready for File, Import.
+  fs.writeFileSync(path.join(dir, 'rates.csv'), toCsv(H.rates, data.rates.map((r) => [r.date, r.quote, r.rate])));
   fs.writeFileSync(path.join(dir, 'rates.json'), JSON.stringify(data.rates, null, 1) + '\n');
   fs.writeFileSync(path.join(dir, 'ad_platform_days.json'), JSON.stringify(adPlatformDays(data, '2026-10-01', '2026-10-31'), null, 1) + '\n');
   return { clients: data.clients.length, campaigns: data.campaigns.length, leads: data.leads.length, rates: data.rates.length };

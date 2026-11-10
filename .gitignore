@@ -6,6 +6,5 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# clasp writes this with your own script id
-.clasp.json
+# clasp keeps its login here
 .clasprc.json

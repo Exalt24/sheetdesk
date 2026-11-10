@@ -84,10 +84,11 @@ function summaryTable_(byMonth) {
   const table = [['month', 'channel', 'spend_usd', 'clicks', 'conversions', 'cpc', 'cpa', 'conv_rate']];
   Object.keys(byMonth).sort().forEach(function (month) {
     const byChannel = byMonth[month];
+    // month is text on purpose: 2026-10 typed into a cell would become a date
     Object.keys(byChannel).sort().forEach(function (ch) {
-      table.push([month, ch].concat(metricsOf_(byChannel[ch])));
+      table.push([sheetText_(month), sheetText_(ch)].concat(metricsOf_(byChannel[ch])));
     });
-    table.push([month, 'ALL'].concat(metricsOf_(sumChannels_(byChannel))));
+    table.push([sheetText_(month), 'ALL'].concat(metricsOf_(sumChannels_(byChannel))));
   });
   return table;
 }
@@ -246,13 +247,17 @@ function trashOthersNamed_(folder, name, keepId) {
 function writeReportLog_(ss, row) {
   const sheet = getOrCreateSheet_(ss, SD.SHEETS.REPORT_LOG, SD.HEADERS.REPORT_LOG);
   const data = readRows_(sheet, SD.HEADERS.REPORT_LOG.length);
+  // The month (2026-10) would be read as a date and the file id as a number if it looked like one. The
+  // lookups below compare text, so the log keeps these four columns as text.
+  const stored = row.slice();
+  for (let i = 0; i < 4; i++) stored[i] = sheetText_(row[i]);
   for (let i = 0; i < data.length; i++) {
     if (String(data[i][0]) === row[0] && String(data[i][1]) === row[1]) {
-      sheet.getRange(i + 2, 1, 1, row.length).setValues([row]);
+      sheet.getRange(i + 2, 1, 1, row.length).setValues([stored]);
       return;
     }
   }
-  sheet.appendRow(row);
+  sheet.appendRow(stored);
 }
 
 /**
@@ -278,7 +283,10 @@ function findReportLog_(ss, client, month) {
  * changed since the last email, or when options.force is true.
  * @param {string} clientName
  * @param {string} month yyyy-MM
- * @param {{force: (boolean|undefined), sendEmail: (boolean|undefined)}} [options]
+ * @param {{force: (boolean|undefined), sendEmail: (boolean|undefined), preview: (boolean|undefined)}} [options]
+ *   preview true sends the PDF to the person running the script (or to the
+ *   REPORT_CC property when Google gives no address) and never to the client.
+ *   A preview does not count as the client's email: the next real run sends it.
  * @return {{status: string, client: string, month: string, pdfName: string, pdfId: string,
  *   replaced: number, email: string, spend: string}}
  */
@@ -300,7 +308,8 @@ function runClientReport(clientName, month, options) {
  * @param {Client} client
  * @param {string} month
  * @param {Object} agg from aggregate_
- * @param {{force: (boolean|undefined), sendEmail: (boolean|undefined), skipIfCurrent: (boolean|undefined)}} opts
+ * @param {{force: (boolean|undefined), sendEmail: (boolean|undefined), skipIfCurrent: (boolean|undefined),
+ *   preview: (boolean|undefined)}} opts
  * @return {Object}
  */
 function buildReport_(ss, client, month, agg, opts) {
@@ -311,7 +320,9 @@ function buildReport_(ss, client, month, agg, opts) {
   const total = sumChannels_(byChannel);
   const figures = [total.cents, total.clicks, total.conversions].join('|');
   const prior = findReportLog_(ss, client.client, month);
-  if (opts.skipIfCurrent && prior && String(prior[4]) === figures && pdfStillExists_(String(prior[3]))) {
+  // A report that was only previewed, or whose email failed, is not finished: the client still has to get it.
+  const clientMailed = prior && (prior[5] !== '' || !client.contact_email || !isEmail_(client.contact_email));
+  if (opts.skipIfCurrent && prior && String(prior[4]) === figures && clientMailed && pdfStillExists_(String(prior[3]))) {
     return {
       status: 'current', client: client.client, month: month, pdfName: String(prior[2]),
       pdfId: String(prior[3]), replaced: 0, email: 'not_sent', spend: moneyText_(total.cents)
@@ -355,30 +366,32 @@ function buildReport_(ss, client, month, agg, opts) {
   const now = new Date();
   let email;
   let emailedAt = prior ? prior[5] : '';
-  if (opts.sendEmail === false) email = 'not_sent';
-  else if (!client.contact_email || !isEmail_(client.contact_email)) email = 'no_address';
-  else if (alreadySent && !opts.force) email = 'already_sent';
-  else {
-    try {
-      const mail = {
-        attachments: [pdf.getBlob()],
-        name: SD.AGENCY_NAME
-      };
-      const cc = PropertiesService.getScriptProperties().getProperty(SD.PROPS.REPORT_CC);
-      if (cc && isEmail_(cc)) mail.cc = cc;
-      GmailApp.sendEmail(
-        client.contact_email,
-        client.client + ' marketing report, ' + month,
-        'Hello ' + (client.contact_name || 'there') + ',\n\nThe ' + month + ' report is attached. ' +
-        'Spend was ' + moneyText_(total.cents) + ', with ' + total.clicks + ' clicks and ' +
-        total.conversions + ' conversions.\n\n' + SD.AGENCY_NAME,
-        mail
-      );
-      email = 'sent';
-      emailedAt = now;
-    } catch (err) {
-      email = 'failed: ' + String(err && err.message ? err.message : err).slice(0, 120);
-    }
+  const subject = client.client + ' marketing report, ' + month;
+  const body = 'Hello ' + (client.contact_name || 'there') + ',\n\nThe ' + month + ' report is attached. ' +
+    'Spend was ' + moneyText_(total.cents) + ', with ' + total.clicks + ' clicks and ' +
+    total.conversions + ' conversions.\n\n' + SD.AGENCY_NAME;
+  if (opts.sendEmail === false) {
+    email = 'not_sent';
+  } else if (opts.preview) {
+    // A preview goes to the person running the script. It is not a send to the client, so emailed_at stays as it was.
+    email = attemptMail_(function () {
+      const to = previewAddress_();
+      if (!to) return 'no_preview_address';
+      sendReportMail_(to, '[Preview] ' + subject,
+        'This copy came only to you. ' + client.client + ' has not been emailed.\n\n' + body, pdf, '');
+      return 'preview_sent';
+    });
+  } else if (!client.contact_email || !isEmail_(client.contact_email)) {
+    email = 'no_address';
+  } else if (alreadySent && !opts.force) {
+    email = 'already_sent';
+  } else {
+    email = attemptMail_(function () {
+      sendReportMail_(client.contact_email, subject, body, pdf,
+        PropertiesService.getScriptProperties().getProperty(SD.PROPS.REPORT_CC));
+      return 'sent';
+    });
+    if (email === 'sent') emailedAt = now;
   }
   writeReportLog_(ss, [client.client, month, pdfName, pdf.getId(), figures, emailedAt, now]);
   SpreadsheetApp.flush();
@@ -386,6 +399,48 @@ function buildReport_(ss, client, month, agg, opts) {
     status: 'ok', client: client.client, month: month, pdfName: pdfName, pdfId: pdf.getId(),
     replaced: replaced, email: email, spend: moneyText_(total.cents)
   };
+}
+
+/**
+ * Runs a mail step and returns its status word, or "failed: <reason>" when
+ * the mail service refuses (for example when the daily quota is used).
+ * @param {function(): string} step
+ * @return {string}
+ */
+function attemptMail_(step) {
+  try {
+    return step();
+  } catch (err) {
+    return 'failed: ' + String(err && err.message ? err.message : err).slice(0, 120);
+  }
+}
+
+/**
+ * Sends the report PDF. MailApp needs only the send mail scope.
+ * @param {string} to
+ * @param {string} subject
+ * @param {string} body
+ * @param {GoogleAppsScript.Drive.File} pdf
+ * @param {?string} cc one address, used when it is valid
+ */
+function sendReportMail_(to, subject, body, pdf, cc) {
+  const mail = { attachments: [pdf.getBlob()], name: SD.AGENCY_NAME };
+  if (cc && isEmail_(cc)) mail.cc = cc;
+  MailApp.sendEmail(to, subject, body, mail);
+}
+
+/**
+ * Where a preview goes: the address of the person running the script, else
+ * the REPORT_CC script property, else nothing. Session.getActiveUser returns a
+ * blank address for some accounts and contexts, which is why the property is
+ * the fallback.
+ * @return {string} an address, or '' when there is none
+ */
+function previewAddress_() {
+  const mine = String(Session.getActiveUser().getEmail() || '');
+  if (isEmail_(mine)) return mine;
+  const cc = PropertiesService.getScriptProperties().getProperty(SD.PROPS.REPORT_CC);
+  return cc && isEmail_(cc) ? cc : '';
 }
 
 /**

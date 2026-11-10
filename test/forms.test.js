@@ -33,6 +33,13 @@ test('the installer makes the form and one form submit trigger', () => {
   assert.match(r.url, /viewform$/);
 });
 
+test('the installer logs the form link, since a return value is not shown in the editor', () => {
+  const p = loadProject();
+  const { r } = installed(p);
+  assert.ok(r.url.startsWith('https://docs.google.com/forms/'));
+  assert.ok(p.w.logs.includes('Intake form link: ' + r.url), p.w.logs.join('|'));
+});
+
 test('running the installer again keeps one form and one trigger', () => {
   const p = loadProject();
   const first = installed(p).r;

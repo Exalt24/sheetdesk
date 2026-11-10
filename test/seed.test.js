@@ -22,6 +22,8 @@ test('the committed fixtures are exactly what the generator writes for the defau
   assert.equal(parseCsv(csv('clients.csv')).length - 1, data.clients.length);
   assert.equal(parseCsv(csv('leads.csv')).length - 1, 300);
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(FIX, 'rates.json'), 'utf8')), data.rates);
+  assert.equal(csv('rates.csv'), toCsv(['date', 'currency', 'per_usd'], data.rates.map((r) => [r.date, r.quote, r.rate])));
+  assert.equal(csv('rates.csv').split('\n')[0], 'date,currency,per_usd', 'the header matches the Rates tab');
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(FIX, 'ad_platform_days.json'), 'utf8')), adPlatformDays(data, '2026-10-01', '2026-10-31'));
 });
 

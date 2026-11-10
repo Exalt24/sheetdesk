@@ -1,11 +1,13 @@
 {
   "name": "sheetdesk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Google Apps Script tools that run a small marketing agency out of one Sheet.",
   "private": true,
   "license": "MIT",
   "author": "Daniel Alexis Cruz",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "test": "node --test \"test/*.test.js\"",
     "lint": "eslint . --max-warnings=0",

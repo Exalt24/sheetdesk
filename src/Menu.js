@@ -31,12 +31,13 @@ function openDesk() {
 }
 
 /**
- * The month before today in the script time zone, as yyyy-MM.
+ * The month before today in the spreadsheet time zone, as yyyy-MM. The data
+ * is dated in that zone, which can differ from the script's zone.
  * @return {string}
  */
 function previousMonth_() {
   const now = new Date();
-  const tz = Session.getScriptTimeZone();
+  const tz = spreadsheet_().getSpreadsheetTimeZone();
   const y = Number(Utilities.formatDate(now, tz, 'yyyy'));
   const m = Number(Utilities.formatDate(now, tz, 'MM'));
   const py = m === 1 ? y - 1 : y;
@@ -86,12 +87,12 @@ function menuSetUp() {
 }
 
 /**
- * Today minus n days as yyyy-MM-dd in the script time zone.
+ * Today minus n days as yyyy-MM-dd in the spreadsheet time zone.
  * @param {number} n
  * @return {string}
  */
 function daysAgoIso_(n) {
-  return Utilities.formatDate(new Date(Date.now() - n * 86400000), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+  return Utilities.formatDate(new Date(Date.now() - n * 86400000), spreadsheet_().getSpreadsheetTimeZone(), 'yyyy-MM-dd');
 }
 
 /**
@@ -138,11 +139,14 @@ function sidebarGetOptions() {
  * Sidebar button: report for one client and month.
  * @param {string} clientName
  * @param {string} month
+ * @param {boolean} [sendToMe] the "Send to me first" box. Only an explicit false
+ *   emails the client. Anything else, including a missing value, sends the PDF
+ *   to the person running the script.
  * @return {Object} result of runClientReport
  */
-function sidebarRunReport(clientName, month) {
-  // runClientReport checks the month and that the client exists before it touches Drive or Gmail.
-  return runClientReport(clientName, month);
+function sidebarRunReport(clientName, month, sendToMe) {
+  // runClientReport checks the month and that the client exists before it touches Drive or mail.
+  return runClientReport(clientName, month, { preview: sendToMe !== false });
 }
 
 /**

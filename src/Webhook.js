@@ -90,10 +90,37 @@ function webhookValidate_(fields, clientNames) {
  * {"secret": "...", "lead_id": "z-1001", "client": "Harbor Lane Bakery", "name": "...", "email": "..."}.
  * Order of checks: size, parse, secret, fields. A repeat of a lead_id is a
  * success with duplicate:true, so a Zap that retries never adds a second row.
+ * Anything the checks do not expect (a renamed Leads header, a failing flush)
+ * is logged and answered as server_error, so the caller still gets JSON.
  * @param {Object} e
  * @return {GoogleAppsScript.Content.TextOutput}
  */
 function doPost(e) {
+  try {
+    return handleLeadPost_(e);
+  } catch (err) {
+    return webhookFailure_('doPost', err);
+  }
+}
+
+/**
+ * Logs the cause of an unexpected failure and builds the reply. The reply
+ * names no internals: the message goes to the log only.
+ * @param {string} where
+ * @param {*} err
+ * @return {GoogleAppsScript.Content.TextOutput}
+ */
+function webhookFailure_(where, err) {
+  Logger.log(where + ' failed: ' + String(err && err.message ? err.message : err).slice(0, 300));
+  return webhookError_('server_error');
+}
+
+/**
+ * The checks and the append behind doPost.
+ * @param {Object} e
+ * @return {GoogleAppsScript.Content.TextOutput}
+ */
+function handleLeadPost_(e) {
   const parsed = webhookParse_(e);
   if (parsed.error) return webhookError_(parsed.error);
 
@@ -156,10 +183,24 @@ function leadCounts_() {
  * Status page. Without the secret it only says the service is up. With the
  * secret, view=status returns lead counts as JSON and view=dashboard returns
  * an HTML table. The secret is in the URL, so treat that URL as private.
+ * An unexpected failure is answered as server_error JSON, like doPost.
  * @param {Object} e
  * @return {GoogleAppsScript.Content.TextOutput|GoogleAppsScript.HTML.HtmlOutput}
  */
 function doGet(e) {
+  try {
+    return handleStatusGet_(e);
+  } catch (err) {
+    return webhookFailure_('doGet', err);
+  }
+}
+
+/**
+ * The checks and the views behind doGet.
+ * @param {Object} e
+ * @return {GoogleAppsScript.Content.TextOutput|GoogleAppsScript.HTML.HtmlOutput}
+ */
+function handleStatusGet_(e) {
   const p = (e && e.parameter) || {};
   const expected = PropertiesService.getScriptProperties().getProperty(SD.PROPS.WEBHOOK_SECRET);
   if (!p.view) return jsonOut_({ ok: true, service: 'sheetdesk' });

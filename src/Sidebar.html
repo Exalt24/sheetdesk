@@ -6,6 +6,7 @@
   body { font-family: Arial, sans-serif; font-size: 13px; margin: 12px; color: #202124; }
   h1 { font-size: 16px; margin: 0 0 12px; }
   label { display: block; margin: 10px 0 4px; font-weight: bold; }
+  label.inline { font-weight: normal; margin: 12px 0 0; }
   select, button { width: 100%; padding: 6px; box-sizing: border-box; }
   button { margin-top: 12px; cursor: pointer; }
   #status { margin-top: 14px; min-height: 2em; }
@@ -18,6 +19,7 @@
 <select id="client"></select>
 <label for="month">Month</label>
 <select id="month"></select>
+<label class="inline"><input type="checkbox" id="send-to-me" checked> Send to me first</label>
 <button id="run-report" type="button">Run report</button>
 <button id="close-month" type="button">Close month</button>
 <p id="status" role="status"></p>
@@ -43,6 +45,17 @@
     fill('month', options.months);
     setStatus('');
   }
+  function emailWords(code) {
+    var words = {
+      sent: 'sent to the client',
+      preview_sent: 'sent to you, not to the client',
+      no_preview_address: 'not sent, no address for you (set REPORT_CC)',
+      already_sent: 'not sent, the client already has these figures',
+      no_address: 'not sent, the client has no address',
+      not_sent: 'not sent'
+    };
+    return words[code] || code;
+  }
   function busy(on) {
     document.getElementById('run-report').disabled = on;
     document.getElementById('close-month').disabled = on;
@@ -50,7 +63,7 @@
   function done(result) {
     busy(false);
     if (result.status === 'no_data') setStatus('No data for that month.', false);
-    else setStatus('Report ready: ' + result.pdfName + '. Email: ' + result.email + '.', false);
+    else setStatus('Report ready: ' + result.pdfName + '. Email: ' + emailWords(result.email) + '.', false);
   }
   document.getElementById('run-report').onclick = function () {
     busy(true);
@@ -58,7 +71,11 @@
     google.script.run
       .withSuccessHandler(done)
       .withFailureHandler(function (err) { busy(false); fail(err); })
-      .sidebarRunReport(document.getElementById('client').value, document.getElementById('month').value);
+      .sidebarRunReport(
+        document.getElementById('client').value,
+        document.getElementById('month').value,
+        document.getElementById('send-to-me').checked
+      );
   };
   document.getElementById('close-month').onclick = function () {
     google.script.run
