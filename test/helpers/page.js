@@ -4,12 +4,12 @@
  * `replies` maps a server function name to what the page gets back when it
  * calls that function through google.script.run.
  */
-const fs = require('node:fs');
-const path = require('node:path');
 const vm = require('node:vm');
+const { readSource } = require('./load');
 
+/** The script of a page as the loader reads it, so a mutant of the page is run by the tests too. */
 function pageScript(file) {
-  const html = fs.readFileSync(path.join(__dirname, '..', '..', 'src', file), 'utf8');
+  const html = readSource(file);
   return /<script>([\s\S]*)<\/script>/.exec(html)[1];
 }
 

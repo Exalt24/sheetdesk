@@ -46,7 +46,9 @@ const M = [
   ['secret-fail-closed', 'Webhook.js', "  if (!expected) return webhookError_('not_configured');\n  const given", '  const given', 'POST works when no secret is configured'],
   ['secret-get-check', 'Webhook.js', "  if (!safeEquals_(typeof p.secret === 'string' ? p.secret : '', expected)) return webhookError_('unauthorized');\n", '', 'the dashboard and status views need no secret'],
   ['safe-equals-true', 'Util.js', '  return diff === 0;', '  return true;', 'the secret comparison accepts anything'],
-  ['idempotency', 'Webhook.js', "      if (String(known[i][0]) === lead.lead_id) return jsonOut_({ ok: true, duplicate: true, lead_id: lead.lead_id });\n", '', 'a repeated lead_id adds a second row'],
+  ['idempotency', 'Webhook.js', "      if (String(known[i][0]) === lead.lead_id && String(known[i][2]) === lead.client) {\n        return jsonOut_({ ok: true, duplicate: true, lead_id: lead.lead_id });\n      }\n", '', 'a repeated lead_id adds a second row'],
+  ['idempotency-client', 'Webhook.js', ' && String(known[i][2]) === lead.client) {', ') {', 'a lead_id used by one client drops the lead of another client as a duplicate'],
+  ['idempotency-read-width', 'Webhook.js', '    const known = readRows_(sheet, 3);', '    const known = readRows_(sheet, 1);', 'the client column is not read, so a repeat for the same client is stored again'],
   ['idempotency-lock', 'Webhook.js', "  if (!lock.tryLock(10000)) return webhookError_('busy', { retry: true });\n", '', 'the webhook takes no lock'],
   ['unknown-field', 'Webhook.js', "  if (unknown.length) return { lead: null, error: 'unknown_field', detail: { fields: unknown.slice(0, 10) } };\n", '', 'unknown fields are accepted'],
   ['bad-json-shape', 'Webhook.js', "typeof parsed === 'object' && !Array.isArray(parsed)", "typeof parsed === 'object'", 'a JSON array passes as a lead'],
@@ -198,7 +200,49 @@ const M = [
   ['get-wrapper', 'Webhook.js', "    return webhookFailure_('doGet', err);", '    throw err;', 'an exception in doGet reaches the caller as an HTML error page'],
   ['failure-detail', 'Webhook.js', "  return webhookError_('server_error');", "  return webhookError_('server_error', { detail: String(err && err.message ? err.message : err) });", 'the error reply carries the internal message'],
   ['failure-log', 'Webhook.js', "  Logger.log(where + ' failed: ' + String(err && err.message ? err.message : err).slice(0, 300));\n", '', 'the cause of a failure is not logged'],
-  ['failure-log-cut', 'Webhook.js', 'String(err && err.message ? err.message : err).slice(0, 300)', 'String(err && err.message ? err.message : err)', 'a long message is logged whole']
+  ['failure-log-cut', 'Webhook.js', 'String(err && err.message ? err.message : err).slice(0, 300)', 'String(err && err.message ? err.message : err)', 'a long message is logged whole'],
+  // ---- round 4: a figure left out is shown
+  ['left-out-summaries', 'Reporting.js', "  if (leftOut) result.leftOut = leftOut;\n  return result;\n}\n\n/**\n * A file name that is the same", "  return result;\n}\n\n/**\n * A file name that is the same", 'Rebuild summaries does not say how many rows were left out'],
+  ['left-out-report', 'Reporting.js', "  if (leftOut) result.leftOut = leftOut;\n  return result;\n}\n\n/**\n * Report for one client", "  return result;\n}\n\n/**\n * Report for one client", 'a report does not say how many rows were left out'],
+  ['left-out-dialog-result', 'Menu.js', '  if (r.summaries.leftOut) out.leftOut = r.summaries.leftOut;\n', '', 'the month close dialog result does not carry the rows left out'],
+  ['left-out-toast', 'Menu.js', '  if (r.leftOut) more.push(r.leftOut.text);\n', '', 'the Rebuild summaries message does not mention the rows left out'],
+  ['left-out-sidebar', 'Sidebar.html', "    if (result.leftOut) text += ' ' + result.leftOut.text;\n", '', 'the sidebar does not mention the rows left out'],
+  ['left-out-sidebar-no-data', 'Sidebar.html', "? (result.leftOut ? 'No report for that month.' : 'No data for that month.')", "? 'No data for that month.'", 'a month where every row was left out reads as no data'],
+  ['left-out-dialog-page', 'Dialog.html', "        if (r.leftOut) text += ' ' + r.leftOut.text;\n", '', 'the month close dialog does not mention the rows left out'],
+  ['rate-pull-range', 'Menu.js', '  const range = ratePullRange_();\n  const r = syncRatesInPieces_(range.from, range.to);', '  const r = syncCurrencyRates(daysAgoIso_(30), daysAgoIso_(0));', 'Pull currency rates covers only the last 30 days'],
+  ['rate-pull-pieces', 'AdPlatform.js', '    const r = syncCurrencyRates(start, stop < toIso ? stop : toIso);', '    const r = syncCurrencyRates(start, toIso);', 'a long range is asked for in one piece'],
+  ['rate-pull-month-start', 'Menu.js', "  const from = first.slice(0, 7) + '-01';", '  const from = first;', 'the pull starts on the day of the first foreign row, not the first of its month'],
+  ['rate-pull-cap', 'Menu.js', '  return { from: from < earliest ? earliest : from, to: last > today ? last : today };', '  return { from: from, to: last > today ? last : today };', 'one old row makes the pull ask for decades'],
+  // ---- round 4: a month close that emails clients is guarded and says so
+  ['close-month-ended', 'Reporting.js', '  assertMonth_(month);\n  assertMonthEnded_(month);\n  const started', '  assertMonth_(month);\n  const started', 'a month close runs for a month that has not ended and emails a partial report'],
+  ['sidebar-close-month-ended', 'Menu.js', '  assertMonthEnded_(month);\n  showMonthCloseDialog_(month);', '  showMonthCloseDialog_(month);', 'the dialog opens for a month that has not ended'],
+  ['month-ended-zone', 'Reporting.js', "  return Utilities.formatDate(new Date(), spreadsheet_().getSpreadsheetTimeZone(), 'yyyy-MM');", "  return Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM');", 'the end of a month is judged in the script zone, not the Sheet zone'],
+  ['picker-default', 'Menu.js', '  if (start) out.defaultMonth = start;\n', '', 'the sidebar does not say which month to start on'],
+  ['picker-default-page', 'Sidebar.html', "    if (options.defaultMonth) document.getElementById('month').value = options.defaultMonth;\n", '', 'the sidebar starts on the newest month, which may still be running'],
+  ['dialog-says-email', 'Dialog.html', '<p>This builds a report for every active client and emails each client the PDF. Send to me first does not apply here.</p>\n', '', 'the dialog does not say that clients will be emailed'],
+  ['dialog-height', 'Menu.js', '.setWidth(340).setHeight(250)', '.setWidth(340).setHeight(190)', 'the dialog is too short for its text'],
+  // ---- round 4: clients with no usable address are named
+  ['close-names-no-address', 'Reporting.js', "      if ((built.status === 'ok' || built.status === 'current') && !isEmail_(c.contact_email)) noAddress.push(c.client);\n", '', 'a month close does not name the clients that got no email for want of an address'],
+  ['close-no-address-current', 'Reporting.js', "(built.status === 'ok' || built.status === 'current') && !isEmail_", "built.status === 'ok' && !isEmail_", 'a second close forgets the clients with no address'],
+  ['dialog-no-address', 'Menu.js', '  if (r.noAddress) out.noAddress = r.noAddress;\n', '', 'the dialog result does not name the clients with no address'],
+  ['dialog-page-no-address', 'Dialog.html', "        if (r.noAddress) text += ' ' + r.noAddress.text;\n", '', 'the dialog does not print the clients with no address'],
+  // ---- round 4: the intake form keeps what it is given
+  ['budget-prefix', 'Forms.js', "  t = t.replace(/^(us\\$|usd|\\$)\\s*/, '').replace(/\\s*usd$/, '');", "  t = t.replace(/\\s*usd$/, '');", 'a budget with a dollar sign or USD before it holds the client'],
+  ['budget-suffix', 'Forms.js', ".replace(/\\s*usd$/, '');", ';', 'a budget with USD after it holds the client'],
+  ['budget-k', 'Forms.js', '  return k ? Math.round(n * 1000 * 100) / 100 : n;', '  return n;', '2.5k is read as 2.5'],
+  ['budget-commas', 'Forms.js', "toLowerCase().replace(/,/g, '');", 'toLowerCase();', 'a budget with a thousands comma holds the client'],
+  ['intake-notes-read', 'Forms.js', "    notes: String(a[T.NOTES] || '').trim().slice(0, 50000)", "    notes: ''", 'the Notes answer is dropped'],
+  ['intake-notes-written', 'Forms.js', 'row.push(sheetText_(parsed.notes), sheetText_(reason))', "row.push('', sheetText_(reason))", 'the Notes answer is not written to the Clients tab'],
+  ['intake-reason-written', 'Forms.js', 'row.push(sheetText_(parsed.notes), sheetText_(reason))', "row.push(sheetText_(parsed.notes), '')", 'a held row does not say which check failed'],
+  ['intake-reason-key', 'Forms.js', '  if (reason) out.reason = reason;\n', '', 'the return value does not say why a row was held'],
+  ['extras-header', 'Clients.js', '  cells.setValues([extra]);\n', '', 'the notes and review_reason headers are never written'],
+  ['extras-own-text', 'Clients.js', "  if (have.join('') !== '') return false;\n", '', 'a column of the tab\'s own after created_at is written over'],
+  ['setup-extras', 'Menu.js', '  ensureClientExtras_(ss.getSheetByName(SD.SHEETS.CLIENTS));\n', '', 'Set up does not add the notes and review_reason headers'],
+  // ---- round 4: a row that is not a client stops no client
+  ['intake-clash-active-only', 'Forms.js', "String(r[6]).trim().toLowerCase() === 'active' && ", '', 'a parked row holds a new name back'],
+  ['close-clash-active-only', 'Reporting.js', '  const clashes = nameClashes_(clients.map(function (c) { return c.client; }));', '  const clashes = nameClashes_(allClients.map(function (c) { return c.client; }));', 'a parked row stops the month close of an active client'],
+  ['report-clash-active-only', 'Reporting.js', "  const live = clients.filter(function (c) { return c.status === 'active' || c === client; });", '  const live = clients;', 'a parked row stops the report of an active client'],
+  ['report-prefers-active', 'Reporting.js', '  const hit = named.filter(function (c) { return c.status === \'active\'; })[0] || named[0];', '  const hit = named[0];', 'a paused row with the same name is reported instead of the active one']
 ];
 
 /**

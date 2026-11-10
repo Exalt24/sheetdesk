@@ -152,4 +152,4 @@ function loadSeeded(opts = {}) {
   return p;
 }
 
-module.exports = { loadProject, loadSeeded, loadFixtures, fillSheet, sourceFiles, HEADERS };
+module.exports = { loadProject, loadSeeded, loadFixtures, fillSheet, sourceFiles, readSource, HEADERS };

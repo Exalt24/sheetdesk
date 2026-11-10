@@ -41,7 +41,7 @@ const SRC = path.join(__dirname, '..', 'src');
  */
 const TARGETS = [
   { file: 'Webhook.js', within: 'webhookValidate_', marker: /warnings/, mode: 'outer' },
-  { file: 'Webhook.js', within: 'handleLeadPost_', marker: /warnings|reply/, mode: 'inner' },
+  { file: 'Webhook.js', within: 'handleLeadPost_', marker: /warnings|reply|known/, mode: 'inner' },
   { file: 'Campaigns.js', within: 'parseCampaignRow_', marker: /isBlankCell_|conversionsNumber/, mode: 'inner' },
   { file: 'Util.js', within: 'isBlankCell_', marker: /./, mode: 'all' },
   { file: 'Util.js', within: 'addCount_', marker: /./, mode: 'all' },
@@ -58,12 +58,27 @@ const TARGETS = [
   { file: 'Reporting.js', within: 'namesClash_', marker: /./, mode: 'all' },
   { file: 'Reporting.js', within: 'unmatchedRows_', marker: /./, mode: 'all' },
   { file: 'Reporting.js', within: 'unmatchedText_', marker: /./, mode: 'all' },
-  { file: 'Reporting.js', within: 'buildClientSummaries', marker: /clashes|skipped|unmatched/, mode: 'inner' },
-  { file: 'Reporting.js', within: 'runClientReport', marker: /clash|unmatched/, mode: 'inner' },
-  { file: 'Reporting.js', within: 'runMonthClose', marker: /clashes|clashed/, mode: 'inner' },
-  { file: 'Forms.js', within: 'onIntakeSubmit', marker: /nameTaken|namesClash_/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'buildClientSummaries', marker: /clashes|skipped|unmatched|leftOut/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'runClientReport', marker: /clash|unmatched|live|leftOut/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'runMonthClose', marker: /clashes|clashed|noAddress|missing|assertMonthEnded_/, mode: 'inner' },
+  { file: 'Forms.js', within: 'onIntakeSubmit', marker: /taken|namesClash_|why|reason|ensureClientExtras_|const row/, mode: 'inner' },
   { file: 'Menu.js', within: 'summariesMessage_', marker: /./, mode: 'all' },
-  { file: 'Menu.js', within: 'dialogConfirmMonthClose', marker: /clashes|skipped|unmatched/, mode: 'inner' }
+  { file: 'Menu.js', within: 'dialogConfirmMonthClose', marker: /clashes|skipped|unmatched|leftOut|noAddress/, mode: 'inner' },
+  // round 4: a figure left out is shown, a close that emails is guarded and names who got nothing, a budget as people write it,
+  // a row that is not a client stops no client, the sidebar starts on a finished month
+  { file: 'Reporting.js', within: 'leftOutOf_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'noAddressOf_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'assertMonthEnded_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'currentMonth_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'assertClient_', marker: /named|hit/, mode: 'inner' },
+  { file: 'Menu.js', within: 'sidebarGetOptions', marker: /defaultMonth|finished|start/, mode: 'inner' },
+  { file: 'Menu.js', within: 'sidebarRequestMonthClose', marker: /./, mode: 'all' },
+  { file: 'Menu.js', within: 'ratePullRange_', marker: /./, mode: 'all' },
+  { file: 'Menu.js', within: 'menuSyncRates', marker: /./, mode: 'all' },
+  { file: 'AdPlatform.js', within: 'syncRatesInPieces_', marker: /./, mode: 'all' },
+  { file: 'Forms.js', within: 'parseBudget_', marker: /./, mode: 'all' },
+  { file: 'Forms.js', within: 'checkIntake_', marker: /budget|notes/, mode: 'inner' },
+  { file: 'Clients.js', within: 'ensureClientExtras_', marker: /./, mode: 'all' }
 ];
 
 const CONDITIONAL = ['IfStatement', 'ConditionalExpression', 'WhileStatement', 'ForStatement'];
