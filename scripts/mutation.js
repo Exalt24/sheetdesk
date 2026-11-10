@@ -85,7 +85,7 @@ const M = [
   // ---- forms
   ['form-lock', 'Forms.js', '  lock.waitLock(30000);\n', '', 'two form deliveries can write at once'],
   ['form-response-id', 'Forms.js', "      if (String(rows[i][7]) === responseId) return { status: 'duplicate', client: String(rows[i][0]), emailed: false };\n", '', 'a repeated response adds a second client'],
-  ['form-needs-review', 'Forms.js', "    status = parsed.ok && !nameTaken ? 'active' : 'needs_review';", "    status = 'active';", 'bad or duplicate intake is marked active'],
+  ['form-needs-review', 'Forms.js', "    status = parsed.ok && !taken ? 'active' : 'needs_review';", "    status = 'active';", 'bad or duplicate intake is marked active'],
   ['form-email-check', 'Forms.js', "  if (!isEmail_(email)) problems.push('contact email');\n", '', 'a bad contact email is accepted'],
   ['form-one-trigger', 'Forms.js', "    if (t.getHandlerFunction() === 'onIntakeSubmit') ScriptApp.deleteTrigger(t);\n", '', 'installing again adds another trigger'],
   ['form-link-log', 'Forms.js', "  Logger.log('Intake form link: ' + form.getPublishedUrl());\n", '', 'the form link is not shown anywhere'],
@@ -111,7 +111,7 @@ const M = [
   ['close-active-only', 'Reporting.js', "  const clients = allClients.filter(function (c) { return c.status === 'active'; });", '  const clients = allClients;', 'paused clients get a report'],
   ['cents', 'Util.js', '  return Math.round(amount * 100);', '  return Math.floor(amount * 100);', 'money sums drift by a cent'],
   // ---- menu and sidebar
-  ['sidebar-month-check', 'Menu.js', '  assertMonth_(month);\n  showMonthCloseDialog_(month);', '  showMonthCloseDialog_(month);', 'the dialog opens for any text'],
+  ['sidebar-month-check', 'Menu.js', '  assertMonth_(month);\n  assertMonthEnded_(month);\n  showMonthCloseDialog_(month);', '  assertMonthEnded_(month);\n  showMonthCloseDialog_(month);', 'the dialog opens for any text'],
   ['menu-handler-name', 'Menu.js', ".addItem('Open desk', 'openDesk')", ".addItem('Open desk', 'openDeskNow')", 'a menu item runs a function that does not exist'],
   ['sidebar-call-name', 'Sidebar.html', '.sidebarRunReport(\n', '.sidebarRunReportNow(\n', 'the sidebar calls a function that does not exist'],
   ['setup-secret-kept', 'Menu.js', '  if (!props.getProperty(SD.PROPS.WEBHOOK_SECRET)) {', '  if (true) {', 'set up replaces the webhook secret every time'],
