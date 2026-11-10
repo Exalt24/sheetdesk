@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<title>Leads by client</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 24px; color: #202124; }
+  table { border-collapse: collapse; min-width: 360px; }
+  th, td { border-bottom: 1px solid #dadce0; padding: 6px 14px; text-align: left; }
+  th.num, td.num { text-align: right; }
+</style>
+</head>
+<body>
+<h1><?= agency ?>: leads by client</h1>
+<p>All leads: <?= counts.total ?></p>
+<table>
+  <thead><tr><th>Client</th><th class="num">Leads</th><th class="num">Last 7 days</th></tr></thead>
+  <tbody>
+<? counts.clients.forEach(function (c) { ?>
+    <tr><td><?= c.client ?></td><td class="num"><?= c.leads ?></td><td class="num"><?= c.last7 ?></td></tr>
+<? }); ?>
+  </tbody>
+</table>
+</body>
+</html>

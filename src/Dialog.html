@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+  body { font-family: Arial, sans-serif; font-size: 13px; margin: 14px; color: #202124; }
+  input { width: 100%; padding: 6px; box-sizing: border-box; margin: 4px 0 12px; }
+  button { padding: 6px 14px; cursor: pointer; }
+  .error { color: #b00020; }
+</style>
+</head>
+<body>
+<label for="month">Month to close</label>
+<input id="month" value="<?= month ?>">
+<button id="confirm" type="button">Close month</button>
+<button id="cancel" type="button">Cancel</button>
+<p id="status" role="status"></p>
+<script>
+  function setStatus(text, isError) {
+    var el = document.getElementById('status');
+    el.textContent = text;
+    el.className = isError ? 'error' : '';
+  }
+  document.getElementById('cancel').onclick = function () { google.script.host.close(); };
+  document.getElementById('confirm').onclick = function () {
+    document.getElementById('confirm').disabled = true;
+    setStatus('Working');
+    google.script.run
+      .withSuccessHandler(function (r) {
+        setStatus(r.done + ' done, ' + r.errors + ' failed, ' + r.pending + ' waiting, ' + r.emailed + ' emailed.');
+        document.getElementById('confirm').disabled = false;
+      })
+      .withFailureHandler(function (err) {
+        document.getElementById('confirm').disabled = false;
+        setStatus(err && err.message ? err.message : 'Something went wrong.', true);
+      })
+      .dialogConfirmMonthClose(document.getElementById('month').value);
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,2025 @@
+client,channel,date,spend,clicks,conversions,currency
+Harbor Lane Bakery,search,2026-08-01,62.75,37,1,USD
+Harbor Lane Bakery,search,2026-08-02,59.83,83,2,USD
+Harbor Lane Bakery,search,2026-08-03,71.56,38,2,USD
+Harbor Lane Bakery,search,2026-08-04,75.69,53,2,USD
+Harbor Lane Bakery,search,2026-08-05,100.59,60,3,USD
+Harbor Lane Bakery,search,2026-08-06,79.66,91,5,USD
+Harbor Lane Bakery,search,2026-08-07,95.49,57,1,USD
+Harbor Lane Bakery,search,2026-08-08,63.72,77,2,USD
+Harbor Lane Bakery,search,2026-08-09,51.48,41,1,USD
+Harbor Lane Bakery,search,2026-08-10,76.44,48,3,USD
+Harbor Lane Bakery,search,2026-08-11,111.08,78,5,USD
+Harbor Lane Bakery,search,2026-08-12,110.88,77,3,USD
+Harbor Lane Bakery,search,2026-08-13,79.96,82,4,USD
+Harbor Lane Bakery,search,2026-08-14,80.36,118,7,USD
+Harbor Lane Bakery,search,2026-08-15,49.48,28,2,USD
+Harbor Lane Bakery,search,2026-08-16,80.09,44,3,USD
+Harbor Lane Bakery,search,2026-08-17,81.88,43,2,USD
+Harbor Lane Bakery,search,2026-08-18,79.56,65,5,USD
+Harbor Lane Bakery,search,2026-08-19,98.95,58,3,USD
+Harbor Lane Bakery,search,2026-08-20,99.71,85,2,USD
+Harbor Lane Bakery,search,2026-08-21,74.01,46,3,USD
+Harbor Lane Bakery,search,2026-08-22,67.19,36,3,USD
+Harbor Lane Bakery,search,2026-08-23,62.81,51,2,USD
+Harbor Lane Bakery,search,2026-08-24,99.74,85,3,USD
+Harbor Lane Bakery,search,2026-08-25,97.32,76,3,USD
+Harbor Lane Bakery,search,2026-08-26,71.45,38,1,USD
+Harbor Lane Bakery,search,2026-08-27,80.95,43,2,USD
+Harbor Lane Bakery,search,2026-08-28,93.65,57,2,USD
+Harbor Lane Bakery,search,2026-08-29,67.83,67,5,USD
+Harbor Lane Bakery,search,2026-08-30,64.02,33,1,USD
+Harbor Lane Bakery,search,2026-08-31,72.91,77,4,USD
+Harbor Lane Bakery,search,2026-09-01,98.27,109,6,USD
+Harbor Lane Bakery,search,2026-09-02,99.87,122,2,USD
+Harbor Lane Bakery,search,2026-09-03,101.43,84,3,USD
+Harbor Lane Bakery,search,2026-09-04,95.27,58,4,USD
+Harbor Lane Bakery,search,2026-09-05,65.13,98,5,USD
+Harbor Lane Bakery,search,2026-09-06,77.14,49,3,USD
+Harbor Lane Bakery,search,2026-09-07,71.37,59,3,USD
+Harbor Lane Bakery,search,2026-09-08,99.91,50,4,USD
+Harbor Lane Bakery,search,2026-09-09,76.54,116,3,USD
+Harbor Lane Bakery,search,2026-09-10,90.26,57,3,USD
+Harbor Lane Bakery,search,2026-09-11,90.17,121,4,USD
+Harbor Lane Bakery,search,2026-09-12,69.98,98,5,USD
+Harbor Lane Bakery,search,2026-09-13,56.41,32,2,USD
+Harbor Lane Bakery,search,2026-09-14,90.92,66,2,USD
+Harbor Lane Bakery,search,2026-09-15,78.27,80,3,USD
+Harbor Lane Bakery,search,2026-09-16,98.54,117,6,USD
+Harbor Lane Bakery,search,2026-09-17,89.33,75,6,USD
+Harbor Lane Bakery,search,2026-09-18,94.02,126,7,USD
+Harbor Lane Bakery,search,2026-09-19,55.96,46,1,USD
+Harbor Lane Bakery,search,2026-09-20,67.46,44,1,USD
+Harbor Lane Bakery,search,2026-09-21,83.76,53,3,USD
+Harbor Lane Bakery,search,2026-09-22,102.92,94,2,USD
+Harbor Lane Bakery,search,2026-09-23,104.89,67,2,USD
+Harbor Lane Bakery,search,2026-09-24,113.86,71,2,USD
+Harbor Lane Bakery,search,2026-09-25,86.88,66,3,USD
+Harbor Lane Bakery,search,2026-09-26,50.98,31,1,USD
+Harbor Lane Bakery,search,2026-09-27,51.06,82,5,USD
+Harbor Lane Bakery,search,2026-09-28,89.18,80,2,USD
+Harbor Lane Bakery,search,2026-09-29,77.85,74,2,USD
+Harbor Lane Bakery,search,2026-09-30,108.43,174,6,USD
+Harbor Lane Bakery,search,2026-10-01,85.96,48,3,USD
+Harbor Lane Bakery,search,2026-10-02,110.15,86,5,USD
+Harbor Lane Bakery,search,2026-10-03,57.48,71,2,USD
+Harbor Lane Bakery,search,2026-10-04,74.78,43,3,USD
+Harbor Lane Bakery,search,2026-10-05,82.4,78,2,USD
+Harbor Lane Bakery,search,2026-10-06,71.53,66,2,USD
+Harbor Lane Bakery,search,2026-10-07,69.93,59,1,USD
+Harbor Lane Bakery,search,2026-10-08,88.3,118,5,USD
+Harbor Lane Bakery,search,2026-10-09,108.57,110,3,USD
+Harbor Lane Bakery,search,2026-10-10,62.88,37,3,USD
+Harbor Lane Bakery,search,2026-10-11,51.89,67,3,USD
+Harbor Lane Bakery,search,2026-10-12,86.01,73,3,USD
+Harbor Lane Bakery,search,2026-10-13,95.38,153,7,USD
+Harbor Lane Bakery,search,2026-10-14,74.16,39,3,USD
+Harbor Lane Bakery,search,2026-10-15,72.76,91,4,USD
+Harbor Lane Bakery,search,2026-10-16,109.46,57,1,USD
+Harbor Lane Bakery,search,2026-10-17,62.08,63,2,USD
+Harbor Lane Bakery,search,2026-10-18,65.51,70,2,USD
+Harbor Lane Bakery,search,2026-10-19,98.23,75,2,USD
+Harbor Lane Bakery,search,2026-10-20,98.32,101,4,USD
+Harbor Lane Bakery,search,2026-10-21,92.4,115,7,USD
+Harbor Lane Bakery,search,2026-10-22,102.68,97,2,USD
+Harbor Lane Bakery,search,2026-10-23,112.32,112,5,USD
+Harbor Lane Bakery,search,2026-10-24,49.1,29,1,USD
+Harbor Lane Bakery,search,2026-10-25,66.22,34,1,USD
+Harbor Lane Bakery,search,2026-10-26,78.11,65,2,USD
+Harbor Lane Bakery,search,2026-10-27,113.87,131,6,USD
+Harbor Lane Bakery,search,2026-10-28,79.71,53,1,USD
+Harbor Lane Bakery,search,2026-10-29,110.07,98,5,USD
+Harbor Lane Bakery,search,2026-10-30,87.4,68,5,USD
+Harbor Lane Bakery,search,2026-10-31,74.02,46,4,USD
+Harbor Lane Bakery,social,2026-08-01,77.18,64,5,USD
+Harbor Lane Bakery,social,2026-08-02,96.63,89,6,USD
+Harbor Lane Bakery,social,2026-08-03,106.93,95,2,USD
+Harbor Lane Bakery,social,2026-08-04,156.81,109,6,USD
+Harbor Lane Bakery,social,2026-08-05,161.68,267,7,USD
+Harbor Lane Bakery,social,2026-08-06,158.92,151,9,USD
+Harbor Lane Bakery,social,2026-08-07,142.08,151,8,USD
+Harbor Lane Bakery,social,2026-08-08,99.82,101,5,USD
+Harbor Lane Bakery,social,2026-08-09,96.31,126,7,USD
+Harbor Lane Bakery,social,2026-08-10,99.17,68,3,USD
+Harbor Lane Bakery,social,2026-08-11,119.44,100,8,USD
+Harbor Lane Bakery,social,2026-08-12,111.56,166,13,USD
+Harbor Lane Bakery,social,2026-08-13,148.98,139,7,USD
+Harbor Lane Bakery,social,2026-08-14,122.61,96,6,USD
+Harbor Lane Bakery,social,2026-08-15,73.82,47,3,USD
+Harbor Lane Bakery,social,2026-08-16,106.98,70,2,USD
+Harbor Lane Bakery,social,2026-08-17,151.47,149,4,USD
+Harbor Lane Bakery,social,2026-08-18,128.47,73,6,USD
+Harbor Lane Bakery,social,2026-08-19,120.52,65,2,USD
+Harbor Lane Bakery,social,2026-08-20,140.83,120,10,USD
+Harbor Lane Bakery,social,2026-08-21,152.46,160,5,USD
+Harbor Lane Bakery,social,2026-08-22,93.9,62,3,USD
+Harbor Lane Bakery,social,2026-08-23,106.95,102,7,USD
+Harbor Lane Bakery,social,2026-08-24,148.94,90,3,USD
+Harbor Lane Bakery,social,2026-08-25,115.04,97,5,USD
+Harbor Lane Bakery,social,2026-08-26,110.15,60,5,USD
+Harbor Lane Bakery,social,2026-08-27,155.35,115,8,USD
+Harbor Lane Bakery,social,2026-08-28,129.8,134,7,USD
+Harbor Lane Bakery,social,2026-08-29,87.8,90,3,USD
+Harbor Lane Bakery,social,2026-08-30,96.56,141,8,USD
+Harbor Lane Bakery,social,2026-08-31,118.53,63,3,USD
+Harbor Lane Bakery,social,2026-09-01,115.26,87,5,USD
+Harbor Lane Bakery,social,2026-09-02,139.02,77,2,USD
+Harbor Lane Bakery,social,2026-09-03,157.39,122,8,USD
+Harbor Lane Bakery,social,2026-09-04,155.69,125,9,USD
+Harbor Lane Bakery,social,2026-09-05,72.4,81,5,USD
+Harbor Lane Bakery,social,2026-09-06,69.31,40,3,USD
+Harbor Lane Bakery,social,2026-09-07,110.04,73,5,USD
+Harbor Lane Bakery,social,2026-09-08,146.61,123,6,USD
+Harbor Lane Bakery,social,2026-09-09,114.28,71,4,USD
+Harbor Lane Bakery,social,2026-09-10,118.83,176,4,USD
+Harbor Lane Bakery,social,2026-09-11,114.83,73,2,USD
+Harbor Lane Bakery,social,2026-09-12,113.65,62,3,USD
+Harbor Lane Bakery,social,2026-09-13,101.21,57,2,USD
+Harbor Lane Bakery,social,2026-09-14,131.35,189,14,USD
+Harbor Lane Bakery,social,2026-09-15,138.63,221,8,USD
+Harbor Lane Bakery,social,2026-09-16,102.23,67,2,USD
+Harbor Lane Bakery,social,2026-09-17,153.77,103,7,USD
+Harbor Lane Bakery,social,2026-09-18,114.4,68,5,USD
+Harbor Lane Bakery,social,2026-09-19,87.97,49,3,USD
+Harbor Lane Bakery,social,2026-09-20,82.62,127,4,USD
+Harbor Lane Bakery,social,2026-09-21,142.29,99,7,USD
+Harbor Lane Bakery,social,2026-09-22,102.54,68,2,USD
+Harbor Lane Bakery,social,2026-09-23,121.57,175,9,USD
+Harbor Lane Bakery,social,2026-09-24,140.73,153,7,USD
+Harbor Lane Bakery,social,2026-09-25,158.42,144,3,USD
+Harbor Lane Bakery,social,2026-09-26,100.24,74,2,USD
+Harbor Lane Bakery,social,2026-09-27,72.57,40,2,USD
+Harbor Lane Bakery,social,2026-09-28,136.08,75,3,USD
+Harbor Lane Bakery,social,2026-09-29,99.43,91,4,USD
+Harbor Lane Bakery,social,2026-09-30,110.89,73,5,USD
+Harbor Lane Bakery,social,2026-10-01,151.72,209,9,USD
+Harbor Lane Bakery,social,2026-10-02,162.6,150,8,USD
+Harbor Lane Bakery,social,2026-10-03,87.26,82,2,USD
+Harbor Lane Bakery,social,2026-10-04,88.15,45,3,USD
+Harbor Lane Bakery,social,2026-10-05,103.47,54,1,USD
+Harbor Lane Bakery,social,2026-10-06,126.86,209,7,USD
+Harbor Lane Bakery,social,2026-10-07,111.92,73,2,USD
+Harbor Lane Bakery,social,2026-10-08,149.07,132,3,USD
+Harbor Lane Bakery,social,2026-10-09,111.76,140,4,USD
+Harbor Lane Bakery,social,2026-10-10,85.92,70,5,USD
+Harbor Lane Bakery,social,2026-10-11,95.58,76,6,USD
+Harbor Lane Bakery,social,2026-10-12,150.78,92,2,USD
+Harbor Lane Bakery,social,2026-10-13,107.66,129,9,USD
+Harbor Lane Bakery,social,2026-10-14,112.3,77,3,USD
+Harbor Lane Bakery,social,2026-10-15,158.97,93,3,USD
+Harbor Lane Bakery,social,2026-10-16,110.83,59,3,USD
+Harbor Lane Bakery,social,2026-10-17,73.92,65,3,USD
+Harbor Lane Bakery,social,2026-10-18,84.61,127,8,USD
+Harbor Lane Bakery,social,2026-10-19,112.62,71,3,USD
+Harbor Lane Bakery,social,2026-10-20,111.4,113,7,USD
+Harbor Lane Bakery,social,2026-10-21,141.93,139,10,USD
+Harbor Lane Bakery,social,2026-10-22,122.61,137,6,USD
+Harbor Lane Bakery,social,2026-10-23,129.79,102,7,USD
+Harbor Lane Bakery,social,2026-10-24,72.37,90,2,USD
+Harbor Lane Bakery,social,2026-10-25,104.68,56,2,USD
+Harbor Lane Bakery,social,2026-10-26,143.17,168,10,USD
+Harbor Lane Bakery,social,2026-10-27,105.22,82,4,USD
+Harbor Lane Bakery,social,2026-10-28,140.09,133,10,USD
+Harbor Lane Bakery,social,2026-10-29,132.56,67,3,USD
+Harbor Lane Bakery,social,2026-10-30,137.78,83,2,USD
+Harbor Lane Bakery,social,2026-10-31,76.72,42,3,USD
+Harbor Lane Bakery,email,2026-08-01,90.74,70,1,USD
+Harbor Lane Bakery,email,2026-08-02,76.7,95,3,USD
+Harbor Lane Bakery,email,2026-08-03,144.34,207,16,USD
+Harbor Lane Bakery,email,2026-08-04,131.18,211,9,USD
+Harbor Lane Bakery,email,2026-08-05,144.7,82,2,USD
+Harbor Lane Bakery,email,2026-08-06,162.53,143,8,USD
+Harbor Lane Bakery,email,2026-08-07,139.62,232,11,USD
+Harbor Lane Bakery,email,2026-08-08,88.25,51,4,USD
+Harbor Lane Bakery,email,2026-08-09,98.33,106,5,USD
+Harbor Lane Bakery,email,2026-08-10,157.06,112,8,USD
+Harbor Lane Bakery,email,2026-08-11,107.12,70,3,USD
+Harbor Lane Bakery,email,2026-08-12,150.71,80,3,USD
+Harbor Lane Bakery,email,2026-08-13,154.37,149,9,USD
+Harbor Lane Bakery,email,2026-08-14,144.49,178,10,USD
+Harbor Lane Bakery,email,2026-08-15,75.47,41,2,USD
+Harbor Lane Bakery,email,2026-08-16,112.23,153,8,USD
+Harbor Lane Bakery,email,2026-08-17,157.17,89,4,USD
+Harbor Lane Bakery,email,2026-08-18,125.48,164,4,USD
+Harbor Lane Bakery,email,2026-08-19,120.34,63,2,USD
+Harbor Lane Bakery,email,2026-08-20,151.57,108,4,USD
+Harbor Lane Bakery,email,2026-08-21,144.1,79,2,USD
+Harbor Lane Bakery,email,2026-08-22,74.79,98,2,USD
+Harbor Lane Bakery,email,2026-08-23,108.24,56,2,USD
+Harbor Lane Bakery,email,2026-08-24,141.55,163,12,USD
+Harbor Lane Bakery,email,2026-08-25,146.65,192,14,USD
+Harbor Lane Bakery,email,2026-08-26,154.27,97,7,USD
+Harbor Lane Bakery,email,2026-08-27,154.54,188,15,USD
+Harbor Lane Bakery,email,2026-08-28,106.65,126,10,USD
+Harbor Lane Bakery,email,2026-08-29,79.96,49,3,USD
+Harbor Lane Bakery,email,2026-08-30,70.41,68,3,USD
+Harbor Lane Bakery,email,2026-08-31,133.58,145,7,USD
+Harbor Lane Bakery,email,2026-09-01,121.86,100,3,USD
+Harbor Lane Bakery,email,2026-09-02,125.96,78,2,USD
+Harbor Lane Bakery,email,2026-09-03,148.68,85,2,USD
+Harbor Lane Bakery,email,2026-09-04,118.46,84,4,USD
+Harbor Lane Bakery,email,2026-09-05,93.07,48,2,USD
+Harbor Lane Bakery,email,2026-09-06,91.64,107,3,USD
+Harbor Lane Bakery,email,2026-09-07,152.44,187,12,USD
+Harbor Lane Bakery,email,2026-09-08,130.23,159,12,USD
+Harbor Lane Bakery,email,2026-09-09,142.64,100,7,USD
+Harbor Lane Bakery,email,2026-09-10,118.11,116,6,USD
+Harbor Lane Bakery,email,2026-09-11,153.36,119,6,USD
+Harbor Lane Bakery,email,2026-09-12,92.66,56,4,USD
+Harbor Lane Bakery,email,2026-09-13,104.68,95,5,USD
+Harbor Lane Bakery,email,2026-09-14,144.48,196,8,USD
+Harbor Lane Bakery,email,2026-09-15,129.55,85,4,USD
+Harbor Lane Bakery,email,2026-09-16,110.77,138,4,USD
+Harbor Lane Bakery,email,2026-09-17,145.56,83,2,USD
+Harbor Lane Bakery,email,2026-09-18,160.38,141,8,USD
+Harbor Lane Bakery,email,2026-09-19,112.46,108,6,USD
+Harbor Lane Bakery,email,2026-09-20,87.09,53,2,USD
+Harbor Lane Bakery,email,2026-09-21,135.35,203,9,USD
+Harbor Lane Bakery,email,2026-09-22,115.84,78,4,USD
+Harbor Lane Bakery,email,2026-09-23,148.72,129,5,USD
+Harbor Lane Bakery,email,2026-09-24,103.52,63,4,USD
+Harbor Lane Bakery,email,2026-09-25,143.62,159,6,USD
+Harbor Lane Bakery,email,2026-09-26,102.5,70,2,USD
+Harbor Lane Bakery,email,2026-09-27,112.24,72,3,USD
+Harbor Lane Bakery,email,2026-09-28,101.86,62,2,USD
+Harbor Lane Bakery,email,2026-09-29,150.14,101,5,USD
+Harbor Lane Bakery,email,2026-09-30,161.15,126,7,USD
+Harbor Lane Bakery,email,2026-10-01,159.74,163,12,USD
+Harbor Lane Bakery,email,2026-10-02,153.08,80,6,USD
+Harbor Lane Bakery,email,2026-10-03,91.84,58,3,USD
+Harbor Lane Bakery,email,2026-10-04,100.58,81,3,USD
+Harbor Lane Bakery,email,2026-10-05,135.87,105,7,USD
+Harbor Lane Bakery,email,2026-10-06,127.43,82,5,USD
+Harbor Lane Bakery,email,2026-10-07,104.5,71,3,USD
+Harbor Lane Bakery,email,2026-10-08,157.08,82,5,USD
+Harbor Lane Bakery,email,2026-10-09,160.77,132,8,USD
+Harbor Lane Bakery,email,2026-10-10,80.01,89,6,USD
+Harbor Lane Bakery,email,2026-10-11,102.76,86,3,USD
+Harbor Lane Bakery,email,2026-10-12,109,63,3,USD
+Harbor Lane Bakery,email,2026-10-13,128.42,85,4,USD
+Harbor Lane Bakery,email,2026-10-14,158.1,138,8,USD
+Harbor Lane Bakery,email,2026-10-15,103.28,60,2,USD
+Harbor Lane Bakery,email,2026-10-16,105.39,130,6,USD
+Harbor Lane Bakery,email,2026-10-17,84.77,100,3,USD
+Harbor Lane Bakery,email,2026-10-18,72.8,54,3,USD
+Harbor Lane Bakery,email,2026-10-19,110.17,68,3,USD
+Harbor Lane Bakery,email,2026-10-20,156.9,84,6,USD
+Harbor Lane Bakery,email,2026-10-21,126.06,74,5,USD
+Harbor Lane Bakery,email,2026-10-22,114.78,61,5,USD
+Harbor Lane Bakery,email,2026-10-23,161.83,135,9,USD
+Harbor Lane Bakery,email,2026-10-24,96.77,62,1,USD
+Harbor Lane Bakery,email,2026-10-25,95.23,131,8,USD
+Harbor Lane Bakery,email,2026-10-26,138.92,88,4,USD
+Harbor Lane Bakery,email,2026-10-27,106.85,73,2,USD
+Harbor Lane Bakery,email,2026-10-28,146.43,105,7,USD
+Harbor Lane Bakery,email,2026-10-29,133.22,69,2,USD
+Harbor Lane Bakery,email,2026-10-30,130.86,90,3,USD
+Harbor Lane Bakery,email,2026-10-31,85.79,76,3,USD
+Pinecrest Physio,search,2026-08-01,116.17,193,14,USD
+Pinecrest Physio,search,2026-08-02,87.96,67,2,USD
+Pinecrest Physio,search,2026-08-03,198.74,270,15,USD
+Pinecrest Physio,search,2026-08-04,151.14,142,9,USD
+Pinecrest Physio,search,2026-08-05,181.67,181,14,USD
+Pinecrest Physio,search,2026-08-06,136.8,94,7,USD
+Pinecrest Physio,search,2026-08-07,129.14,74,4,USD
+Pinecrest Physio,search,2026-08-08,99.93,54,2,USD
+Pinecrest Physio,search,2026-08-09,127.44,151,4,USD
+Pinecrest Physio,search,2026-08-10,149.59,76,3,USD
+Pinecrest Physio,search,2026-08-11,177.46,153,12,USD
+Pinecrest Physio,search,2026-08-12,178.1,218,14,USD
+Pinecrest Physio,search,2026-08-13,197.83,222,10,USD
+Pinecrest Physio,search,2026-08-14,134.85,189,8,USD
+Pinecrest Physio,search,2026-08-15,129.28,87,2,USD
+Pinecrest Physio,search,2026-08-16,99.13,57,1,USD
+Pinecrest Physio,search,2026-08-17,174.4,117,5,USD
+Pinecrest Physio,search,2026-08-18,190.43,126,10,USD
+Pinecrest Physio,search,2026-08-19,195.18,172,6,USD
+Pinecrest Physio,search,2026-08-20,144.25,81,2,USD
+Pinecrest Physio,search,2026-08-21,153.98,139,7,USD
+Pinecrest Physio,search,2026-08-22,94.84,154,9,USD
+Pinecrest Physio,search,2026-08-23,93.29,72,3,USD
+Pinecrest Physio,search,2026-08-24,183.2,254,10,USD
+Pinecrest Physio,search,2026-08-25,135.63,79,6,USD
+Pinecrest Physio,search,2026-08-26,184.83,109,8,USD
+Pinecrest Physio,search,2026-08-27,135.93,97,6,USD
+Pinecrest Physio,search,2026-08-28,149.86,183,10,USD
+Pinecrest Physio,search,2026-08-29,126.14,68,4,USD
+Pinecrest Physio,search,2026-08-30,111.94,134,9,USD
+Pinecrest Physio,search,2026-08-31,161.68,135,9,USD
+Pinecrest Physio,search,2026-09-01,185.09,148,5,USD
+Pinecrest Physio,search,2026-09-02,143.98,119,8,USD
+Pinecrest Physio,search,2026-09-03,145.4,88,7,USD
+Pinecrest Physio,search,2026-09-04,182.37,239,9,USD
+Pinecrest Physio,search,2026-09-05,111.4,57,1,USD
+Pinecrest Physio,search,2026-09-06,97.19,58,2,USD
+Pinecrest Physio,search,2026-09-07,160.55,250,7,USD
+Pinecrest Physio,search,2026-09-08,125.56,80,5,USD
+Pinecrest Physio,search,2026-09-09,138.71,74,4,USD
+Pinecrest Physio,search,2026-09-10,158.96,170,9,USD
+Pinecrest Physio,search,2026-09-11,179.79,164,11,USD
+Pinecrest Physio,search,2026-09-12,94.49,80,6,USD
+Pinecrest Physio,search,2026-09-13,105.11,66,2,USD
+Pinecrest Physio,search,2026-09-14,133.38,78,6,USD
+Pinecrest Physio,search,2026-09-15,184.29,205,12,USD
+Pinecrest Physio,search,2026-09-16,164.53,93,6,USD
+Pinecrest Physio,search,2026-09-17,191.11,154,4,USD
+Pinecrest Physio,search,2026-09-18,192.59,135,4,USD
+Pinecrest Physio,search,2026-09-19,122.94,71,1,USD
+Pinecrest Physio,search,2026-09-20,91.18,117,7,USD
+Pinecrest Physio,search,2026-09-21,160.79,90,3,USD
+Pinecrest Physio,search,2026-09-22,143.23,97,6,USD
+Pinecrest Physio,search,2026-09-23,151.57,94,2,USD
+Pinecrest Physio,search,2026-09-24,155.66,148,8,USD
+Pinecrest Physio,search,2026-09-25,178.66,95,7,USD
+Pinecrest Physio,search,2026-09-26,90.17,58,3,USD
+Pinecrest Physio,search,2026-09-27,133.58,73,4,USD
+Pinecrest Physio,search,2026-09-28,146.45,85,3,USD
+Pinecrest Physio,search,2026-09-29,144.98,156,10,USD
+Pinecrest Physio,search,2026-09-30,123.68,79,2,USD
+Pinecrest Physio,search,2026-10-01,164.77,89,6,USD
+Pinecrest Physio,search,2026-10-02,197.82,112,6,USD
+Pinecrest Physio,search,2026-10-03,113.8,127,7,USD
+Pinecrest Physio,search,2026-10-04,132.07,172,12,USD
+Pinecrest Physio,search,2026-10-05,140.69,79,4,USD
+Pinecrest Physio,search,2026-10-06,124.53,67,1,USD
+Pinecrest Physio,search,2026-10-07,177.08,134,10,USD
+Pinecrest Physio,search,2026-10-08,129.87,165,9,USD
+Pinecrest Physio,search,2026-10-09,200.81,105,8,USD
+Pinecrest Physio,search,2026-10-10,132.78,121,9,USD
+Pinecrest Physio,search,2026-10-11,110.46,126,6,USD
+Pinecrest Physio,search,2026-10-12,154.16,213,11,USD
+Pinecrest Physio,search,2026-10-13,154.21,110,2,USD
+Pinecrest Physio,search,2026-10-14,169,111,6,USD
+Pinecrest Physio,search,2026-10-15,173.86,200,5,USD
+Pinecrest Physio,search,2026-10-16,165.25,94,6,USD
+Pinecrest Physio,search,2026-10-17,100.7,115,3,USD
+Pinecrest Physio,search,2026-10-18,135.65,206,5,USD
+Pinecrest Physio,search,2026-10-19,190.08,118,5,USD
+Pinecrest Physio,search,2026-10-20,142.23,143,9,USD
+Pinecrest Physio,search,2026-10-21,181.19,98,6,USD
+Pinecrest Physio,search,2026-10-22,156.92,79,3,USD
+Pinecrest Physio,search,2026-10-23,190.93,142,5,USD
+Pinecrest Physio,search,2026-10-24,138.13,74,3,USD
+Pinecrest Physio,search,2026-10-25,134.08,191,5,USD
+Pinecrest Physio,search,2026-10-26,131.35,76,4,USD
+Pinecrest Physio,search,2026-10-27,180.67,99,6,USD
+Pinecrest Physio,search,2026-10-28,157.29,218,15,USD
+Pinecrest Physio,search,2026-10-29,141.93,123,8,USD
+Pinecrest Physio,search,2026-10-30,174.24,229,9,USD
+Pinecrest Physio,search,2026-10-31,140.9,115,5,USD
+Pinecrest Physio,display,2026-08-01,69.42,107,3,USD
+Pinecrest Physio,display,2026-08-02,61.63,33,2,USD
+Pinecrest Physio,display,2026-08-03,103.12,79,6,USD
+Pinecrest Physio,display,2026-08-04,117.63,61,5,USD
+Pinecrest Physio,display,2026-08-05,85.18,99,4,USD
+Pinecrest Physio,display,2026-08-06,110.22,146,7,USD
+Pinecrest Physio,display,2026-08-07,122.32,91,2,USD
+Pinecrest Physio,display,2026-08-08,73.32,44,2,USD
+Pinecrest Physio,display,2026-08-09,85.01,122,8,USD
+Pinecrest Physio,display,2026-08-10,89.23,50,3,USD
+Pinecrest Physio,display,2026-08-11,112.86,68,1,USD
+Pinecrest Physio,display,2026-08-12,89.01,61,2,USD
+Pinecrest Physio,display,2026-08-13,120.99,84,5,USD
+Pinecrest Physio,display,2026-08-14,89.58,59,3,USD
+Pinecrest Physio,display,2026-08-15,58.44,87,2,USD
+Pinecrest Physio,display,2026-08-16,91.89,49,2,USD
+Pinecrest Physio,display,2026-08-17,112.83,98,3,USD
+Pinecrest Physio,display,2026-08-18,123.58,85,6,USD
+Pinecrest Physio,display,2026-08-19,124.64,80,6,USD
+Pinecrest Physio,display,2026-08-20,118.87,101,2,USD
+Pinecrest Physio,display,2026-08-21,114.81,81,3,USD
+Pinecrest Physio,display,2026-08-22,66.73,42,3,USD
+Pinecrest Physio,display,2026-08-23,66.13,36,1,USD
+Pinecrest Physio,display,2026-08-24,84.73,51,3,USD
+Pinecrest Physio,display,2026-08-25,101.28,54,4,USD
+Pinecrest Physio,display,2026-08-26,117.65,73,4,USD
+Pinecrest Physio,display,2026-08-27,126.34,66,4,USD
+Pinecrest Physio,display,2026-08-28,130.94,72,5,USD
+Pinecrest Physio,display,2026-08-29,74.97,109,2,USD
+Pinecrest Physio,display,2026-08-30,93.76,53,4,USD
+Pinecrest Physio,display,2026-08-31,111.61,90,2,USD
+Pinecrest Physio,display,2026-09-01,92.97,73,4,USD
+Pinecrest Physio,display,2026-09-02,87.73,44,1,USD
+Pinecrest Physio,display,2026-09-03,109.91,76,4,USD
+Pinecrest Physio,display,2026-09-04,124.26,63,2,USD
+Pinecrest Physio,display,2026-09-05,61.6,62,5,USD
+Pinecrest Physio,display,2026-09-06,66.25,79,4,USD
+Pinecrest Physio,display,2026-09-07,91.77,89,6,USD
+Pinecrest Physio,display,2026-09-08,122.84,71,2,USD
+Pinecrest Physio,display,2026-09-09,130.63,70,1,USD
+Pinecrest Physio,display,2026-09-10,85.18,44,1,USD
+Pinecrest Physio,display,2026-09-11,91.4,74,5,USD
+Pinecrest Physio,display,2026-09-12,63.56,34,2,USD
+Pinecrest Physio,display,2026-09-13,91.34,57,2,USD
+Pinecrest Physio,display,2026-09-14,133.59,120,5,USD
+Pinecrest Physio,display,2026-09-15,108.24,112,5,USD
+Pinecrest Physio,display,2026-09-16,93.28,51,1,USD
+Pinecrest Physio,display,2026-09-17,81.19,88,2,USD
+Pinecrest Physio,display,2026-09-18,103.69,128,6,USD
+Pinecrest Physio,display,2026-09-19,73.01,61,4,USD
+Pinecrest Physio,display,2026-09-20,91.52,130,10,USD
+Pinecrest Physio,display,2026-09-21,108.58,59,4,USD
+Pinecrest Physio,display,2026-09-22,100.53,66,4,USD
+Pinecrest Physio,display,2026-09-23,119.65,66,3,USD
+Pinecrest Physio,display,2026-09-24,93.64,47,2,USD
+Pinecrest Physio,display,2026-09-25,104.11,75,6,USD
+Pinecrest Physio,display,2026-09-26,65.36,48,2,USD
+Pinecrest Physio,display,2026-09-27,73.98,39,2,USD
+Pinecrest Physio,display,2026-09-28,133.49,203,11,USD
+Pinecrest Physio,display,2026-09-29,133.81,165,6,USD
+Pinecrest Physio,display,2026-09-30,127.64,133,3,USD
+Pinecrest Physio,display,2026-10-01,98.39,63,2,USD
+Pinecrest Physio,display,2026-10-02,125.27,107,8,USD
+Pinecrest Physio,display,2026-10-03,59.62,52,3,USD
+Pinecrest Physio,display,2026-10-04,70.12,37,3,USD
+Pinecrest Physio,display,2026-10-05,125.85,79,2,USD
+Pinecrest Physio,display,2026-10-06,114.82,61,3,USD
+Pinecrest Physio,display,2026-10-07,91.25,139,9,USD
+Pinecrest Physio,display,2026-10-08,97.46,63,4,USD
+Pinecrest Physio,display,2026-10-09,101.8,59,4,USD
+Pinecrest Physio,display,2026-10-10,89.78,56,1,USD
+Pinecrest Physio,display,2026-10-11,71.32,65,5,USD
+Pinecrest Physio,display,2026-10-12,116.36,106,3,USD
+Pinecrest Physio,display,2026-10-13,88.18,105,5,USD
+Pinecrest Physio,display,2026-10-14,118.99,65,4,USD
+Pinecrest Physio,display,2026-10-15,96.21,88,6,USD
+Pinecrest Physio,display,2026-10-16,122.17,93,7,USD
+Pinecrest Physio,display,2026-10-17,82.56,67,3,USD
+Pinecrest Physio,display,2026-10-18,84.73,73,4,USD
+Pinecrest Physio,display,2026-10-19,89,45,2,USD
+Pinecrest Physio,display,2026-10-20,101.07,85,4,USD
+Pinecrest Physio,display,2026-10-21,111.24,126,8,USD
+Pinecrest Physio,display,2026-10-22,133.74,75,2,USD
+Pinecrest Physio,display,2026-10-23,98.11,66,2,USD
+Pinecrest Physio,display,2026-10-24,68.01,88,6,USD
+Pinecrest Physio,display,2026-10-25,57.1,35,1,USD
+Pinecrest Physio,display,2026-10-26,93.26,62,3,USD
+Pinecrest Physio,display,2026-10-27,130.25,138,6,USD
+Pinecrest Physio,display,2026-10-28,128.2,125,5,USD
+Pinecrest Physio,display,2026-10-29,131.92,208,13,USD
+Pinecrest Physio,display,2026-10-30,82.31,113,7,USD
+Pinecrest Physio,display,2026-10-31,75.6,105,8,USD
+Orchard & Vine,social,2026-08-01,62.21,37,2,EUR
+Orchard & Vine,social,2026-08-02,95.62,153,12,EUR
+Orchard & Vine,social,2026-08-03,102.72,55,4,EUR
+Orchard & Vine,social,2026-08-04,139.08,119,5,EUR
+Orchard & Vine,social,2026-08-05,124.27,104,4,EUR
+Orchard & Vine,social,2026-08-06,118.32,64,4,EUR
+Orchard & Vine,social,2026-08-07,128.23,84,6,EUR
+Orchard & Vine,social,2026-08-08,92.42,59,4,EUR
+Orchard & Vine,social,2026-08-09,84.22,62,2,EUR
+Orchard & Vine,social,2026-08-10,94.15,48,2,EUR
+Orchard & Vine,social,2026-08-11,97.73,82,6,EUR
+Orchard & Vine,social,2026-08-12,127.6,78,5,EUR
+Orchard & Vine,social,2026-08-13,102.03,91,3,EUR
+Orchard & Vine,social,2026-08-14,102.76,79,2,EUR
+Orchard & Vine,social,2026-08-15,68.9,35,1,EUR
+Orchard & Vine,social,2026-08-16,67.53,37,1,EUR
+Orchard & Vine,social,2026-08-17,124.9,81,2,EUR
+Orchard & Vine,social,2026-08-18,99.06,114,8,EUR
+Orchard & Vine,social,2026-08-19,121.96,75,3,EUR
+Orchard & Vine,social,2026-08-20,106.01,73,4,EUR
+Orchard & Vine,social,2026-08-21,126.43,118,7,EUR
+Orchard & Vine,social,2026-08-22,69.21,79,3,EUR
+Orchard & Vine,social,2026-08-23,65.74,57,4,EUR
+Orchard & Vine,social,2026-08-24,133.04,80,2,EUR
+Orchard & Vine,social,2026-08-25,129.94,67,4,EUR
+Orchard & Vine,social,2026-08-26,118.26,125,5,EUR
+Orchard & Vine,social,2026-08-27,136.62,76,3,EUR
+Orchard & Vine,social,2026-08-28,98.28,52,1,EUR
+Orchard & Vine,social,2026-08-29,61.22,69,2,EUR
+Orchard & Vine,social,2026-08-30,65.38,33,1,EUR
+Orchard & Vine,social,2026-08-31,137.1,124,6,EUR
+Orchard & Vine,social,2026-09-01,89.14,57,2,EUR
+Orchard & Vine,social,2026-09-02,88.01,54,4,EUR
+Orchard & Vine,social,2026-09-03,128.92,84,5,EUR
+Orchard & Vine,social,2026-09-04,85.46,65,3,EUR
+Orchard & Vine,social,2026-09-05,72.97,72,3,EUR
+Orchard & Vine,social,2026-09-06,63.29,32,3,EUR
+Orchard & Vine,social,2026-09-07,130.82,78,6,EUR
+Orchard & Vine,social,2026-09-08,109.51,70,5,EUR
+Orchard & Vine,social,2026-09-09,124.98,126,9,EUR
+Orchard & Vine,social,2026-09-10,111.58,59,3,EUR
+Orchard & Vine,social,2026-09-11,135.28,102,4,EUR
+Orchard & Vine,social,2026-09-12,81.22,73,4,EUR
+Orchard & Vine,social,2026-09-13,81.56,59,4,EUR
+Orchard & Vine,social,2026-09-14,98.76,136,10,EUR
+Orchard & Vine,social,2026-09-15,132.96,109,6,EUR
+Orchard & Vine,social,2026-09-16,136.66,105,7,EUR
+Orchard & Vine,social,2026-09-17,110.1,64,4,EUR
+Orchard & Vine,social,2026-09-18,90.41,53,1,EUR
+Orchard & Vine,social,2026-09-19,80.75,63,3,EUR
+Orchard & Vine,social,2026-09-20,92.44,64,5,EUR
+Orchard & Vine,social,2026-09-21,118.13,116,4,EUR
+Orchard & Vine,social,2026-09-22,96.84,134,7,EUR
+Orchard & Vine,social,2026-09-23,100.52,81,6,EUR
+Orchard & Vine,social,2026-09-24,99.46,157,6,EUR
+Orchard & Vine,social,2026-09-25,85.86,65,4,EUR
+Orchard & Vine,social,2026-09-26,90.63,130,9,EUR
+Orchard & Vine,social,2026-09-27,95.11,132,10,EUR
+Orchard & Vine,social,2026-09-28,112.05,155,6,EUR
+Orchard & Vine,social,2026-09-29,109.69,69,5,EUR
+Orchard & Vine,social,2026-09-30,122.21,114,5,EUR
+Orchard & Vine,social,2026-10-01,134.43,186,8,EUR
+Orchard & Vine,social,2026-10-02,111.33,110,4,EUR
+Orchard & Vine,social,2026-10-03,60.33,38,1,EUR
+Orchard & Vine,social,2026-10-04,77.97,53,2,EUR
+Orchard & Vine,social,2026-10-05,89.36,88,2,EUR
+Orchard & Vine,social,2026-10-06,118.51,115,7,EUR
+Orchard & Vine,social,2026-10-07,104.33,94,7,EUR
+Orchard & Vine,social,2026-10-08,91.34,143,8,EUR
+Orchard & Vine,social,2026-10-09,122.81,112,6,EUR
+Orchard & Vine,social,2026-10-10,77.11,102,4,EUR
+Orchard & Vine,social,2026-10-11,90.53,51,2,EUR
+Orchard & Vine,social,2026-10-12,112.62,58,5,EUR
+Orchard & Vine,social,2026-10-13,84.52,68,2,EUR
+Orchard & Vine,social,2026-10-14,123.43,109,6,EUR
+Orchard & Vine,social,2026-10-15,114.17,93,3,EUR
+Orchard & Vine,social,2026-10-16,92.42,117,7,EUR
+Orchard & Vine,social,2026-10-17,67.3,61,1,EUR
+Orchard & Vine,social,2026-10-18,66.97,51,4,EUR
+Orchard & Vine,social,2026-10-19,109.37,66,4,EUR
+Orchard & Vine,social,2026-10-20,85.6,78,6,EUR
+Orchard & Vine,social,2026-10-21,126.84,64,2,EUR
+Orchard & Vine,social,2026-10-22,125.6,118,8,EUR
+Orchard & Vine,social,2026-10-23,107.17,55,4,EUR
+Orchard & Vine,social,2026-10-24,61.87,49,2,EUR
+Orchard & Vine,social,2026-10-25,96.14,79,3,EUR
+Orchard & Vine,social,2026-10-26,109.35,62,2,EUR
+Orchard & Vine,social,2026-10-27,139.63,148,6,EUR
+Orchard & Vine,social,2026-10-28,121.69,152,4,EUR
+Orchard & Vine,social,2026-10-29,94.78,60,1,EUR
+Orchard & Vine,social,2026-10-30,88.86,60,2,EUR
+Orchard & Vine,social,2026-10-31,69.93,39,2,EUR
+Orchard & Vine,video,2026-08-01,53.46,36,1,EUR
+Orchard & Vine,video,2026-08-02,53.9,59,5,EUR
+Orchard & Vine,video,2026-08-03,96.28,58,2,EUR
+Orchard & Vine,video,2026-08-04,94.86,51,3,EUR
+Orchard & Vine,video,2026-08-05,86.85,54,3,EUR
+Orchard & Vine,video,2026-08-06,86.74,57,4,EUR
+Orchard & Vine,video,2026-08-07,85.62,107,7,EUR
+Orchard & Vine,video,2026-08-08,58.06,50,2,EUR
+Orchard & Vine,video,2026-08-09,49.83,27,1,EUR
+Orchard & Vine,video,2026-08-10,84.5,106,8,EUR
+Orchard & Vine,video,2026-08-11,104.39,85,4,EUR
+Orchard & Vine,video,2026-08-12,109.74,105,6,EUR
+Orchard & Vine,video,2026-08-13,83.92,134,10,EUR
+Orchard & Vine,video,2026-08-14,102.59,98,6,EUR
+Orchard & Vine,video,2026-08-15,58.31,65,1,EUR
+Orchard & Vine,video,2026-08-16,66.04,80,4,EUR
+Orchard & Vine,video,2026-08-17,82.68,56,3,EUR
+Orchard & Vine,video,2026-08-18,74.35,57,2,EUR
+Orchard & Vine,video,2026-08-19,71.53,61,3,EUR
+Orchard & Vine,video,2026-08-20,104.22,58,2,EUR
+Orchard & Vine,video,2026-08-21,76.41,71,4,EUR
+Orchard & Vine,video,2026-08-22,72.06,62,5,EUR
+Orchard & Vine,video,2026-08-23,72.53,78,2,EUR
+Orchard & Vine,video,2026-08-24,94.52,57,3,EUR
+Orchard & Vine,video,2026-08-25,114.75,173,5,EUR
+Orchard & Vine,video,2026-08-26,100.12,100,7,EUR
+Orchard & Vine,video,2026-08-27,98.49,132,8,EUR
+Orchard & Vine,video,2026-08-28,75.64,44,3,EUR
+Orchard & Vine,video,2026-08-29,81.59,60,4,EUR
+Orchard & Vine,video,2026-08-30,60.43,58,2,EUR
+Orchard & Vine,video,2026-08-31,108.61,67,3,EUR
+Orchard & Vine,video,2026-09-01,108.62,82,5,EUR
+Orchard & Vine,video,2026-09-02,94.26,99,6,EUR
+Orchard & Vine,video,2026-09-03,72.7,94,5,EUR
+Orchard & Vine,video,2026-09-04,82.87,102,8,EUR
+Orchard & Vine,video,2026-09-05,55.54,52,2,EUR
+Orchard & Vine,video,2026-09-06,68.47,35,1,EUR
+Orchard & Vine,video,2026-09-07,90.55,59,4,EUR
+Orchard & Vine,video,2026-09-08,96.47,66,5,EUR
+Orchard & Vine,video,2026-09-09,100.85,60,4,EUR
+Orchard & Vine,video,2026-09-10,105.74,71,3,EUR
+Orchard & Vine,video,2026-09-11,110.34,79,3,EUR
+Orchard & Vine,video,2026-09-12,65.24,38,2,EUR
+Orchard & Vine,video,2026-09-13,69.96,59,4,EUR
+Orchard & Vine,video,2026-09-14,83.37,54,1,EUR
+Orchard & Vine,video,2026-09-15,105.25,80,6,EUR
+Orchard & Vine,video,2026-09-16,92.17,51,4,EUR
+Orchard & Vine,video,2026-09-17,107.66,88,5,EUR
+Orchard & Vine,video,2026-09-18,78.12,118,4,EUR
+Orchard & Vine,video,2026-09-19,79.69,59,1,EUR
+Orchard & Vine,video,2026-09-20,57.45,29,1,EUR
+Orchard & Vine,video,2026-09-21,112.99,180,8,EUR
+Orchard & Vine,video,2026-09-22,76.1,43,2,EUR
+Orchard & Vine,video,2026-09-23,104.53,82,5,EUR
+Orchard & Vine,video,2026-09-24,83.45,45,3,EUR
+Orchard & Vine,video,2026-09-25,116.93,87,6,EUR
+Orchard & Vine,video,2026-09-26,59.33,46,1,EUR
+Orchard & Vine,video,2026-09-27,56.3,46,2,EUR
+Orchard & Vine,video,2026-09-28,75.3,86,3,EUR
+Orchard & Vine,video,2026-09-29,76.67,84,5,EUR
+Orchard & Vine,video,2026-09-30,114.01,87,5,EUR
+Orchard & Vine,video,2026-10-01,92.33,61,2,EUR
+Orchard & Vine,video,2026-10-02,77.36,46,3,EUR
+Orchard & Vine,video,2026-10-03,50.74,29,1,EUR
+Orchard & Vine,video,2026-10-04,55.04,63,1,EUR
+Orchard & Vine,video,2026-10-05,71.84,45,1,EUR
+Orchard & Vine,video,2026-10-06,71.16,56,1,EUR
+Orchard & Vine,video,2026-10-07,115.46,98,3,EUR
+Orchard & Vine,video,2026-10-08,83.58,93,7,EUR
+Orchard & Vine,video,2026-10-09,71.82,55,2,EUR
+Orchard & Vine,video,2026-10-10,69.37,85,6,EUR
+Orchard & Vine,video,2026-10-11,50.22,67,5,EUR
+Orchard & Vine,video,2026-10-12,111.43,58,4,EUR
+Orchard & Vine,video,2026-10-13,98.59,164,12,EUR
+Orchard & Vine,video,2026-10-14,93.59,156,12,EUR
+Orchard & Vine,video,2026-10-15,101.37,87,4,EUR
+Orchard & Vine,video,2026-10-16,100.35,77,6,EUR
+Orchard & Vine,video,2026-10-17,62.59,94,3,EUR
+Orchard & Vine,video,2026-10-18,69.57,59,3,EUR
+Orchard & Vine,video,2026-10-19,106.2,66,1,EUR
+Orchard & Vine,video,2026-10-20,87.11,68,3,EUR
+Orchard & Vine,video,2026-10-21,73.32,83,3,EUR
+Orchard & Vine,video,2026-10-22,94.24,73,2,EUR
+Orchard & Vine,video,2026-10-23,83.49,88,3,EUR
+Orchard & Vine,video,2026-10-24,75.97,71,4,EUR
+Orchard & Vine,video,2026-10-25,68.23,41,3,EUR
+Orchard & Vine,video,2026-10-26,114.91,98,3,EUR
+Orchard & Vine,video,2026-10-27,104.2,143,10,EUR
+Orchard & Vine,video,2026-10-28,76.73,80,5,EUR
+Orchard & Vine,video,2026-10-29,104.46,59,4,EUR
+Orchard & Vine,video,2026-10-30,85,55,1,EUR
+Orchard & Vine,video,2026-10-31,80.8,41,3,EUR
+Orchard & Vine,search,2026-08-01,58.77,46,1,EUR
+Orchard & Vine,search,2026-08-02,82.2,89,6,EUR
+Orchard & Vine,search,2026-08-03,78.11,54,4,EUR
+Orchard & Vine,search,2026-08-04,81.13,129,6,EUR
+Orchard & Vine,search,2026-08-05,79.32,59,2,EUR
+Orchard & Vine,search,2026-08-06,83.09,125,9,EUR
+Orchard & Vine,search,2026-08-07,96.96,79,3,EUR
+Orchard & Vine,search,2026-08-08,60.95,64,4,EUR
+Orchard & Vine,search,2026-08-09,64.09,34,2,EUR
+Orchard & Vine,search,2026-08-10,107.62,151,7,EUR
+Orchard & Vine,search,2026-08-11,107.07,91,4,EUR
+Orchard & Vine,search,2026-08-12,104.29,155,5,EUR
+Orchard & Vine,search,2026-08-13,111.28,57,3,EUR
+Orchard & Vine,search,2026-08-14,121.08,71,5,EUR
+Orchard & Vine,search,2026-08-15,61.56,38,2,EUR
+Orchard & Vine,search,2026-08-16,86.61,48,3,EUR
+Orchard & Vine,search,2026-08-17,99.06,54,1,EUR
+Orchard & Vine,search,2026-08-18,82.52,83,4,EUR
+Orchard & Vine,search,2026-08-19,91.94,89,5,EUR
+Orchard & Vine,search,2026-08-20,110.77,76,4,EUR
+Orchard & Vine,search,2026-08-21,93.95,53,4,EUR
+Orchard & Vine,search,2026-08-22,73.68,61,2,EUR
+Orchard & Vine,search,2026-08-23,78.65,40,2,EUR
+Orchard & Vine,search,2026-08-24,91.35,96,7,EUR
+Orchard & Vine,search,2026-08-25,90.02,126,9,EUR
+Orchard & Vine,search,2026-08-26,124.45,114,4,EUR
+Orchard & Vine,search,2026-08-27,107.49,66,5,EUR
+Orchard & Vine,search,2026-08-28,110.17,62,4,EUR
+Orchard & Vine,search,2026-08-29,76.55,72,5,EUR
+Orchard & Vine,search,2026-08-30,65,47,2,EUR
+Orchard & Vine,search,2026-08-31,102.8,54,2,EUR
+Orchard & Vine,search,2026-09-01,76.62,46,3,EUR
+Orchard & Vine,search,2026-09-02,87.52,50,3,EUR
+Orchard & Vine,search,2026-09-03,111.59,99,3,EUR
+Orchard & Vine,search,2026-09-04,107.59,57,3,EUR
+Orchard & Vine,search,2026-09-05,75.87,46,1,EUR
+Orchard & Vine,search,2026-09-06,83.99,64,2,EUR
+Orchard & Vine,search,2026-09-07,117.7,95,4,EUR
+Orchard & Vine,search,2026-09-08,98.42,143,9,EUR
+Orchard & Vine,search,2026-09-09,110.93,139,10,EUR
+Orchard & Vine,search,2026-09-10,95.26,68,2,EUR
+Orchard & Vine,search,2026-09-11,116.94,69,4,EUR
+Orchard & Vine,search,2026-09-12,73.64,37,2,EUR
+Orchard & Vine,search,2026-09-13,68.44,66,2,EUR
+Orchard & Vine,search,2026-09-14,111.99,61,5,EUR
+Orchard & Vine,search,2026-09-15,89.12,46,3,EUR
+Orchard & Vine,search,2026-09-16,87.62,82,4,EUR
+Orchard & Vine,search,2026-09-17,118.32,89,5,EUR
+Orchard & Vine,search,2026-09-18,99.44,94,7,EUR
+Orchard & Vine,search,2026-09-19,54.86,82,6,EUR
+Orchard & Vine,search,2026-09-20,67.55,40,1,EUR
+Orchard & Vine,search,2026-09-21,83.94,67,2,EUR
+Orchard & Vine,search,2026-09-22,92.6,65,3,EUR
+Orchard & Vine,search,2026-09-23,101.4,154,9,EUR
+Orchard & Vine,search,2026-09-24,81.16,81,5,EUR
+Orchard & Vine,search,2026-09-25,101.94,96,5,EUR
+Orchard & Vine,search,2026-09-26,57.76,53,2,EUR
+Orchard & Vine,search,2026-09-27,60.99,33,3,EUR
+Orchard & Vine,search,2026-09-28,106.07,61,5,EUR
+Orchard & Vine,search,2026-09-29,75.92,49,3,EUR
+Orchard & Vine,search,2026-09-30,84.53,103,8,EUR
+Orchard & Vine,search,2026-10-01,94.28,51,3,EUR
+Orchard & Vine,search,2026-10-02,117.61,132,8,EUR
+Orchard & Vine,search,2026-10-03,85.43,47,3,EUR
+Orchard & Vine,search,2026-10-04,74.01,44,1,EUR
+Orchard & Vine,search,2026-10-05,86.06,46,2,EUR
+Orchard & Vine,search,2026-10-06,83.57,103,5,EUR
+Orchard & Vine,search,2026-10-07,89.2,106,7,EUR
+Orchard & Vine,search,2026-10-08,78.88,75,2,EUR
+Orchard & Vine,search,2026-10-09,116.86,103,7,EUR
+Orchard & Vine,search,2026-10-10,55.99,29,2,EUR
+Orchard & Vine,search,2026-10-11,66.81,46,2,EUR
+Orchard & Vine,search,2026-10-12,121.89,132,8,EUR
+Orchard & Vine,search,2026-10-13,94.71,62,4,EUR
+Orchard & Vine,search,2026-10-14,122.82,186,6,EUR
+Orchard & Vine,search,2026-10-15,103.86,64,1,EUR
+Orchard & Vine,search,2026-10-16,109.11,63,5,EUR
+Orchard & Vine,search,2026-10-17,77.14,51,3,EUR
+Orchard & Vine,search,2026-10-18,85.36,43,2,EUR
+Orchard & Vine,search,2026-10-19,98.85,63,2,EUR
+Orchard & Vine,search,2026-10-20,102.12,80,5,EUR
+Orchard & Vine,search,2026-10-21,100.93,167,7,EUR
+Orchard & Vine,search,2026-10-22,104.47,61,3,EUR
+Orchard & Vine,search,2026-10-23,98.85,70,5,EUR
+Orchard & Vine,search,2026-10-24,64.36,80,2,EUR
+Orchard & Vine,search,2026-10-25,56.48,39,2,EUR
+Orchard & Vine,search,2026-10-26,103.71,163,9,EUR
+Orchard & Vine,search,2026-10-27,83.69,107,3,EUR
+Orchard & Vine,search,2026-10-28,124.06,172,7,EUR
+Orchard & Vine,search,2026-10-29,101.3,149,9,EUR
+Orchard & Vine,search,2026-10-30,121.5,63,3,EUR
+Orchard & Vine,search,2026-10-31,55.61,31,2,EUR
+Summit Yoga,social,2026-08-01,65.21,52,2,USD
+Summit Yoga,social,2026-08-02,40.93,54,2,USD
+Summit Yoga,social,2026-08-03,95.42,93,2,USD
+Summit Yoga,social,2026-08-04,86.29,133,6,USD
+Summit Yoga,social,2026-08-05,82.19,106,4,USD
+Summit Yoga,social,2026-08-06,63.55,32,2,USD
+Summit Yoga,social,2026-08-07,75.89,60,2,USD
+Summit Yoga,social,2026-08-08,45.36,23,1,USD
+Summit Yoga,social,2026-08-09,66.31,43,2,USD
+Summit Yoga,social,2026-08-10,71.8,43,2,USD
+Summit Yoga,social,2026-08-11,73.69,59,1,USD
+Summit Yoga,social,2026-08-12,60.19,55,1,USD
+Summit Yoga,social,2026-08-13,92.12,66,3,USD
+Summit Yoga,social,2026-08-14,90.78,97,3,USD
+Summit Yoga,social,2026-08-15,53.5,32,1,USD
+Summit Yoga,social,2026-08-16,63.44,38,1,USD
+Summit Yoga,social,2026-08-17,77.17,109,7,USD
+Summit Yoga,social,2026-08-18,58.15,80,3,USD
+Summit Yoga,social,2026-08-19,83.98,50,3,USD
+Summit Yoga,social,2026-08-20,70.1,55,3,USD
+Summit Yoga,social,2026-08-21,89.87,61,4,USD
+Summit Yoga,social,2026-08-22,58.9,50,2,USD
+Summit Yoga,social,2026-08-23,58.05,55,3,USD
+Summit Yoga,social,2026-08-24,86.59,51,2,USD
+Summit Yoga,social,2026-08-25,93.14,80,6,USD
+Summit Yoga,social,2026-08-26,66.44,50,3,USD
+Summit Yoga,social,2026-08-27,76.89,56,2,USD
+Summit Yoga,social,2026-08-28,63.25,44,2,USD
+Summit Yoga,social,2026-08-29,47.67,27,1,USD
+Summit Yoga,social,2026-08-30,67.06,38,1,USD
+Summit Yoga,social,2026-08-31,64.43,63,4,USD
+Summit Yoga,social,2026-09-01,72.14,68,4,USD
+Summit Yoga,social,2026-09-02,70.94,41,2,USD
+Summit Yoga,social,2026-09-03,93.59,96,7,USD
+Summit Yoga,social,2026-09-04,61.4,101,3,USD
+Summit Yoga,social,2026-09-05,53.66,36,1,USD
+Summit Yoga,social,2026-09-06,62.58,68,5,USD
+Summit Yoga,social,2026-09-07,63.25,75,4,USD
+Summit Yoga,social,2026-09-08,70.21,42,1,USD
+Summit Yoga,social,2026-09-09,93.09,53,2,USD
+Summit Yoga,social,2026-09-10,72.02,45,2,USD
+Summit Yoga,social,2026-09-11,85.77,79,5,USD
+Summit Yoga,social,2026-09-12,41.12,48,1,USD
+Summit Yoga,social,2026-09-13,48.94,25,1,USD
+Summit Yoga,social,2026-09-14,74.87,56,3,USD
+Summit Yoga,social,2026-09-15,85.49,96,4,USD
+Summit Yoga,social,2026-09-16,94.5,92,3,USD
+Summit Yoga,social,2026-09-17,90.5,110,2,USD
+Summit Yoga,social,2026-09-18,95.97,107,8,USD
+Summit Yoga,social,2026-09-19,65.64,51,1,USD
+Summit Yoga,social,2026-09-20,58.32,37,1,USD
+Summit Yoga,social,2026-09-21,88.77,49,2,USD
+Summit Yoga,social,2026-09-22,87.31,59,4,USD
+Summit Yoga,social,2026-09-23,58.31,93,7,USD
+Summit Yoga,social,2026-09-24,83.12,110,3,USD
+Summit Yoga,social,2026-09-25,78.5,45,2,USD
+Summit Yoga,social,2026-09-26,54.05,30,1,USD
+Summit Yoga,social,2026-09-27,49.66,32,1,USD
+Summit Yoga,social,2026-09-28,71.21,66,5,USD
+Summit Yoga,social,2026-09-29,72.8,37,1,USD
+Summit Yoga,social,2026-09-30,65.03,46,2,USD
+Summit Yoga,social,2026-10-01,74.21,57,1,USD
+Summit Yoga,social,2026-10-02,69.05,52,4,USD
+Summit Yoga,social,2026-10-03,61.24,39,3,USD
+Summit Yoga,social,2026-10-04,62.09,33,2,USD
+Summit Yoga,social,2026-10-05,89.46,114,4,USD
+Summit Yoga,social,2026-10-06,88.56,79,4,USD
+Summit Yoga,social,2026-10-07,60.14,38,2,USD
+Summit Yoga,social,2026-10-08,95.92,52,4,USD
+Summit Yoga,social,2026-10-09,91.92,52,3,USD
+Summit Yoga,social,2026-10-10,57.61,83,3,USD
+Summit Yoga,social,2026-10-11,59.32,69,3,USD
+Summit Yoga,social,2026-10-12,78.46,123,8,USD
+Summit Yoga,social,2026-10-13,91.38,130,7,USD
+Summit Yoga,social,2026-10-14,62.3,72,5,USD
+Summit Yoga,social,2026-10-15,70.77,115,4,USD
+Summit Yoga,social,2026-10-16,88.36,64,3,USD
+Summit Yoga,social,2026-10-17,55.24,29,1,USD
+Summit Yoga,social,2026-10-18,57.48,32,2,USD
+Summit Yoga,social,2026-10-19,62.08,68,3,USD
+Summit Yoga,social,2026-10-20,59.94,93,6,USD
+Summit Yoga,social,2026-10-21,68.76,37,2,USD
+Summit Yoga,social,2026-10-22,77.79,56,4,USD
+Summit Yoga,social,2026-10-23,71.74,37,3,USD
+Summit Yoga,social,2026-10-24,60.5,66,5,USD
+Summit Yoga,social,2026-10-25,57.11,51,1,USD
+Summit Yoga,social,2026-10-26,92.72,61,2,USD
+Summit Yoga,social,2026-10-27,92.06,66,5,USD
+Summit Yoga,social,2026-10-28,80.49,78,3,USD
+Summit Yoga,social,2026-10-29,85.44,121,4,USD
+Summit Yoga,social,2026-10-30,79.6,64,2,USD
+Summit Yoga,social,2026-10-31,52.45,74,5,USD
+Summit Yoga,email,2026-08-01,43.75,32,2,USD
+Summit Yoga,email,2026-08-02,49.08,38,2,USD
+Summit Yoga,email,2026-08-03,50.15,35,1,USD
+Summit Yoga,email,2026-08-04,65.07,106,8,USD
+Summit Yoga,email,2026-08-05,49.54,55,2,USD
+Summit Yoga,email,2026-08-06,56.29,56,2,USD
+Summit Yoga,email,2026-08-07,59.66,54,4,USD
+Summit Yoga,email,2026-08-08,38.46,25,1,USD
+Summit Yoga,email,2026-08-09,53.5,34,1,USD
+Summit Yoga,email,2026-08-10,70.06,73,5,USD
+Summit Yoga,email,2026-08-11,78.89,101,4,USD
+Summit Yoga,email,2026-08-12,73.35,56,1,USD
+Summit Yoga,email,2026-08-13,70.23,56,4,USD
+Summit Yoga,email,2026-08-14,65.98,66,4,USD
+Summit Yoga,email,2026-08-15,38.66,22,1,USD
+Summit Yoga,email,2026-08-16,52.04,54,1,USD
+Summit Yoga,email,2026-08-17,77.76,43,3,USD
+Summit Yoga,email,2026-08-18,64.22,35,1,USD
+Summit Yoga,email,2026-08-19,52.11,38,3,USD
+Summit Yoga,email,2026-08-20,72.06,45,2,USD
+Summit Yoga,email,2026-08-21,81.76,69,2,USD
+Summit Yoga,email,2026-08-22,39.25,20,1,USD
+Summit Yoga,email,2026-08-23,36.01,20,1,USD
+Summit Yoga,email,2026-08-24,78.32,56,3,USD
+Summit Yoga,email,2026-08-25,74.1,64,2,USD
+Summit Yoga,email,2026-08-26,60.22,55,2,USD
+Summit Yoga,email,2026-08-27,77.4,42,3,USD
+Summit Yoga,email,2026-08-28,70.52,69,2,USD
+Summit Yoga,email,2026-08-29,44.13,29,1,USD
+Summit Yoga,email,2026-08-30,55.42,41,3,USD
+Summit Yoga,email,2026-08-31,56.78,66,2,USD
+Summit Yoga,email,2026-09-01,67.48,73,2,USD
+Summit Yoga,email,2026-09-02,80.25,99,4,USD
+Summit Yoga,email,2026-09-03,49.47,75,2,USD
+Summit Yoga,email,2026-09-04,66.89,35,2,USD
+Summit Yoga,email,2026-09-05,37.21,30,2,USD
+Summit Yoga,email,2026-09-06,41.21,30,2,USD
+Summit Yoga,email,2026-09-07,54.67,63,2,USD
+Summit Yoga,email,2026-09-08,64.92,35,2,USD
+Summit Yoga,email,2026-09-09,75.44,55,3,USD
+Summit Yoga,email,2026-09-10,63.97,79,4,USD
+Summit Yoga,email,2026-09-11,76.17,43,3,USD
+Summit Yoga,email,2026-09-12,47.75,26,2,USD
+Summit Yoga,email,2026-09-13,38.09,24,2,USD
+Summit Yoga,email,2026-09-14,56.74,30,1,USD
+Summit Yoga,email,2026-09-15,71.53,46,3,USD
+Summit Yoga,email,2026-09-16,67.24,48,2,USD
+Summit Yoga,email,2026-09-17,68.69,48,3,USD
+Summit Yoga,email,2026-09-18,75.74,43,3,USD
+Summit Yoga,email,2026-09-19,52.91,28,2,USD
+Summit Yoga,email,2026-09-20,46.73,33,1,USD
+Summit Yoga,email,2026-09-21,80.35,63,3,USD
+Summit Yoga,email,2026-09-22,55.72,28,2,USD
+Summit Yoga,email,2026-09-23,70.78,45,1,USD
+Summit Yoga,email,2026-09-24,62.67,52,2,USD
+Summit Yoga,email,2026-09-25,63.52,44,3,USD
+Summit Yoga,email,2026-09-26,41.04,44,3,USD
+Summit Yoga,email,2026-09-27,41.46,53,3,USD
+Summit Yoga,email,2026-09-28,80.55,44,3,USD
+Summit Yoga,email,2026-09-29,64.46,71,5,USD
+Summit Yoga,email,2026-09-30,70.96,61,1,USD
+Summit Yoga,email,2026-10-01,76.64,126,9,USD
+Summit Yoga,email,2026-10-02,67.21,41,2,USD
+Summit Yoga,email,2026-10-03,45.32,55,2,USD
+Summit Yoga,email,2026-10-04,34.61,30,2,USD
+Summit Yoga,email,2026-10-05,50.41,31,2,USD
+Summit Yoga,email,2026-10-06,70.36,37,2,USD
+Summit Yoga,email,2026-10-07,67.07,61,2,USD
+Summit Yoga,email,2026-10-08,72.22,42,2,USD
+Summit Yoga,email,2026-10-09,52.76,57,3,USD
+Summit Yoga,email,2026-10-10,47.51,35,2,USD
+Summit Yoga,email,2026-10-11,34.75,26,1,USD
+Summit Yoga,email,2026-10-12,71.39,96,7,USD
+Summit Yoga,email,2026-10-13,54.36,31,2,USD
+Summit Yoga,email,2026-10-14,79.49,60,3,USD
+Summit Yoga,email,2026-10-15,70.36,42,2,USD
+Summit Yoga,email,2026-10-16,55.04,34,2,USD
+Summit Yoga,email,2026-10-17,57.15,30,2,USD
+Summit Yoga,email,2026-10-18,41.53,45,1,USD
+Summit Yoga,email,2026-10-19,60.53,78,3,USD
+Summit Yoga,email,2026-10-20,70.69,42,2,USD
+Summit Yoga,email,2026-10-21,73.62,57,3,USD
+Summit Yoga,email,2026-10-22,62.69,43,2,USD
+Summit Yoga,email,2026-10-23,69.47,73,3,USD
+Summit Yoga,email,2026-10-24,49.49,39,2,USD
+Summit Yoga,email,2026-10-25,37.65,30,1,USD
+Summit Yoga,email,2026-10-26,56.59,34,1,USD
+Summit Yoga,email,2026-10-27,70.29,48,4,USD
+Summit Yoga,email,2026-10-28,79.97,66,3,USD
+Summit Yoga,email,2026-10-29,73.34,83,3,USD
+Summit Yoga,email,2026-10-30,69.35,54,3,USD
+Summit Yoga,email,2026-10-31,40.33,20,1,USD
+Copperline Plumbing,search,2026-08-01,130.14,146,6,USD
+Copperline Plumbing,search,2026-08-02,129.87,80,4,USD
+Copperline Plumbing,search,2026-08-03,172.42,202,15,USD
+Copperline Plumbing,search,2026-08-04,131.45,106,6,USD
+Copperline Plumbing,search,2026-08-05,145.74,191,8,USD
+Copperline Plumbing,search,2026-08-06,126.76,78,5,USD
+Copperline Plumbing,search,2026-08-07,193.52,239,11,USD
+Copperline Plumbing,search,2026-08-08,122.97,71,2,USD
+Copperline Plumbing,search,2026-08-09,107.66,91,3,USD
+Copperline Plumbing,search,2026-08-10,159.47,129,7,USD
+Copperline Plumbing,search,2026-08-11,140.82,78,5,USD
+Copperline Plumbing,search,2026-08-12,179.24,93,2,USD
+Copperline Plumbing,search,2026-08-13,172.88,170,4,USD
+Copperline Plumbing,search,2026-08-14,130.94,119,6,USD
+Copperline Plumbing,search,2026-08-15,93.76,60,1,USD
+Copperline Plumbing,search,2026-08-16,107.8,91,5,USD
+Copperline Plumbing,search,2026-08-17,188.8,159,8,USD
+Copperline Plumbing,search,2026-08-18,195.91,120,6,USD
+Copperline Plumbing,search,2026-08-19,161.21,103,3,USD
+Copperline Plumbing,search,2026-08-20,165.65,91,5,USD
+Copperline Plumbing,search,2026-08-21,183.85,135,7,USD
+Copperline Plumbing,search,2026-08-22,132.47,111,4,USD
+Copperline Plumbing,search,2026-08-23,109.16,167,4,USD
+Copperline Plumbing,search,2026-08-24,182.77,117,8,USD
+Copperline Plumbing,search,2026-08-25,152.25,154,4,USD
+Copperline Plumbing,search,2026-08-26,124.34,170,12,USD
+Copperline Plumbing,search,2026-08-27,150.51,90,5,USD
+Copperline Plumbing,search,2026-08-28,124.56,96,4,USD
+Copperline Plumbing,search,2026-08-29,90.41,56,3,USD
+Copperline Plumbing,search,2026-08-30,103.25,54,2,USD
+Copperline Plumbing,search,2026-08-31,162.92,82,2,USD
+Copperline Plumbing,search,2026-09-01,195.56,196,12,USD
+Copperline Plumbing,search,2026-09-02,128.2,198,10,USD
+Copperline Plumbing,search,2026-09-03,154.3,159,7,USD
+Copperline Plumbing,search,2026-09-04,143.58,122,8,USD
+Copperline Plumbing,search,2026-09-05,110.14,89,5,USD
+Copperline Plumbing,search,2026-09-06,113.9,67,2,USD
+Copperline Plumbing,search,2026-09-07,170.06,225,16,USD
+Copperline Plumbing,search,2026-09-08,195.37,112,5,USD
+Copperline Plumbing,search,2026-09-09,185.29,93,4,USD
+Copperline Plumbing,search,2026-09-10,190.06,143,11,USD
+Copperline Plumbing,search,2026-09-11,124.28,135,7,USD
+Copperline Plumbing,search,2026-09-12,128.34,75,6,USD
+Copperline Plumbing,search,2026-09-13,105.74,86,3,USD
+Copperline Plumbing,search,2026-09-14,184.22,176,8,USD
+Copperline Plumbing,search,2026-09-15,160.23,81,3,USD
+Copperline Plumbing,search,2026-09-16,122.5,87,2,USD
+Copperline Plumbing,search,2026-09-17,172.37,88,5,USD
+Copperline Plumbing,search,2026-09-18,141.67,98,8,USD
+Copperline Plumbing,search,2026-09-19,104.43,58,3,USD
+Copperline Plumbing,search,2026-09-20,127.74,167,5,USD
+Copperline Plumbing,search,2026-09-21,173.19,123,5,USD
+Copperline Plumbing,search,2026-09-22,136.51,214,5,USD
+Copperline Plumbing,search,2026-09-23,179.35,95,7,USD
+Copperline Plumbing,search,2026-09-24,198.12,111,5,USD
+Copperline Plumbing,search,2026-09-25,165.64,265,13,USD
+Copperline Plumbing,search,2026-09-26,137.16,80,2,USD
+Copperline Plumbing,search,2026-09-27,97.99,62,1,USD
+Copperline Plumbing,search,2026-09-28,176.18,121,9,USD
+Copperline Plumbing,search,2026-09-29,164.51,125,3,USD
+Copperline Plumbing,search,2026-09-30,175.77,155,8,USD
+Copperline Plumbing,search,2026-10-01,174.98,117,6,USD
+Copperline Plumbing,search,2026-10-02,134.46,114,3,USD
+Copperline Plumbing,search,2026-10-03,120.13,158,9,USD
+Copperline Plumbing,search,2026-10-04,91.72,84,4,USD
+Copperline Plumbing,search,2026-10-05,145.31,183,7,USD
+Copperline Plumbing,search,2026-10-06,159.15,194,8,USD
+Copperline Plumbing,search,2026-10-07,185.41,120,5,USD
+Copperline Plumbing,search,2026-10-08,157.21,99,7,USD
+Copperline Plumbing,search,2026-10-09,152.41,181,11,USD
+Copperline Plumbing,search,2026-10-10,91.83,54,1,USD
+Copperline Plumbing,search,2026-10-11,113.58,85,4,USD
+Copperline Plumbing,search,2026-10-12,134,70,2,USD
+Copperline Plumbing,search,2026-10-13,119.8,83,2,USD
+Copperline Plumbing,search,2026-10-14,144.39,78,5,USD
+Copperline Plumbing,search,2026-10-15,192.72,101,5,USD
+Copperline Plumbing,search,2026-10-16,161.41,122,6,USD
+Copperline Plumbing,search,2026-10-17,102.99,56,3,USD
+Copperline Plumbing,search,2026-10-18,109.05,116,8,USD
+Copperline Plumbing,search,2026-10-19,137.06,73,2,USD
+Copperline Plumbing,search,2026-10-20,146.83,94,2,USD
+Copperline Plumbing,search,2026-10-21,168.91,232,13,USD
+Copperline Plumbing,search,2026-10-22,165.89,136,3,USD
+Copperline Plumbing,search,2026-10-23,150.98,77,3,USD
+Copperline Plumbing,search,2026-10-24,131.09,87,4,USD
+Copperline Plumbing,search,2026-10-25,123.38,95,6,USD
+Copperline Plumbing,search,2026-10-26,166.43,229,7,USD
+Copperline Plumbing,search,2026-10-27,136.84,87,2,USD
+Copperline Plumbing,search,2026-10-28,183.9,197,13,USD
+Copperline Plumbing,search,2026-10-29,163.97,186,8,USD
+Copperline Plumbing,search,2026-10-30,167.1,95,3,USD
+Copperline Plumbing,search,2026-10-31,138,137,10,USD
+Copperline Plumbing,display,2026-08-01,163.06,104,5,USD
+Copperline Plumbing,display,2026-08-02,98.3,61,4,USD
+Copperline Plumbing,display,2026-08-03,178.61,94,7,USD
+Copperline Plumbing,display,2026-08-04,197.16,122,4,USD
+Copperline Plumbing,display,2026-08-05,217.54,306,16,USD
+Copperline Plumbing,display,2026-08-06,176.44,129,5,USD
+Copperline Plumbing,display,2026-08-07,176.95,103,8,USD
+Copperline Plumbing,display,2026-08-08,135.02,84,5,USD
+Copperline Plumbing,display,2026-08-09,103.02,54,3,USD
+Copperline Plumbing,display,2026-08-10,218.04,231,18,USD
+Copperline Plumbing,display,2026-08-11,228.32,141,8,USD
+Copperline Plumbing,display,2026-08-12,190.81,149,8,USD
+Copperline Plumbing,display,2026-08-13,208.42,173,11,USD
+Copperline Plumbing,display,2026-08-14,162.82,151,7,USD
+Copperline Plumbing,display,2026-08-15,141.23,129,9,USD
+Copperline Plumbing,display,2026-08-16,129.12,77,3,USD
+Copperline Plumbing,display,2026-08-17,178.59,112,3,USD
+Copperline Plumbing,display,2026-08-18,194.82,188,6,USD
+Copperline Plumbing,display,2026-08-19,195.3,314,22,USD
+Copperline Plumbing,display,2026-08-20,228.09,140,9,USD
+Copperline Plumbing,display,2026-08-21,178.14,127,8,USD
+Copperline Plumbing,display,2026-08-22,158.57,168,13,USD
+Copperline Plumbing,display,2026-08-23,115.69,60,3,USD
+Copperline Plumbing,display,2026-08-24,209.41,115,7,USD
+Copperline Plumbing,display,2026-08-25,152.04,228,17,USD
+Copperline Plumbing,display,2026-08-26,183.3,96,3,USD
+Copperline Plumbing,display,2026-08-27,152.81,80,4,USD
+Copperline Plumbing,display,2026-08-28,231.56,203,11,USD
+Copperline Plumbing,display,2026-08-29,112.45,63,4,USD
+Copperline Plumbing,display,2026-08-30,120.75,76,5,USD
+Copperline Plumbing,display,2026-08-31,227.76,171,5,USD
+Copperline Plumbing,display,2026-09-01,189.15,261,9,USD
+Copperline Plumbing,display,2026-09-02,163.27,226,11,USD
+Copperline Plumbing,display,2026-09-03,158.5,113,6,USD
+Copperline Plumbing,display,2026-09-04,172.38,98,7,USD
+Copperline Plumbing,display,2026-09-05,117.64,158,6,USD
+Copperline Plumbing,display,2026-09-06,120.99,146,10,USD
+Copperline Plumbing,display,2026-09-07,175.56,229,9,USD
+Copperline Plumbing,display,2026-09-08,226.77,119,6,USD
+Copperline Plumbing,display,2026-09-09,181.69,118,9,USD
+Copperline Plumbing,display,2026-09-10,169.12,112,6,USD
+Copperline Plumbing,display,2026-09-11,143.84,89,3,USD
+Copperline Plumbing,display,2026-09-12,128.09,92,6,USD
+Copperline Plumbing,display,2026-09-13,103.54,69,2,USD
+Copperline Plumbing,display,2026-09-14,178.44,101,4,USD
+Copperline Plumbing,display,2026-09-15,219.73,136,9,USD
+Copperline Plumbing,display,2026-09-16,162.49,105,7,USD
+Copperline Plumbing,display,2026-09-17,212.03,157,10,USD
+Copperline Plumbing,display,2026-09-18,185.06,124,8,USD
+Copperline Plumbing,display,2026-09-19,134.52,173,4,USD
+Copperline Plumbing,display,2026-09-20,112.78,181,14,USD
+Copperline Plumbing,display,2026-09-21,205.15,144,8,USD
+Copperline Plumbing,display,2026-09-22,164.01,165,7,USD
+Copperline Plumbing,display,2026-09-23,158.69,122,4,USD
+Copperline Plumbing,display,2026-09-24,159.01,82,2,USD
+Copperline Plumbing,display,2026-09-25,231.21,312,13,USD
+Copperline Plumbing,display,2026-09-26,153.4,80,5,USD
+Copperline Plumbing,display,2026-09-27,155.8,107,3,USD
+Copperline Plumbing,display,2026-09-28,193.23,170,5,USD
+Copperline Plumbing,display,2026-09-29,210,126,5,USD
+Copperline Plumbing,display,2026-09-30,166.14,101,8,USD
+Copperline Plumbing,display,2026-10-01,169.87,127,7,USD
+Copperline Plumbing,display,2026-10-02,219.46,359,22,USD
+Copperline Plumbing,display,2026-10-03,124.41,78,4,USD
+Copperline Plumbing,display,2026-10-04,138.76,230,14,USD
+Copperline Plumbing,display,2026-10-05,196.97,217,13,USD
+Copperline Plumbing,display,2026-10-06,150.56,146,4,USD
+Copperline Plumbing,display,2026-10-07,215.62,117,7,USD
+Copperline Plumbing,display,2026-10-08,228.44,129,4,USD
+Copperline Plumbing,display,2026-10-09,227.34,129,8,USD
+Copperline Plumbing,display,2026-10-10,114.92,66,5,USD
+Copperline Plumbing,display,2026-10-11,119.43,75,3,USD
+Copperline Plumbing,display,2026-10-12,218.23,140,6,USD
+Copperline Plumbing,display,2026-10-13,194.73,240,9,USD
+Copperline Plumbing,display,2026-10-14,184.32,172,12,USD
+Copperline Plumbing,display,2026-10-15,150.65,147,3,USD
+Copperline Plumbing,display,2026-10-16,181.27,114,8,USD
+Copperline Plumbing,display,2026-10-17,132.13,80,5,USD
+Copperline Plumbing,display,2026-10-18,137.78,102,8,USD
+Copperline Plumbing,display,2026-10-19,150.42,169,13,USD
+Copperline Plumbing,display,2026-10-20,229.24,187,9,USD
+Copperline Plumbing,display,2026-10-21,176.74,193,11,USD
+Copperline Plumbing,display,2026-10-22,201.17,150,10,USD
+Copperline Plumbing,display,2026-10-23,184.18,105,6,USD
+Copperline Plumbing,display,2026-10-24,111.24,108,5,USD
+Copperline Plumbing,display,2026-10-25,155.11,166,11,USD
+Copperline Plumbing,display,2026-10-26,170.3,136,9,USD
+Copperline Plumbing,display,2026-10-27,210.49,215,9,USD
+Copperline Plumbing,display,2026-10-28,185.4,107,6,USD
+Copperline Plumbing,display,2026-10-29,180.11,100,6,USD
+Copperline Plumbing,display,2026-10-30,154.52,226,16,USD
+Copperline Plumbing,display,2026-10-31,116.82,74,4,USD
+Copperline Plumbing,video,2026-08-01,113.2,70,4,USD
+Copperline Plumbing,video,2026-08-02,98.31,81,2,USD
+Copperline Plumbing,video,2026-08-03,148.48,131,7,USD
+Copperline Plumbing,video,2026-08-04,153.82,190,12,USD
+Copperline Plumbing,video,2026-08-05,155.49,115,3,USD
+Copperline Plumbing,video,2026-08-06,135.94,100,4,USD
+Copperline Plumbing,video,2026-08-07,126.18,79,3,USD
+Copperline Plumbing,video,2026-08-08,121.62,62,2,USD
+Copperline Plumbing,video,2026-08-09,85.73,54,3,USD
+Copperline Plumbing,video,2026-08-10,153.37,132,4,USD
+Copperline Plumbing,video,2026-08-11,124.08,90,7,USD
+Copperline Plumbing,video,2026-08-12,105.89,75,2,USD
+Copperline Plumbing,video,2026-08-13,140.42,154,4,USD
+Copperline Plumbing,video,2026-08-14,122.66,105,2,USD
+Copperline Plumbing,video,2026-08-15,98.47,68,1,USD
+Copperline Plumbing,video,2026-08-16,119.36,127,4,USD
+Copperline Plumbing,video,2026-08-17,137.81,176,8,USD
+Copperline Plumbing,video,2026-08-18,174.31,130,5,USD
+Copperline Plumbing,video,2026-08-19,157.93,121,4,USD
+Copperline Plumbing,video,2026-08-20,175.34,88,5,USD
+Copperline Plumbing,video,2026-08-21,165.79,117,3,USD
+Copperline Plumbing,video,2026-08-22,90.71,55,3,USD
+Copperline Plumbing,video,2026-08-23,106.72,159,10,USD
+Copperline Plumbing,video,2026-08-24,162.71,256,6,USD
+Copperline Plumbing,video,2026-08-25,136.94,143,8,USD
+Copperline Plumbing,video,2026-08-26,131.35,98,7,USD
+Copperline Plumbing,video,2026-08-27,108.83,85,4,USD
+Copperline Plumbing,video,2026-08-28,143.92,90,6,USD
+Copperline Plumbing,video,2026-08-29,99.75,103,7,USD
+Copperline Plumbing,video,2026-08-30,119.58,68,3,USD
+Copperline Plumbing,video,2026-08-31,172.17,95,2,USD
+Copperline Plumbing,video,2026-09-01,142.44,177,4,USD
+Copperline Plumbing,video,2026-09-02,111.41,81,3,USD
+Copperline Plumbing,video,2026-09-03,171.39,107,2,USD
+Copperline Plumbing,video,2026-09-04,119.35,104,8,USD
+Copperline Plumbing,video,2026-09-05,99.64,66,2,USD
+Copperline Plumbing,video,2026-09-06,87.51,52,3,USD
+Copperline Plumbing,video,2026-09-07,152,121,4,USD
+Copperline Plumbing,video,2026-09-08,107.68,125,5,USD
+Copperline Plumbing,video,2026-09-09,152.44,86,6,USD
+Copperline Plumbing,video,2026-09-10,130.81,216,10,USD
+Copperline Plumbing,video,2026-09-11,169.75,174,10,USD
+Copperline Plumbing,video,2026-09-12,96.76,51,2,USD
+Copperline Plumbing,video,2026-09-13,84.28,107,5,USD
+Copperline Plumbing,video,2026-09-14,151.06,176,4,USD
+Copperline Plumbing,video,2026-09-15,136.04,121,5,USD
+Copperline Plumbing,video,2026-09-16,115.35,74,4,USD
+Copperline Plumbing,video,2026-09-17,114.42,70,2,USD
+Copperline Plumbing,video,2026-09-18,155.59,79,2,USD
+Copperline Plumbing,video,2026-09-19,91.81,58,2,USD
+Copperline Plumbing,video,2026-09-20,83.49,53,2,USD
+Copperline Plumbing,video,2026-09-21,150.95,128,6,USD
+Copperline Plumbing,video,2026-09-22,140.92,80,3,USD
+Copperline Plumbing,video,2026-09-23,115.78,152,12,USD
+Copperline Plumbing,video,2026-09-24,134.26,90,4,USD
+Copperline Plumbing,video,2026-09-25,144.01,95,4,USD
+Copperline Plumbing,video,2026-09-26,97.12,118,4,USD
+Copperline Plumbing,video,2026-09-27,75.91,80,5,USD
+Copperline Plumbing,video,2026-09-28,127.42,142,7,USD
+Copperline Plumbing,video,2026-09-29,133.03,90,3,USD
+Copperline Plumbing,video,2026-09-30,139.43,75,5,USD
+Copperline Plumbing,video,2026-10-01,125.64,171,11,USD
+Copperline Plumbing,video,2026-10-02,165.92,163,12,USD
+Copperline Plumbing,video,2026-10-03,92.9,125,10,USD
+Copperline Plumbing,video,2026-10-04,108.82,79,5,USD
+Copperline Plumbing,video,2026-10-05,148.96,170,14,USD
+Copperline Plumbing,video,2026-10-06,126.71,134,9,USD
+Copperline Plumbing,video,2026-10-07,155.41,116,3,USD
+Copperline Plumbing,video,2026-10-08,148.79,96,3,USD
+Copperline Plumbing,video,2026-10-09,139,75,2,USD
+Copperline Plumbing,video,2026-10-10,95.38,98,4,USD
+Copperline Plumbing,video,2026-10-11,86.01,119,7,USD
+Copperline Plumbing,video,2026-10-12,171.57,259,11,USD
+Copperline Plumbing,video,2026-10-13,166.42,108,4,USD
+Copperline Plumbing,video,2026-10-14,113.21,91,6,USD
+Copperline Plumbing,video,2026-10-15,119.59,95,7,USD
+Copperline Plumbing,video,2026-10-16,149.51,210,11,USD
+Copperline Plumbing,video,2026-10-17,76.61,41,1,USD
+Copperline Plumbing,video,2026-10-18,107.63,89,5,USD
+Copperline Plumbing,video,2026-10-19,141.65,84,4,USD
+Copperline Plumbing,video,2026-10-20,158.09,180,11,USD
+Copperline Plumbing,video,2026-10-21,157.77,117,7,USD
+Copperline Plumbing,video,2026-10-22,174.91,168,3,USD
+Copperline Plumbing,video,2026-10-23,138.77,157,7,USD
+Copperline Plumbing,video,2026-10-24,77.65,55,2,USD
+Copperline Plumbing,video,2026-10-25,105.5,63,2,USD
+Copperline Plumbing,video,2026-10-26,144.55,82,6,USD
+Copperline Plumbing,video,2026-10-27,108.4,57,4,USD
+Copperline Plumbing,video,2026-10-28,122.6,117,6,USD
+Copperline Plumbing,video,2026-10-29,114.61,122,9,USD
+Copperline Plumbing,video,2026-10-30,168.51,201,14,USD
+Copperline Plumbing,video,2026-10-31,120.64,86,5,USD
+Lumen Opticals,search,2026-08-01,69.69,47,1,GBP
+Lumen Opticals,search,2026-08-02,51.45,45,4,GBP
+Lumen Opticals,search,2026-08-03,92.87,115,8,GBP
+Lumen Opticals,search,2026-08-04,63.66,33,2,GBP
+Lumen Opticals,search,2026-08-05,66.95,42,1,GBP
+Lumen Opticals,search,2026-08-06,101.55,101,3,GBP
+Lumen Opticals,search,2026-08-07,74.26,40,1,GBP
+Lumen Opticals,search,2026-08-08,63.95,66,2,GBP
+Lumen Opticals,search,2026-08-09,57.22,52,4,GBP
+Lumen Opticals,search,2026-08-10,91.57,127,3,GBP
+Lumen Opticals,search,2026-08-11,72.42,63,4,GBP
+Lumen Opticals,search,2026-08-12,82.97,52,3,GBP
+Lumen Opticals,search,2026-08-13,87,83,4,GBP
+Lumen Opticals,search,2026-08-14,61.66,50,2,GBP
+Lumen Opticals,search,2026-08-15,48.26,33,2,GBP
+Lumen Opticals,search,2026-08-16,49.4,35,1,GBP
+Lumen Opticals,search,2026-08-17,68.39,76,5,GBP
+Lumen Opticals,search,2026-08-18,71.9,59,4,GBP
+Lumen Opticals,search,2026-08-19,71.63,48,3,GBP
+Lumen Opticals,search,2026-08-20,93.13,47,3,GBP
+Lumen Opticals,search,2026-08-21,87.26,132,7,GBP
+Lumen Opticals,search,2026-08-22,63.68,45,3,GBP
+Lumen Opticals,search,2026-08-23,47.05,70,5,GBP
+Lumen Opticals,search,2026-08-24,80.68,51,4,GBP
+Lumen Opticals,search,2026-08-25,79.95,76,3,GBP
+Lumen Opticals,search,2026-08-26,71.16,48,2,GBP
+Lumen Opticals,search,2026-08-27,98.16,80,4,GBP
+Lumen Opticals,search,2026-08-28,86.53,75,5,GBP
+Lumen Opticals,search,2026-08-29,51.06,27,1,GBP
+Lumen Opticals,search,2026-08-30,58.48,49,3,GBP
+Lumen Opticals,search,2026-08-31,69.74,36,1,GBP
+Lumen Opticals,search,2026-09-01,72.53,41,2,GBP
+Lumen Opticals,search,2026-09-02,78.02,44,2,GBP
+Lumen Opticals,search,2026-09-03,66.91,35,3,GBP
+Lumen Opticals,search,2026-09-04,70.21,81,2,GBP
+Lumen Opticals,search,2026-09-05,48.98,27,1,GBP
+Lumen Opticals,search,2026-09-06,48.73,33,3,GBP
+Lumen Opticals,search,2026-09-07,82.57,136,8,GBP
+Lumen Opticals,search,2026-09-08,91.44,110,4,GBP
+Lumen Opticals,search,2026-09-09,76.34,59,4,GBP
+Lumen Opticals,search,2026-09-10,79.19,62,5,GBP
+Lumen Opticals,search,2026-09-11,101.11,117,7,GBP
+Lumen Opticals,search,2026-09-12,45.44,25,1,GBP
+Lumen Opticals,search,2026-09-13,62.97,66,4,GBP
+Lumen Opticals,search,2026-09-14,68.12,100,4,GBP
+Lumen Opticals,search,2026-09-15,89.31,101,2,GBP
+Lumen Opticals,search,2026-09-16,85.06,80,2,GBP
+Lumen Opticals,search,2026-09-17,84.34,46,2,GBP
+Lumen Opticals,search,2026-09-18,88.29,52,1,GBP
+Lumen Opticals,search,2026-09-19,48.98,31,2,GBP
+Lumen Opticals,search,2026-09-20,65.6,84,2,GBP
+Lumen Opticals,search,2026-09-21,81.46,69,4,GBP
+Lumen Opticals,search,2026-09-22,85.11,47,4,GBP
+Lumen Opticals,search,2026-09-23,75.3,58,4,GBP
+Lumen Opticals,search,2026-09-24,86.83,48,4,GBP
+Lumen Opticals,search,2026-09-25,64.37,69,2,GBP
+Lumen Opticals,search,2026-09-26,66.14,46,1,GBP
+Lumen Opticals,search,2026-09-27,69.79,93,6,GBP
+Lumen Opticals,search,2026-09-28,67.21,55,4,GBP
+Lumen Opticals,search,2026-09-29,79.33,63,3,GBP
+Lumen Opticals,search,2026-09-30,75.78,67,2,GBP
+Lumen Opticals,search,2026-10-01,100.13,51,3,GBP
+Lumen Opticals,search,2026-10-02,96.54,139,5,GBP
+Lumen Opticals,search,2026-10-03,45.61,27,1,GBP
+Lumen Opticals,search,2026-10-04,60.45,35,1,GBP
+Lumen Opticals,search,2026-10-05,90.32,138,7,GBP
+Lumen Opticals,search,2026-10-06,74.05,61,2,GBP
+Lumen Opticals,search,2026-10-07,99.34,55,2,GBP
+Lumen Opticals,search,2026-10-08,93.06,136,10,GBP
+Lumen Opticals,search,2026-10-09,64.25,49,3,GBP
+Lumen Opticals,search,2026-10-10,71.4,47,2,GBP
+Lumen Opticals,search,2026-10-11,59.21,46,3,GBP
+Lumen Opticals,search,2026-10-12,87.79,75,4,GBP
+Lumen Opticals,search,2026-10-13,84.87,64,2,GBP
+Lumen Opticals,search,2026-10-14,98.32,67,5,GBP
+Lumen Opticals,search,2026-10-15,90.93,58,4,GBP
+Lumen Opticals,search,2026-10-16,90.22,84,3,GBP
+Lumen Opticals,search,2026-10-17,62.03,48,3,GBP
+Lumen Opticals,search,2026-10-18,50.75,54,3,GBP
+Lumen Opticals,search,2026-10-19,84.76,61,2,GBP
+Lumen Opticals,search,2026-10-20,61.86,52,4,GBP
+Lumen Opticals,search,2026-10-21,80.06,63,1,GBP
+Lumen Opticals,search,2026-10-22,70.81,36,1,GBP
+Lumen Opticals,search,2026-10-23,84.25,134,10,GBP
+Lumen Opticals,search,2026-10-24,67.12,43,3,GBP
+Lumen Opticals,search,2026-10-25,56.42,33,1,GBP
+Lumen Opticals,search,2026-10-26,86.88,102,3,GBP
+Lumen Opticals,search,2026-10-27,61.65,76,4,GBP
+Lumen Opticals,search,2026-10-28,76.93,69,4,GBP
+Lumen Opticals,search,2026-10-29,101.28,66,3,GBP
+Lumen Opticals,search,2026-10-30,101.11,89,5,GBP
+Lumen Opticals,search,2026-10-31,65.38,67,3,GBP
+Lumen Opticals,social,2026-08-01,82.44,52,2,GBP
+Lumen Opticals,social,2026-08-02,65.41,63,4,GBP
+Lumen Opticals,social,2026-08-03,83.08,56,2,GBP
+Lumen Opticals,social,2026-08-04,107.56,75,2,GBP
+Lumen Opticals,social,2026-08-05,83.32,59,1,GBP
+Lumen Opticals,social,2026-08-06,95.28,54,2,GBP
+Lumen Opticals,social,2026-08-07,117.79,69,3,GBP
+Lumen Opticals,social,2026-08-08,76.46,124,7,GBP
+Lumen Opticals,social,2026-08-09,60.84,65,5,GBP
+Lumen Opticals,social,2026-08-10,93.99,59,3,GBP
+Lumen Opticals,social,2026-08-11,73.8,122,4,GBP
+Lumen Opticals,social,2026-08-12,80.98,75,2,GBP
+Lumen Opticals,social,2026-08-13,73.65,73,2,GBP
+Lumen Opticals,social,2026-08-14,114.02,144,11,GBP
+Lumen Opticals,social,2026-08-15,68.17,65,2,GBP
+Lumen Opticals,social,2026-08-16,54.96,64,4,GBP
+Lumen Opticals,social,2026-08-17,97.68,50,4,GBP
+Lumen Opticals,social,2026-08-18,91.56,69,2,GBP
+Lumen Opticals,social,2026-08-19,88.92,76,5,GBP
+Lumen Opticals,social,2026-08-20,77.89,63,4,GBP
+Lumen Opticals,social,2026-08-21,99.76,109,5,GBP
+Lumen Opticals,social,2026-08-22,54.57,50,3,GBP
+Lumen Opticals,social,2026-08-23,75.15,41,2,GBP
+Lumen Opticals,social,2026-08-24,103.57,86,3,GBP
+Lumen Opticals,social,2026-08-25,88.38,114,3,GBP
+Lumen Opticals,social,2026-08-26,74.19,98,2,GBP
+Lumen Opticals,social,2026-08-27,93.82,108,4,GBP
+Lumen Opticals,social,2026-08-28,79.09,45,3,GBP
+Lumen Opticals,social,2026-08-29,55.74,35,1,GBP
+Lumen Opticals,social,2026-08-30,53.11,50,3,GBP
+Lumen Opticals,social,2026-08-31,116.61,184,12,GBP
+Lumen Opticals,social,2026-09-01,115.28,115,6,GBP
+Lumen Opticals,social,2026-09-02,100.06,50,3,GBP
+Lumen Opticals,social,2026-09-03,112.49,60,2,GBP
+Lumen Opticals,social,2026-09-04,92.98,64,2,GBP
+Lumen Opticals,social,2026-09-05,62.28,40,2,GBP
+Lumen Opticals,social,2026-09-06,52.86,32,2,GBP
+Lumen Opticals,social,2026-09-07,72.29,88,6,GBP
+Lumen Opticals,social,2026-09-08,113.46,106,4,GBP
+Lumen Opticals,social,2026-09-09,108.62,55,1,GBP
+Lumen Opticals,social,2026-09-10,100,50,1,GBP
+Lumen Opticals,social,2026-09-11,73.99,66,5,GBP
+Lumen Opticals,social,2026-09-12,75.3,58,1,GBP
+Lumen Opticals,social,2026-09-13,72.51,47,1,GBP
+Lumen Opticals,social,2026-09-14,94.97,76,5,GBP
+Lumen Opticals,social,2026-09-15,73.19,48,1,GBP
+Lumen Opticals,social,2026-09-16,102.7,59,2,GBP
+Lumen Opticals,social,2026-09-17,108.72,60,1,GBP
+Lumen Opticals,social,2026-09-18,100.81,65,4,GBP
+Lumen Opticals,social,2026-09-19,74.58,48,1,GBP
+Lumen Opticals,social,2026-09-20,76.83,45,2,GBP
+Lumen Opticals,social,2026-09-21,112.29,84,3,GBP
+Lumen Opticals,social,2026-09-22,103.23,142,8,GBP
+Lumen Opticals,social,2026-09-23,112.3,60,3,GBP
+Lumen Opticals,social,2026-09-24,93.5,57,2,GBP
+Lumen Opticals,social,2026-09-25,118.23,167,8,GBP
+Lumen Opticals,social,2026-09-26,53.28,45,2,GBP
+Lumen Opticals,social,2026-09-27,66.49,81,6,GBP
+Lumen Opticals,social,2026-09-28,94.51,106,2,GBP
+Lumen Opticals,social,2026-09-29,118.22,63,3,GBP
+Lumen Opticals,social,2026-09-30,74.91,71,5,GBP
+Lumen Opticals,social,2026-10-01,107.5,86,2,GBP
+Lumen Opticals,social,2026-10-02,90.91,78,5,GBP
+Lumen Opticals,social,2026-10-03,69.76,49,3,GBP
+Lumen Opticals,social,2026-10-04,64.34,100,5,GBP
+Lumen Opticals,social,2026-10-05,109.02,108,5,GBP
+Lumen Opticals,social,2026-10-06,78.59,62,3,GBP
+Lumen Opticals,social,2026-10-07,74.8,64,5,GBP
+Lumen Opticals,social,2026-10-08,99.23,140,8,GBP
+Lumen Opticals,social,2026-10-09,100.15,62,5,GBP
+Lumen Opticals,social,2026-10-10,76.29,117,6,GBP
+Lumen Opticals,social,2026-10-11,61.42,53,4,GBP
+Lumen Opticals,social,2026-10-12,87.58,71,3,GBP
+Lumen Opticals,social,2026-10-13,87.38,125,6,GBP
+Lumen Opticals,social,2026-10-14,105.19,71,3,GBP
+Lumen Opticals,social,2026-10-15,85.69,51,1,GBP
+Lumen Opticals,social,2026-10-16,96.97,70,3,GBP
+Lumen Opticals,social,2026-10-17,59.4,39,3,GBP
+Lumen Opticals,social,2026-10-18,83.42,105,6,GBP
+Lumen Opticals,social,2026-10-19,106.46,74,5,GBP
+Lumen Opticals,social,2026-10-20,107.12,149,9,GBP
+Lumen Opticals,social,2026-10-21,107.3,124,6,GBP
+Lumen Opticals,social,2026-10-22,107.45,56,2,GBP
+Lumen Opticals,social,2026-10-23,78.09,87,7,GBP
+Lumen Opticals,social,2026-10-24,50.41,39,3,GBP
+Lumen Opticals,social,2026-10-25,56.54,42,1,GBP
+Lumen Opticals,social,2026-10-26,74.65,111,7,GBP
+Lumen Opticals,social,2026-10-27,101.24,120,8,GBP
+Lumen Opticals,social,2026-10-28,80.89,94,4,GBP
+Lumen Opticals,social,2026-10-29,113.94,59,3,GBP
+Lumen Opticals,social,2026-10-30,107.36,56,4,GBP
+Lumen Opticals,social,2026-10-31,70.92,70,4,GBP
+Tidewater Tutors,search,2026-08-01,44.27,32,2,USD
+Tidewater Tutors,search,2026-08-02,43.95,27,1,USD
+Tidewater Tutors,search,2026-08-03,43.15,31,2,USD
+Tidewater Tutors,search,2026-08-04,39.81,28,1,USD
+Tidewater Tutors,search,2026-08-05,60.04,34,2,USD
+Tidewater Tutors,search,2026-08-06,55.44,61,3,USD
+Tidewater Tutors,search,2026-08-07,58.1,89,6,USD
+Tidewater Tutors,search,2026-08-08,29.16,21,1,USD
+Tidewater Tutors,search,2026-08-09,37.59,35,1,USD
+Tidewater Tutors,search,2026-08-10,65.11,52,4,USD
+Tidewater Tutors,search,2026-08-11,51.88,32,3,USD
+Tidewater Tutors,search,2026-08-12,43.23,25,1,USD
+Tidewater Tutors,search,2026-08-13,49.15,81,2,USD
+Tidewater Tutors,search,2026-08-14,49.41,72,4,USD
+Tidewater Tutors,search,2026-08-15,31.07,16,1,USD
+Tidewater Tutors,search,2026-08-16,33.64,23,2,USD
+Tidewater Tutors,search,2026-08-17,50.64,48,4,USD
+Tidewater Tutors,search,2026-08-18,57.31,94,6,USD
+Tidewater Tutors,search,2026-08-19,60,37,2,USD
+Tidewater Tutors,search,2026-08-20,60.4,42,2,USD
+Tidewater Tutors,search,2026-08-21,47.76,38,1,USD
+Tidewater Tutors,search,2026-08-22,33.7,48,3,USD
+Tidewater Tutors,search,2026-08-23,43.92,29,2,USD
+Tidewater Tutors,search,2026-08-24,40.12,25,2,USD
+Tidewater Tutors,search,2026-08-25,43.25,38,2,USD
+Tidewater Tutors,search,2026-08-26,65.18,40,2,USD
+Tidewater Tutors,search,2026-08-27,55.31,41,2,USD
+Tidewater Tutors,search,2026-08-28,48.06,63,2,USD
+Tidewater Tutors,search,2026-08-29,28.71,26,1,USD
+Tidewater Tutors,search,2026-08-30,40.55,49,4,USD
+Tidewater Tutors,search,2026-08-31,46.8,34,1,USD
+Tidewater Tutors,search,2026-09-01,57.24,43,2,USD
+Tidewater Tutors,search,2026-09-02,49.19,27,1,USD
+Tidewater Tutors,search,2026-09-03,56.41,38,3,USD
+Tidewater Tutors,search,2026-09-04,51.76,30,1,USD
+Tidewater Tutors,search,2026-09-05,45.6,45,3,USD
+Tidewater Tutors,search,2026-09-06,30.18,37,2,USD
+Tidewater Tutors,search,2026-09-07,62.39,75,5,USD
+Tidewater Tutors,search,2026-09-08,65.04,40,1,USD
+Tidewater Tutors,search,2026-09-09,42.93,33,2,USD
+Tidewater Tutors,search,2026-09-10,40.81,24,1,USD
+Tidewater Tutors,search,2026-09-11,49.61,26,2,USD
+Tidewater Tutors,search,2026-09-12,33.16,38,2,USD
+Tidewater Tutors,search,2026-09-13,33.79,21,1,USD
+Tidewater Tutors,search,2026-09-14,56.36,30,1,USD
+Tidewater Tutors,search,2026-09-15,45.73,35,2,USD
+Tidewater Tutors,search,2026-09-16,45.19,27,1,USD
+Tidewater Tutors,search,2026-09-17,61.69,32,1,USD
+Tidewater Tutors,search,2026-09-18,57.06,83,3,USD
+Tidewater Tutors,search,2026-09-19,27.8,29,2,USD
+Tidewater Tutors,search,2026-09-20,41.1,40,3,USD
+Tidewater Tutors,search,2026-09-21,51.18,29,2,USD
+Tidewater Tutors,search,2026-09-22,43.28,24,1,USD
+Tidewater Tutors,search,2026-09-23,52.94,64,2,USD
+Tidewater Tutors,search,2026-09-24,50.22,38,1,USD
+Tidewater Tutors,search,2026-09-25,59.98,33,1,USD
+Tidewater Tutors,search,2026-09-26,27.94,19,1,USD
+Tidewater Tutors,search,2026-09-27,42.93,36,1,USD
+Tidewater Tutors,search,2026-09-28,54.96,33,1,USD
+Tidewater Tutors,search,2026-09-29,43.31,68,5,USD
+Tidewater Tutors,search,2026-09-30,51.95,51,2,USD
+Tidewater Tutors,search,2026-10-01,50.51,77,4,USD
+Tidewater Tutors,search,2026-10-02,52.27,38,2,USD
+Tidewater Tutors,search,2026-10-03,38.35,25,1,USD
+Tidewater Tutors,search,2026-10-04,36.71,40,1,USD
+Tidewater Tutors,search,2026-10-05,47.9,64,3,USD
+Tidewater Tutors,search,2026-10-06,55.93,58,3,USD
+Tidewater Tutors,search,2026-10-07,42.72,40,1,USD
+Tidewater Tutors,search,2026-10-08,42.71,29,1,USD
+Tidewater Tutors,search,2026-10-09,43.75,29,2,USD
+Tidewater Tutors,search,2026-10-10,44.01,35,1,USD
+Tidewater Tutors,search,2026-10-11,33.08,22,1,USD
+Tidewater Tutors,search,2026-10-12,42.41,24,2,USD
+Tidewater Tutors,search,2026-10-13,42.96,25,1,USD
+Tidewater Tutors,search,2026-10-14,61.63,36,3,USD
+Tidewater Tutors,search,2026-10-15,54.15,51,1,USD
+Tidewater Tutors,search,2026-10-16,53.05,27,1,USD
+Tidewater Tutors,search,2026-10-17,43.8,36,1,USD
+Tidewater Tutors,search,2026-10-18,33.33,18,1,USD
+Tidewater Tutors,search,2026-10-19,49.52,36,2,USD
+Tidewater Tutors,search,2026-10-20,46.72,67,1,USD
+Tidewater Tutors,search,2026-10-21,60.89,37,3,USD
+Tidewater Tutors,search,2026-10-22,50.49,62,3,USD
+Tidewater Tutors,search,2026-10-23,41.53,28,1,USD
+Tidewater Tutors,search,2026-10-24,30.24,33,3,USD
+Tidewater Tutors,search,2026-10-25,43.91,39,1,USD
+Tidewater Tutors,search,2026-10-26,57.9,39,1,USD
+Tidewater Tutors,search,2026-10-27,59.98,34,1,USD
+Tidewater Tutors,search,2026-10-28,41.73,37,2,USD
+Tidewater Tutors,search,2026-10-29,62.52,49,4,USD
+Tidewater Tutors,search,2026-10-30,39.71,56,2,USD
+Tidewater Tutors,search,2026-10-31,44.41,33,1,USD
+Tidewater Tutors,email,2026-08-01,35.2,24,1,USD
+Tidewater Tutors,email,2026-08-02,38.13,34,1,USD
+Tidewater Tutors,email,2026-08-03,54.53,40,3,USD
+Tidewater Tutors,email,2026-08-04,53.83,43,2,USD
+Tidewater Tutors,email,2026-08-05,53.02,37,2,USD
+Tidewater Tutors,email,2026-08-06,61.11,34,1,USD
+Tidewater Tutors,email,2026-08-07,54.26,31,1,USD
+Tidewater Tutors,email,2026-08-08,28.64,30,2,USD
+Tidewater Tutors,email,2026-08-09,42.39,44,2,USD
+Tidewater Tutors,email,2026-08-10,53.89,58,2,USD
+Tidewater Tutors,email,2026-08-11,57.38,33,1,USD
+Tidewater Tutors,email,2026-08-12,46.41,34,2,USD
+Tidewater Tutors,email,2026-08-13,55.7,34,1,USD
+Tidewater Tutors,email,2026-08-14,43.75,71,2,USD
+Tidewater Tutors,email,2026-08-15,32.69,30,2,USD
+Tidewater Tutors,email,2026-08-16,42.88,52,1,USD
+Tidewater Tutors,email,2026-08-17,52.15,36,2,USD
+Tidewater Tutors,email,2026-08-18,56.08,46,3,USD
+Tidewater Tutors,email,2026-08-19,56.21,71,2,USD
+Tidewater Tutors,email,2026-08-20,49.22,26,1,USD
+Tidewater Tutors,email,2026-08-21,63.58,36,1,USD
+Tidewater Tutors,email,2026-08-22,27.67,23,1,USD
+Tidewater Tutors,email,2026-08-23,40.88,42,1,USD
+Tidewater Tutors,email,2026-08-24,53.08,47,3,USD
+Tidewater Tutors,email,2026-08-25,49.13,33,1,USD
+Tidewater Tutors,email,2026-08-26,58.84,83,4,USD
+Tidewater Tutors,email,2026-08-27,41.96,55,2,USD
+Tidewater Tutors,email,2026-08-28,47.01,57,3,USD
+Tidewater Tutors,email,2026-08-29,41.46,36,2,USD
+Tidewater Tutors,email,2026-08-30,30.45,26,2,USD
+Tidewater Tutors,email,2026-08-31,45.05,45,3,USD
+Tidewater Tutors,email,2026-09-01,51.15,38,2,USD
+Tidewater Tutors,email,2026-09-02,60.53,60,2,USD
+Tidewater Tutors,email,2026-09-03,43.38,45,1,USD
+Tidewater Tutors,email,2026-09-04,49.5,43,2,USD
+Tidewater Tutors,email,2026-09-05,41.19,36,2,USD
+Tidewater Tutors,email,2026-09-06,31.44,25,2,USD
+Tidewater Tutors,email,2026-09-07,55.07,59,4,USD
+Tidewater Tutors,email,2026-09-08,46.64,46,2,USD
+Tidewater Tutors,email,2026-09-09,58.86,52,3,USD
+Tidewater Tutors,email,2026-09-10,39.91,41,1,USD
+Tidewater Tutors,email,2026-09-11,56.72,46,2,USD
+Tidewater Tutors,email,2026-09-12,36.92,31,1,USD
+Tidewater Tutors,email,2026-09-13,30.74,18,1,USD
+Tidewater Tutors,email,2026-09-14,63.13,69,4,USD
+Tidewater Tutors,email,2026-09-15,58.63,36,2,USD
+Tidewater Tutors,email,2026-09-16,61.9,45,2,USD
+Tidewater Tutors,email,2026-09-17,47.34,56,3,USD
+Tidewater Tutors,email,2026-09-18,47.9,52,4,USD
+Tidewater Tutors,email,2026-09-19,27.81,15,1,USD
+Tidewater Tutors,email,2026-09-20,42.34,54,2,USD
+Tidewater Tutors,email,2026-09-21,41.28,50,3,USD
+Tidewater Tutors,email,2026-09-22,54.27,34,2,USD
+Tidewater Tutors,email,2026-09-23,58.58,33,2,USD
+Tidewater Tutors,email,2026-09-24,63.28,46,1,USD
+Tidewater Tutors,email,2026-09-25,51.98,42,2,USD
+Tidewater Tutors,email,2026-09-26,37.94,54,4,USD
+Tidewater Tutors,email,2026-09-27,26.84,20,1,USD
+Tidewater Tutors,email,2026-09-28,47.56,39,3,USD
+Tidewater Tutors,email,2026-09-29,41.34,47,1,USD
+Tidewater Tutors,email,2026-09-30,50.5,61,2,USD
+Tidewater Tutors,email,2026-10-01,39.69,38,3,USD
+Tidewater Tutors,email,2026-10-02,55.11,77,2,USD
+Tidewater Tutors,email,2026-10-03,33.25,17,1,USD
+Tidewater Tutors,email,2026-10-04,38.18,30,1,USD
+Tidewater Tutors,email,2026-10-05,61.19,39,2,USD
+Tidewater Tutors,email,2026-10-06,38.88,43,3,USD
+Tidewater Tutors,email,2026-10-07,56.38,75,4,USD
+Tidewater Tutors,email,2026-10-08,51.82,36,2,USD
+Tidewater Tutors,email,2026-10-09,47.9,43,2,USD
+Tidewater Tutors,email,2026-10-10,42.68,23,1,USD
+Tidewater Tutors,email,2026-10-11,28.23,28,2,USD
+Tidewater Tutors,email,2026-10-12,56.92,30,2,USD
+Tidewater Tutors,email,2026-10-13,43.42,26,1,USD
+Tidewater Tutors,email,2026-10-14,42.46,32,1,USD
+Tidewater Tutors,email,2026-10-15,56.17,67,2,USD
+Tidewater Tutors,email,2026-10-16,57.46,63,5,USD
+Tidewater Tutors,email,2026-10-17,36.06,19,1,USD
+Tidewater Tutors,email,2026-10-18,29.13,18,1,USD
+Tidewater Tutors,email,2026-10-19,42.24,25,1,USD
+Tidewater Tutors,email,2026-10-20,48.99,29,1,USD
+Tidewater Tutors,email,2026-10-21,46.42,54,1,USD
+Tidewater Tutors,email,2026-10-22,39.85,45,2,USD
+Tidewater Tutors,email,2026-10-23,55.28,35,2,USD
+Tidewater Tutors,email,2026-10-24,44.39,36,1,USD
+Tidewater Tutors,email,2026-10-25,37.07,38,3,USD
+Tidewater Tutors,email,2026-10-26,45.43,28,1,USD
+Tidewater Tutors,email,2026-10-27,51.96,27,2,USD
+Tidewater Tutors,email,2026-10-28,44.69,34,3,USD
+Tidewater Tutors,email,2026-10-29,47.98,54,4,USD
+Tidewater Tutors,email,2026-10-30,39.5,35,1,USD
+Tidewater Tutors,email,2026-10-31,42.2,55,1,USD
+Tidewater Tutors,social,2026-08-01,56.53,42,1,USD
+Tidewater Tutors,social,2026-08-02,82.1,56,2,USD
+Tidewater Tutors,social,2026-08-03,85,76,5,USD
+Tidewater Tutors,social,2026-08-04,113.95,76,5,USD
+Tidewater Tutors,social,2026-08-05,108.26,111,3,USD
+Tidewater Tutors,social,2026-08-06,112.81,142,9,USD
+Tidewater Tutors,social,2026-08-07,99.96,151,8,USD
+Tidewater Tutors,social,2026-08-08,67.04,41,3,USD
+Tidewater Tutors,social,2026-08-09,54.58,68,3,USD
+Tidewater Tutors,social,2026-08-10,78.14,73,5,USD
+Tidewater Tutors,social,2026-08-11,119.11,133,7,USD
+Tidewater Tutors,social,2026-08-12,110.42,98,4,USD
+Tidewater Tutors,social,2026-08-13,109.26,83,6,USD
+Tidewater Tutors,social,2026-08-14,114,60,2,USD
+Tidewater Tutors,social,2026-08-15,78.03,129,7,USD
+Tidewater Tutors,social,2026-08-16,58.47,36,2,USD
+Tidewater Tutors,social,2026-08-17,99.49,101,3,USD
+Tidewater Tutors,social,2026-08-18,82.15,53,1,USD
+Tidewater Tutors,social,2026-08-19,105.21,59,3,USD
+Tidewater Tutors,social,2026-08-20,118.19,112,9,USD
+Tidewater Tutors,social,2026-08-21,87.8,64,4,USD
+Tidewater Tutors,social,2026-08-22,60.65,31,1,USD
+Tidewater Tutors,social,2026-08-23,76.55,62,2,USD
+Tidewater Tutors,social,2026-08-24,77.29,47,1,USD
+Tidewater Tutors,social,2026-08-25,120.59,154,8,USD
+Tidewater Tutors,social,2026-08-26,121.14,135,7,USD
+Tidewater Tutors,social,2026-08-27,76.45,59,4,USD
+Tidewater Tutors,social,2026-08-28,120,176,9,USD
+Tidewater Tutors,social,2026-08-29,56.74,37,1,USD
+Tidewater Tutors,social,2026-08-30,67.54,62,2,USD
+Tidewater Tutors,social,2026-08-31,87.47,61,5,USD
+Tidewater Tutors,social,2026-09-01,77.86,60,2,USD
+Tidewater Tutors,social,2026-09-02,116.22,69,4,USD
+Tidewater Tutors,social,2026-09-03,78.43,58,3,USD
+Tidewater Tutors,social,2026-09-04,85.48,68,2,USD
+Tidewater Tutors,social,2026-09-05,68.61,51,2,USD
+Tidewater Tutors,social,2026-09-06,75.09,38,1,USD
+Tidewater Tutors,social,2026-09-07,95.11,90,6,USD
+Tidewater Tutors,social,2026-09-08,106.05,56,4,USD
+Tidewater Tutors,social,2026-09-09,112.64,69,6,USD
+Tidewater Tutors,social,2026-09-10,76.77,41,2,USD
+Tidewater Tutors,social,2026-09-11,117.98,93,4,USD
+Tidewater Tutors,social,2026-09-12,61.21,87,2,USD
+Tidewater Tutors,social,2026-09-13,86.31,67,4,USD
+Tidewater Tutors,social,2026-09-14,103.01,151,3,USD
+Tidewater Tutors,social,2026-09-15,109.79,56,4,USD
+Tidewater Tutors,social,2026-09-16,93.26,50,2,USD
+Tidewater Tutors,social,2026-09-17,77.49,63,2,USD
+Tidewater Tutors,social,2026-09-18,78.17,110,3,USD
+Tidewater Tutors,social,2026-09-19,61.37,40,3,USD
+Tidewater Tutors,social,2026-09-20,52.6,53,1,USD
+Tidewater Tutors,social,2026-09-21,75.63,42,1,USD
+Tidewater Tutors,social,2026-09-22,86.45,59,2,USD
+Tidewater Tutors,social,2026-09-23,97.46,66,4,USD
+Tidewater Tutors,social,2026-09-24,87.03,129,7,USD
+Tidewater Tutors,social,2026-09-25,114.86,114,3,USD
+Tidewater Tutors,social,2026-09-26,63.03,79,6,USD
+Tidewater Tutors,social,2026-09-27,74.49,80,4,USD
+Tidewater Tutors,social,2026-09-28,88.81,59,4,USD
+Tidewater Tutors,social,2026-09-29,78.95,104,3,USD
+Tidewater Tutors,social,2026-09-30,84.67,49,2,USD
+Tidewater Tutors,social,2026-10-01,107.24,59,2,USD
+Tidewater Tutors,social,2026-10-02,95.02,136,6,USD
+Tidewater Tutors,social,2026-10-03,75.98,87,5,USD
+Tidewater Tutors,social,2026-10-04,84.97,65,5,USD
+Tidewater Tutors,social,2026-10-05,94.34,149,8,USD
+Tidewater Tutors,social,2026-10-06,118.24,189,11,USD
+Tidewater Tutors,social,2026-10-07,89.02,59,4,USD
+Tidewater Tutors,social,2026-10-08,80.36,44,2,USD
+Tidewater Tutors,social,2026-10-09,112.84,100,3,USD
+Tidewater Tutors,social,2026-10-10,71.68,114,7,USD
+Tidewater Tutors,social,2026-10-11,82.33,51,4,USD
+Tidewater Tutors,social,2026-10-12,90.42,86,5,USD
+Tidewater Tutors,social,2026-10-13,106.28,62,5,USD
+Tidewater Tutors,social,2026-10-14,108.38,62,3,USD
+Tidewater Tutors,social,2026-10-15,115.74,87,7,USD
+Tidewater Tutors,social,2026-10-16,106.48,59,4,USD
+Tidewater Tutors,social,2026-10-17,56.61,30,2,USD
+Tidewater Tutors,social,2026-10-18,71.58,53,1,USD
+Tidewater Tutors,social,2026-10-19,107.52,108,7,USD
+Tidewater Tutors,social,2026-10-20,87.27,72,4,USD
+Tidewater Tutors,social,2026-10-21,103.85,83,6,USD
+Tidewater Tutors,social,2026-10-22,97.1,60,3,USD
+Tidewater Tutors,social,2026-10-23,113.67,61,4,USD
+Tidewater Tutors,social,2026-10-24,81.05,129,7,USD
+Tidewater Tutors,social,2026-10-25,53.11,28,1,USD
+Tidewater Tutors,social,2026-10-26,85.4,105,4,USD
+Tidewater Tutors,social,2026-10-27,113.07,117,5,USD
+Tidewater Tutors,social,2026-10-28,78.45,41,1,USD
+Tidewater Tutors,social,2026-10-29,114.4,69,2,USD
+Tidewater Tutors,social,2026-10-30,79.28,57,2,USD
+Tidewater Tutors,social,2026-10-31,60.2,36,1,USD
+Foxglove Florist,social,2026-08-01,49.79,42,2,USD
+Foxglove Florist,social,2026-08-02,31.49,29,1,USD
+Foxglove Florist,social,2026-08-03,66.91,43,2,USD
+Foxglove Florist,social,2026-08-04,67.57,57,4,USD
+Foxglove Florist,social,2026-08-05,66.97,43,2,USD
+Foxglove Florist,social,2026-08-06,44.45,29,2,USD
+Foxglove Florist,social,2026-08-07,59.73,64,1,USD
+Foxglove Florist,social,2026-08-08,48.73,44,3,USD
+Foxglove Florist,social,2026-08-09,42.09,42,2,USD
+Foxglove Florist,social,2026-08-10,50.09,29,1,USD
+Foxglove Florist,social,2026-08-11,63.66,56,4,USD
+Foxglove Florist,social,2026-08-12,60.44,78,2,USD
+Foxglove Florist,social,2026-08-13,54.63,39,2,USD
+Foxglove Florist,social,2026-08-14,47.9,32,2,USD
+Foxglove Florist,social,2026-08-15,45.84,26,1,USD
+Foxglove Florist,social,2026-08-16,42.16,23,1,USD
+Foxglove Florist,social,2026-08-17,47.62,33,1,USD
+Foxglove Florist,social,2026-08-18,49.65,29,1,USD
+Foxglove Florist,social,2026-08-19,44.14,26,1,USD
+Foxglove Florist,social,2026-08-20,66.76,42,3,USD
+Foxglove Florist,social,2026-08-21,66.87,42,3,USD
+Foxglove Florist,social,2026-08-22,41.05,27,2,USD
+Foxglove Florist,social,2026-08-23,37.09,34,2,USD
+Foxglove Florist,social,2026-08-24,70.97,73,5,USD
+Foxglove Florist,social,2026-08-25,48.69,26,1,USD
+Foxglove Florist,social,2026-08-26,68.5,44,2,USD
+Foxglove Florist,social,2026-08-27,55.6,30,2,USD
+Foxglove Florist,social,2026-08-28,70.6,36,2,USD
+Foxglove Florist,social,2026-08-29,42.25,33,2,USD
+Foxglove Florist,social,2026-08-30,40.48,41,1,USD
+Foxglove Florist,social,2026-08-31,54.13,89,2,USD
+Foxglove Florist,social,2026-09-01,58.37,50,4,USD
+Foxglove Florist,social,2026-09-02,44.56,29,2,USD
+Foxglove Florist,social,2026-09-03,57.4,79,2,USD
+Foxglove Florist,social,2026-09-04,47.2,26,1,USD
+Foxglove Florist,social,2026-09-05,49.03,40,3,USD
+Foxglove Florist,social,2026-09-06,49.36,57,3,USD
+Foxglove Florist,social,2026-09-07,63.29,37,3,USD
+Foxglove Florist,social,2026-09-08,58.13,32,1,USD
+Foxglove Florist,social,2026-09-09,59.05,79,5,USD
+Foxglove Florist,social,2026-09-10,50.66,34,1,USD
+Foxglove Florist,social,2026-09-11,59.9,72,4,USD
+Foxglove Florist,social,2026-09-12,33.18,32,2,USD
+Foxglove Florist,social,2026-09-13,43.07,32,1,USD
+Foxglove Florist,social,2026-09-14,47.75,39,1,USD
+Foxglove Florist,social,2026-09-15,53.5,28,2,USD
+Foxglove Florist,social,2026-09-16,64.16,32,2,USD
+Foxglove Florist,social,2026-09-17,44.86,26,2,USD
+Foxglove Florist,social,2026-09-18,68.63,83,3,USD
+Foxglove Florist,social,2026-09-19,33.06,19,1,USD
+Foxglove Florist,social,2026-09-20,47.83,37,1,USD
+Foxglove Florist,social,2026-09-21,63.93,49,2,USD
+Foxglove Florist,social,2026-09-22,64.93,64,4,USD
+Foxglove Florist,social,2026-09-23,66.66,81,3,USD
+Foxglove Florist,social,2026-09-24,47.98,35,2,USD
+Foxglove Florist,social,2026-09-25,58.15,37,2,USD
+Foxglove Florist,social,2026-09-26,35.09,41,2,USD
+Foxglove Florist,social,2026-09-27,45.28,58,3,USD
+Foxglove Florist,social,2026-09-28,62.02,39,3,USD
+Foxglove Florist,social,2026-09-29,58.05,46,1,USD
+Foxglove Florist,social,2026-09-30,55.63,41,1,USD
+Foxglove Florist,social,2026-10-01,63.06,54,3,USD
+Foxglove Florist,social,2026-10-02,67.99,69,4,USD
+Foxglove Florist,social,2026-10-03,42.28,70,3,USD
+Foxglove Florist,social,2026-10-04,38.71,21,1,USD
+Foxglove Florist,social,2026-10-05,70.49,47,3,USD
+Foxglove Florist,social,2026-10-06,72.08,41,2,USD
+Foxglove Florist,social,2026-10-07,68.94,35,1,USD
+Foxglove Florist,social,2026-10-08,50.83,42,1,USD
+Foxglove Florist,social,2026-10-09,58.27,43,2,USD
+Foxglove Florist,social,2026-10-10,34.1,19,1,USD
+Foxglove Florist,social,2026-10-11,40.94,22,2,USD
+Foxglove Florist,social,2026-10-12,70.3,75,3,USD
+Foxglove Florist,social,2026-10-13,57.27,32,2,USD
+Foxglove Florist,social,2026-10-14,56.04,49,3,USD
+Foxglove Florist,social,2026-10-15,57.9,46,3,USD
+Foxglove Florist,social,2026-10-16,58.61,39,1,USD
+Foxglove Florist,social,2026-10-17,41.19,52,4,USD
+Foxglove Florist,social,2026-10-18,50.98,47,4,USD
+Foxglove Florist,social,2026-10-19,62.36,65,3,USD
+Foxglove Florist,social,2026-10-20,52.05,52,1,USD
+Foxglove Florist,social,2026-10-21,52.97,70,1,USD
+Foxglove Florist,social,2026-10-22,58.05,86,2,USD
+Foxglove Florist,social,2026-10-23,65,57,3,USD
+Foxglove Florist,social,2026-10-24,35.87,54,3,USD
+Foxglove Florist,social,2026-10-25,51.15,29,2,USD
+Foxglove Florist,social,2026-10-26,47.61,48,3,USD
+Foxglove Florist,social,2026-10-27,59.83,45,2,USD
+Foxglove Florist,social,2026-10-28,45.69,72,4,USD
+Foxglove Florist,social,2026-10-29,49.93,33,1,USD
+Foxglove Florist,social,2026-10-30,51.95,59,3,USD
+Foxglove Florist,social,2026-10-31,35.93,59,4,USD
+Foxglove Florist,display,2026-08-01,41.78,44,2,USD
+Foxglove Florist,display,2026-08-02,54.78,43,2,USD
+Foxglove Florist,display,2026-08-03,60.65,57,3,USD
+Foxglove Florist,display,2026-08-04,59.19,69,5,USD
+Foxglove Florist,display,2026-08-05,90.71,55,4,USD
+Foxglove Florist,display,2026-08-06,80.37,51,3,USD
+Foxglove Florist,display,2026-08-07,61.15,40,3,USD
+Foxglove Florist,display,2026-08-08,49.53,49,1,USD
+Foxglove Florist,display,2026-08-09,45.82,40,1,USD
+Foxglove Florist,display,2026-08-10,86.49,91,5,USD
+Foxglove Florist,display,2026-08-11,86.44,61,3,USD
+Foxglove Florist,display,2026-08-12,74.22,54,3,USD
+Foxglove Florist,display,2026-08-13,59.09,47,3,USD
+Foxglove Florist,display,2026-08-14,78.5,112,8,USD
+Foxglove Florist,display,2026-08-15,61.59,41,2,USD
+Foxglove Florist,display,2026-08-16,55.86,63,4,USD
+Foxglove Florist,display,2026-08-17,70.53,36,2,USD
+Foxglove Florist,display,2026-08-18,72.85,78,2,USD
+Foxglove Florist,display,2026-08-19,76.46,48,3,USD
+Foxglove Florist,display,2026-08-20,84.33,60,2,USD
+Foxglove Florist,display,2026-08-21,72.05,59,1,USD
+Foxglove Florist,display,2026-08-22,40.11,49,3,USD
+Foxglove Florist,display,2026-08-23,40.6,40,2,USD
+Foxglove Florist,display,2026-08-24,75.11,62,5,USD
+Foxglove Florist,display,2026-08-25,66.93,43,2,USD
+Foxglove Florist,display,2026-08-26,79.38,53,3,USD
+Foxglove Florist,display,2026-08-27,85.07,43,3,USD
+Foxglove Florist,display,2026-08-28,82.92,103,5,USD
+Foxglove Florist,display,2026-08-29,60.18,86,4,USD
+Foxglove Florist,display,2026-08-30,59.07,79,5,USD
+Foxglove Florist,display,2026-08-31,68.87,70,4,USD
+Foxglove Florist,display,2026-09-01,65.93,36,2,USD
+Foxglove Florist,display,2026-09-02,79.33,43,3,USD
+Foxglove Florist,display,2026-09-03,87.57,48,1,USD
+Foxglove Florist,display,2026-09-04,75.23,41,2,USD
+Foxglove Florist,display,2026-09-05,63.78,84,5,USD
+Foxglove Florist,display,2026-09-06,43.93,25,1,USD
+Foxglove Florist,display,2026-09-07,65.19,59,1,USD
+Foxglove Florist,display,2026-09-08,85.37,62,3,USD
+Foxglove Florist,display,2026-09-09,77.65,79,5,USD
+Foxglove Florist,display,2026-09-10,67.79,50,2,USD
+Foxglove Florist,display,2026-09-11,76.53,81,3,USD
+Foxglove Florist,display,2026-09-12,61.71,98,7,USD
+Foxglove Florist,display,2026-09-13,42.64,49,2,USD
+Foxglove Florist,display,2026-09-14,89.45,62,3,USD
+Foxglove Florist,display,2026-09-15,88.74,65,2,USD
+Foxglove Florist,display,2026-09-16,61.03,41,3,USD
+Foxglove Florist,display,2026-09-17,77.36,41,2,USD
+Foxglove Florist,display,2026-09-18,76.7,59,3,USD
+Foxglove Florist,display,2026-09-19,47.63,26,1,USD
+Foxglove Florist,display,2026-09-20,40.4,49,2,USD
+Foxglove Florist,display,2026-09-21,75.86,48,3,USD
+Foxglove Florist,display,2026-09-22,84.3,55,3,USD
+Foxglove Florist,display,2026-09-23,67.5,59,2,USD
+Foxglove Florist,display,2026-09-24,63.58,42,3,USD
+Foxglove Florist,display,2026-09-25,84.91,47,3,USD
+Foxglove Florist,display,2026-09-26,51.67,49,3,USD
+Foxglove Florist,display,2026-09-27,50.08,75,2,USD
+Foxglove Florist,display,2026-09-28,67.81,56,3,USD
+Foxglove Florist,display,2026-09-29,62.02,95,4,USD
+Foxglove Florist,display,2026-09-30,82.77,133,9,USD
+Foxglove Florist,display,2026-10-01,57.87,34,1,USD
+Foxglove Florist,display,2026-10-02,85.87,62,5,USD
+Foxglove Florist,display,2026-10-03,49.18,28,2,USD
+Foxglove Florist,display,2026-10-04,52.72,26,1,USD
+Foxglove Florist,display,2026-10-05,89.11,67,4,USD
+Foxglove Florist,display,2026-10-06,87.79,67,2,USD
+Foxglove Florist,display,2026-10-07,91.19,58,3,USD
+Foxglove Florist,display,2026-10-08,90.21,57,2,USD
+Foxglove Florist,display,2026-10-09,57.62,87,2,USD
+Foxglove Florist,display,2026-10-10,39.84,47,3,USD
+Foxglove Florist,display,2026-10-11,60.48,46,1,USD
+Foxglove Florist,display,2026-10-12,90.57,77,5,USD
+Foxglove Florist,display,2026-10-13,66.94,39,2,USD
+Foxglove Florist,display,2026-10-14,76.26,40,2,USD
+Foxglove Florist,display,2026-10-15,71.19,50,4,USD
+Foxglove Florist,display,2026-10-16,77.51,41,1,USD
+Foxglove Florist,display,2026-10-17,44.04,29,1,USD
+Foxglove Florist,display,2026-10-18,53.93,27,2,USD
+Foxglove Florist,display,2026-10-19,73.48,41,1,USD
+Foxglove Florist,display,2026-10-20,65.33,52,2,USD
+Foxglove Florist,display,2026-10-21,91.69,60,2,USD
+Foxglove Florist,display,2026-10-22,64.27,34,2,USD
+Foxglove Florist,display,2026-10-23,62.8,55,3,USD
+Foxglove Florist,display,2026-10-24,51.72,75,2,USD
+Foxglove Florist,display,2026-10-25,64.14,42,2,USD
+Foxglove Florist,display,2026-10-26,82.1,41,2,USD
+Foxglove Florist,display,2026-10-27,61.55,33,2,USD
+Foxglove Florist,display,2026-10-28,83.28,127,10,USD
+Foxglove Florist,display,2026-10-29,89.62,50,2,USD
+Foxglove Florist,display,2026-10-30,68.92,39,3,USD
+Foxglove Florist,display,2026-10-31,40.32,57,1,USD
+Granite Ridge Climbing,video,2026-08-01,45.35,70,5,USD
+Granite Ridge Climbing,video,2026-08-02,48.59,78,4,USD
+Granite Ridge Climbing,video,2026-08-03,64.26,106,3,USD
+Granite Ridge Climbing,video,2026-08-04,46.35,33,2,USD
+Granite Ridge Climbing,video,2026-08-05,74.87,42,3,USD
+Granite Ridge Climbing,video,2026-08-06,51.28,55,3,USD
+Granite Ridge Climbing,video,2026-08-07,48.14,39,2,USD
+Granite Ridge Climbing,video,2026-08-08,43.65,26,1,USD
+Granite Ridge Climbing,video,2026-08-09,46.59,71,4,USD
+Granite Ridge Climbing,video,2026-08-10,61.65,82,6,USD
+Granite Ridge Climbing,video,2026-08-11,49.36,26,1,USD
+Granite Ridge Climbing,video,2026-08-12,59.91,33,2,USD
+Granite Ridge Climbing,video,2026-08-13,59.54,54,2,USD
+Granite Ridge Climbing,video,2026-08-14,63.96,36,2,USD
+Granite Ridge Climbing,video,2026-08-15,37.94,21,1,USD
+Granite Ridge Climbing,video,2026-08-16,47.42,43,3,USD
+Granite Ridge Climbing,video,2026-08-17,54.44,32,2,USD
+Granite Ridge Climbing,video,2026-08-18,66.73,59,1,USD
+Granite Ridge Climbing,video,2026-08-19,49.8,65,4,USD
+Granite Ridge Climbing,video,2026-08-20,51.63,37,2,USD
+Granite Ridge Climbing,video,2026-08-21,71.96,65,5,USD
+Granite Ridge Climbing,video,2026-08-22,47.53,55,3,USD
+Granite Ridge Climbing,video,2026-08-23,39.28,62,5,USD
+Granite Ridge Climbing,video,2026-08-24,76.8,53,2,USD
+Granite Ridge Climbing,video,2026-08-25,56.09,28,1,USD
+Granite Ridge Climbing,video,2026-08-26,58.69,44,3,USD
+Granite Ridge Climbing,video,2026-08-27,59.4,50,4,USD
+Granite Ridge Climbing,video,2026-08-28,53.46,31,2,USD
+Granite Ridge Climbing,video,2026-08-29,38.23,52,4,USD
+Granite Ridge Climbing,video,2026-08-30,47.68,26,2,USD
+Granite Ridge Climbing,video,2026-08-31,66.58,51,1,USD
+Granite Ridge Climbing,video,2026-09-01,66.8,50,3,USD
+Granite Ridge Climbing,video,2026-09-02,76.08,71,2,USD
+Granite Ridge Climbing,video,2026-09-03,63.81,70,3,USD
+Granite Ridge Climbing,video,2026-09-04,69.77,52,2,USD
+Granite Ridge Climbing,video,2026-09-05,33.83,25,1,USD
+Granite Ridge Climbing,video,2026-09-06,41.84,23,1,USD
+Granite Ridge Climbing,video,2026-09-07,50.45,33,2,USD
+Granite Ridge Climbing,video,2026-09-08,47.66,38,1,USD
+Granite Ridge Climbing,video,2026-09-09,63.9,36,1,USD
+Granite Ridge Climbing,video,2026-09-10,47.3,51,1,USD
+Granite Ridge Climbing,video,2026-09-11,47.23,28,1,USD
+Granite Ridge Climbing,video,2026-09-12,51.68,34,2,USD
+Granite Ridge Climbing,video,2026-09-13,44.49,71,5,USD
+Granite Ridge Climbing,video,2026-09-14,75.51,42,3,USD
+Granite Ridge Climbing,video,2026-09-15,72.47,64,4,USD
+Granite Ridge Climbing,video,2026-09-16,64.17,37,1,USD
+Granite Ridge Climbing,video,2026-09-17,51.98,30,1,USD
+Granite Ridge Climbing,video,2026-09-18,54.44,28,2,USD
+Granite Ridge Climbing,video,2026-09-19,48.2,35,1,USD
+Granite Ridge Climbing,video,2026-09-20,39.6,43,1,USD
+Granite Ridge Climbing,video,2026-09-21,76.63,62,2,USD
+Granite Ridge Climbing,video,2026-09-22,74.23,71,6,USD
+Granite Ridge Climbing,video,2026-09-23,68.12,44,3,USD
+Granite Ridge Climbing,video,2026-09-24,62.44,54,3,USD
+Granite Ridge Climbing,video,2026-09-25,69.58,49,2,USD
+Granite Ridge Climbing,video,2026-09-26,44.35,63,5,USD
+Granite Ridge Climbing,video,2026-09-27,39.81,27,2,USD
+Granite Ridge Climbing,video,2026-09-28,61.64,81,5,USD
+Granite Ridge Climbing,video,2026-09-29,59.68,36,3,USD
+Granite Ridge Climbing,video,2026-09-30,67.47,92,3,USD
+Granite Ridge Climbing,video,2026-10-01,56.88,34,1,USD
+Granite Ridge Climbing,video,2026-10-02,49.17,71,2,USD
+Granite Ridge Climbing,video,2026-10-03,34.43,21,1,USD
+Granite Ridge Climbing,video,2026-10-04,53.98,55,3,USD
+Granite Ridge Climbing,video,2026-10-05,76.01,117,3,USD
+Granite Ridge Climbing,video,2026-10-06,67.76,80,5,USD
+Granite Ridge Climbing,video,2026-10-07,68.39,47,3,USD
+Granite Ridge Climbing,video,2026-10-08,65.93,43,1,USD
+Granite Ridge Climbing,video,2026-10-09,72.43,42,2,USD
+Granite Ridge Climbing,video,2026-10-10,51.19,28,1,USD
+Granite Ridge Climbing,video,2026-10-11,36.78,54,3,USD
+Granite Ridge Climbing,video,2026-10-12,48.52,27,1,USD
+Granite Ridge Climbing,video,2026-10-13,53.46,36,1,USD
+Granite Ridge Climbing,video,2026-10-14,77.04,52,1,USD
+Granite Ridge Climbing,video,2026-10-15,62.67,43,2,USD
+Granite Ridge Climbing,video,2026-10-16,63.08,40,2,USD
+Granite Ridge Climbing,video,2026-10-17,41.86,25,1,USD
+Granite Ridge Climbing,video,2026-10-18,39.06,44,3,USD
+Granite Ridge Climbing,video,2026-10-19,58.65,35,2,USD
+Granite Ridge Climbing,video,2026-10-20,63.28,61,4,USD
+Granite Ridge Climbing,video,2026-10-21,63.08,54,4,USD
+Granite Ridge Climbing,video,2026-10-22,76.36,50,4,USD
+Granite Ridge Climbing,video,2026-10-23,47,33,2,USD
+Granite Ridge Climbing,video,2026-10-24,44.1,48,4,USD
+Granite Ridge Climbing,video,2026-10-25,44.58,37,3,USD
+Granite Ridge Climbing,video,2026-10-26,60.08,88,7,USD
+Granite Ridge Climbing,video,2026-10-27,50.68,31,1,USD
+Granite Ridge Climbing,video,2026-10-28,55.35,49,3,USD
+Granite Ridge Climbing,video,2026-10-29,68.33,34,1,USD
+Granite Ridge Climbing,video,2026-10-30,63.19,101,6,USD
+Granite Ridge Climbing,video,2026-10-31,48.64,79,3,USD
+Granite Ridge Climbing,social,2026-08-01,57.16,46,3,USD
+Granite Ridge Climbing,social,2026-08-02,48.28,62,2,USD
+Granite Ridge Climbing,social,2026-08-03,102.16,164,8,USD
+Granite Ridge Climbing,social,2026-08-04,110.89,80,5,USD
+Granite Ridge Climbing,social,2026-08-05,112.88,166,13,USD
+Granite Ridge Climbing,social,2026-08-06,103.33,57,3,USD
+Granite Ridge Climbing,social,2026-08-07,83.23,95,6,USD
+Granite Ridge Climbing,social,2026-08-08,63.47,38,1,USD
+Granite Ridge Climbing,social,2026-08-09,64.96,51,3,USD
+Granite Ridge Climbing,social,2026-08-10,111.76,109,2,USD
+Granite Ridge Climbing,social,2026-08-11,68.63,44,3,USD
+Granite Ridge Climbing,social,2026-08-12,89.83,100,7,USD
+Granite Ridge Climbing,social,2026-08-13,108.33,56,4,USD
+Granite Ridge Climbing,social,2026-08-14,88.25,56,3,USD
+Granite Ridge Climbing,social,2026-08-15,52.68,35,1,USD
+Granite Ridge Climbing,social,2026-08-16,79.34,43,1,USD
+Granite Ridge Climbing,social,2026-08-17,109.11,92,7,USD
+Granite Ridge Climbing,social,2026-08-18,100.75,65,4,USD
+Granite Ridge Climbing,social,2026-08-19,96.5,117,8,USD
+Granite Ridge Climbing,social,2026-08-20,90.44,51,2,USD
+Granite Ridge Climbing,social,2026-08-21,98.05,87,5,USD
+Granite Ridge Climbing,social,2026-08-22,50.05,78,2,USD
+Granite Ridge Climbing,social,2026-08-23,75.7,47,2,USD
+Granite Ridge Climbing,social,2026-08-24,90.87,51,4,USD
+Granite Ridge Climbing,social,2026-08-25,90.02,89,3,USD
+Granite Ridge Climbing,social,2026-08-26,83.95,111,8,USD
+Granite Ridge Climbing,social,2026-08-27,87.19,94,3,USD
+Granite Ridge Climbing,social,2026-08-28,99.79,131,6,USD
+Granite Ridge Climbing,social,2026-08-29,74.07,43,3,USD
+Granite Ridge Climbing,social,2026-08-30,78.66,60,2,USD
+Granite Ridge Climbing,social,2026-08-31,75.93,83,5,USD
+Granite Ridge Climbing,social,2026-09-01,112.35,85,7,USD
+Granite Ridge Climbing,social,2026-09-02,97.13,57,1,USD
+Granite Ridge Climbing,social,2026-09-03,85.57,45,3,USD
+Granite Ridge Climbing,social,2026-09-04,109.97,58,2,USD
+Granite Ridge Climbing,social,2026-09-05,54.03,29,2,USD
+Granite Ridge Climbing,social,2026-09-06,74.13,53,3,USD
+Granite Ridge Climbing,social,2026-09-07,76.59,55,2,USD
+Granite Ridge Climbing,social,2026-09-08,83.85,78,6,USD
+Granite Ridge Climbing,social,2026-09-09,105.96,74,2,USD
+Granite Ridge Climbing,social,2026-09-10,100.13,140,7,USD
+Granite Ridge Climbing,social,2026-09-11,75.29,42,3,USD
+Granite Ridge Climbing,social,2026-09-12,66.83,60,3,USD
+Granite Ridge Climbing,social,2026-09-13,63.16,43,2,USD
+Granite Ridge Climbing,social,2026-09-14,109.68,104,5,USD
+Granite Ridge Climbing,social,2026-09-15,95.64,58,3,USD
+Granite Ridge Climbing,social,2026-09-16,85.9,87,3,USD
+Granite Ridge Climbing,social,2026-09-17,108.81,65,5,USD
+Granite Ridge Climbing,social,2026-09-18,103.97,64,5,USD
+Granite Ridge Climbing,social,2026-09-19,55.2,67,1,USD
+Granite Ridge Climbing,social,2026-09-20,49.31,33,1,USD
+Granite Ridge Climbing,social,2026-09-21,82.86,96,3,USD
+Granite Ridge Climbing,social,2026-09-22,106.13,54,3,USD
+Granite Ridge Climbing,social,2026-09-23,103.1,83,5,USD
+Granite Ridge Climbing,social,2026-09-24,69.17,43,3,USD
+Granite Ridge Climbing,social,2026-09-25,79.47,69,3,USD
+Granite Ridge Climbing,social,2026-09-26,73.22,41,3,USD
+Granite Ridge Climbing,social,2026-09-27,77.32,42,3,USD
+Granite Ridge Climbing,social,2026-09-28,85.23,132,8,USD
+Granite Ridge Climbing,social,2026-09-29,104.8,107,5,USD
+Granite Ridge Climbing,social,2026-09-30,92.22,121,4,USD
+Granite Ridge Climbing,social,2026-10-01,73.15,72,4,USD
+Granite Ridge Climbing,social,2026-10-02,77.26,72,3,USD
+Granite Ridge Climbing,social,2026-10-03,57.19,74,5,USD
+Granite Ridge Climbing,social,2026-10-04,78.96,67,5,USD
+Granite Ridge Climbing,social,2026-10-05,72.93,93,7,USD
+Granite Ridge Climbing,social,2026-10-06,99.96,56,3,USD
+Granite Ridge Climbing,social,2026-10-07,92.27,126,5,USD
+Granite Ridge Climbing,social,2026-10-08,77.38,54,1,USD
+Granite Ridge Climbing,social,2026-10-09,87.31,57,5,USD
+Granite Ridge Climbing,social,2026-10-10,73.76,88,6,USD
+Granite Ridge Climbing,social,2026-10-11,70.98,72,4,USD
+Granite Ridge Climbing,social,2026-10-12,68.57,59,2,USD
+Granite Ridge Climbing,social,2026-10-13,97.3,50,4,USD
+Granite Ridge Climbing,social,2026-10-14,75.81,60,4,USD
+Granite Ridge Climbing,social,2026-10-15,87.27,60,2,USD
+Granite Ridge Climbing,social,2026-10-16,108.53,95,4,USD
+Granite Ridge Climbing,social,2026-10-17,50.3,38,1,USD
+Granite Ridge Climbing,social,2026-10-18,76.42,51,3,USD
+Granite Ridge Climbing,social,2026-10-19,107.53,70,3,USD
+Granite Ridge Climbing,social,2026-10-20,103.28,64,2,USD
+Granite Ridge Climbing,social,2026-10-21,101.79,91,6,USD
+Granite Ridge Climbing,social,2026-10-22,103.98,79,2,USD
+Granite Ridge Climbing,social,2026-10-23,78.47,53,1,USD
+Granite Ridge Climbing,social,2026-10-24,57.51,53,3,USD
+Granite Ridge Climbing,social,2026-10-25,76.09,49,2,USD
+Granite Ridge Climbing,social,2026-10-26,77.43,55,3,USD
+Granite Ridge Climbing,social,2026-10-27,98.15,53,4,USD
+Granite Ridge Climbing,social,2026-10-28,86.7,106,5,USD
+Granite Ridge Climbing,social,2026-10-29,84.31,94,4,USD
+Granite Ridge Climbing,social,2026-10-30,96.5,57,1,USD
+Granite Ridge Climbing,social,2026-10-31,49.89,58,3,USD

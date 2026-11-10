@@ -1,0 +1,3629 @@
+[
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 85960000,
+  "currency": "USD",
+  "clicks": 48,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 110150000,
+  "currency": "USD",
+  "clicks": 86,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 57480000,
+  "currency": "USD",
+  "clicks": 71,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 74780000,
+  "currency": "USD",
+  "clicks": 43,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 82400000,
+  "currency": "USD",
+  "clicks": 78,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 71530000,
+  "currency": "USD",
+  "clicks": 66,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 69930000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 88300000,
+  "currency": "USD",
+  "clicks": 118,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 108570000,
+  "currency": "USD",
+  "clicks": 110,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 62880000,
+  "currency": "USD",
+  "clicks": 37,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 51890000,
+  "currency": "USD",
+  "clicks": 67,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 86010000,
+  "currency": "USD",
+  "clicks": 73,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 95380000,
+  "currency": "USD",
+  "clicks": 153,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 74160000,
+  "currency": "USD",
+  "clicks": 39,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 72760000,
+  "currency": "USD",
+  "clicks": 91,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 109460000,
+  "currency": "USD",
+  "clicks": 57,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 62080000,
+  "currency": "USD",
+  "clicks": 63,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 65510000,
+  "currency": "USD",
+  "clicks": 70,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 98230000,
+  "currency": "USD",
+  "clicks": 75,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 98320000,
+  "currency": "USD",
+  "clicks": 101,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 92400000,
+  "currency": "USD",
+  "clicks": 115,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 102680000,
+  "currency": "USD",
+  "clicks": 97,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 112320000,
+  "currency": "USD",
+  "clicks": 112,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 49100000,
+  "currency": "USD",
+  "clicks": 29,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 66220000,
+  "currency": "USD",
+  "clicks": 34,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 78110000,
+  "currency": "USD",
+  "clicks": 65,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 113870000,
+  "currency": "USD",
+  "clicks": 131,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 79710000,
+  "currency": "USD",
+  "clicks": 53,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 112270000,
+  "currency": "USD",
+  "clicks": 98,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 89150000,
+  "currency": "USD",
+  "clicks": 68,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1000",
+  "channel": "search",
+  "cost_micros": 75500000,
+  "currency": "USD",
+  "clicks": 46,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 151720000,
+  "currency": "USD",
+  "clicks": 209,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 162600000,
+  "currency": "USD",
+  "clicks": 150,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 87260000,
+  "currency": "USD",
+  "clicks": 82,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 88150000,
+  "currency": "USD",
+  "clicks": 45,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 103470000,
+  "currency": "USD",
+  "clicks": 54,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 126860000,
+  "currency": "USD",
+  "clicks": 209,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 111920000,
+  "currency": "USD",
+  "clicks": 73,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 149070000,
+  "currency": "USD",
+  "clicks": 132,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 111760000,
+  "currency": "USD",
+  "clicks": 140,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 85920000,
+  "currency": "USD",
+  "clicks": 70,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 95580000,
+  "currency": "USD",
+  "clicks": 76,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 150780000,
+  "currency": "USD",
+  "clicks": 92,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 107660000,
+  "currency": "USD",
+  "clicks": 129,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 112300000,
+  "currency": "USD",
+  "clicks": 77,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 158970000,
+  "currency": "USD",
+  "clicks": 93,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 110830000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 73920000,
+  "currency": "USD",
+  "clicks": 65,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 84610000,
+  "currency": "USD",
+  "clicks": 127,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 112620000,
+  "currency": "USD",
+  "clicks": 71,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 111400000,
+  "currency": "USD",
+  "clicks": 113,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 141930000,
+  "currency": "USD",
+  "clicks": 139,
+  "conversions": 10
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 122610000,
+  "currency": "USD",
+  "clicks": 137,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 129790000,
+  "currency": "USD",
+  "clicks": 102,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 72370000,
+  "currency": "USD",
+  "clicks": 90,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 104680000,
+  "currency": "USD",
+  "clicks": 56,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 143170000,
+  "currency": "USD",
+  "clicks": 168,
+  "conversions": 10
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 105220000,
+  "currency": "USD",
+  "clicks": 82,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 140090000,
+  "currency": "USD",
+  "clicks": 133,
+  "conversions": 10
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 135210000,
+  "currency": "USD",
+  "clicks": 67,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 140540000,
+  "currency": "USD",
+  "clicks": 83,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1000",
+  "channel": "social",
+  "cost_micros": 78250000,
+  "currency": "USD",
+  "clicks": 42,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 164770000,
+  "currency": "USD",
+  "clicks": 89,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 197820000,
+  "currency": "USD",
+  "clicks": 112,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 113800000,
+  "currency": "USD",
+  "clicks": 127,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 132070000,
+  "currency": "USD",
+  "clicks": 172,
+  "conversions": 12
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 140690000,
+  "currency": "USD",
+  "clicks": 79,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 124530000,
+  "currency": "USD",
+  "clicks": 67,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 177080000,
+  "currency": "USD",
+  "clicks": 134,
+  "conversions": 10
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 129870000,
+  "currency": "USD",
+  "clicks": 165,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 200810000,
+  "currency": "USD",
+  "clicks": 105,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 132780000,
+  "currency": "USD",
+  "clicks": 121,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 110460000,
+  "currency": "USD",
+  "clicks": 126,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 154160000,
+  "currency": "USD",
+  "clicks": 213,
+  "conversions": 11
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 154210000,
+  "currency": "USD",
+  "clicks": 110,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 169000000,
+  "currency": "USD",
+  "clicks": 111,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 173860000,
+  "currency": "USD",
+  "clicks": 200,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 165250000,
+  "currency": "USD",
+  "clicks": 94,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 100700000,
+  "currency": "USD",
+  "clicks": 115,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 135650000,
+  "currency": "USD",
+  "clicks": 206,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 190080000,
+  "currency": "USD",
+  "clicks": 118,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 142230000,
+  "currency": "USD",
+  "clicks": 143,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 181190000,
+  "currency": "USD",
+  "clicks": 98,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 156920000,
+  "currency": "USD",
+  "clicks": 79,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 190930000,
+  "currency": "USD",
+  "clicks": 142,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 138130000,
+  "currency": "USD",
+  "clicks": 74,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 134080000,
+  "currency": "USD",
+  "clicks": 191,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 131350000,
+  "currency": "USD",
+  "clicks": 76,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 180670000,
+  "currency": "USD",
+  "clicks": 99,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 157290000,
+  "currency": "USD",
+  "clicks": 218,
+  "conversions": 15
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 144770000,
+  "currency": "USD",
+  "clicks": 123,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 177720000,
+  "currency": "USD",
+  "clicks": 229,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1007",
+  "channel": "search",
+  "cost_micros": 143720000,
+  "currency": "USD",
+  "clicks": 115,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 134430000,
+  "currency": "EUR",
+  "clicks": 186,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 111330000,
+  "currency": "EUR",
+  "clicks": 110,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 60330000,
+  "currency": "EUR",
+  "clicks": 38,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 77970000,
+  "currency": "EUR",
+  "clicks": 53,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 89360000,
+  "currency": "EUR",
+  "clicks": 88,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 118510000,
+  "currency": "EUR",
+  "clicks": 115,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 104330000,
+  "currency": "EUR",
+  "clicks": 94,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 91340000,
+  "currency": "EUR",
+  "clicks": 143,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 122810000,
+  "currency": "EUR",
+  "clicks": 112,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 77110000,
+  "currency": "EUR",
+  "clicks": 102,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 90530000,
+  "currency": "EUR",
+  "clicks": 51,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 112620000,
+  "currency": "EUR",
+  "clicks": 58,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 84520000,
+  "currency": "EUR",
+  "clicks": 68,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 123430000,
+  "currency": "EUR",
+  "clicks": 109,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 114170000,
+  "currency": "EUR",
+  "clicks": 93,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 92420000,
+  "currency": "EUR",
+  "clicks": 117,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 67300000,
+  "currency": "EUR",
+  "clicks": 61,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 66970000,
+  "currency": "EUR",
+  "clicks": 51,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 109370000,
+  "currency": "EUR",
+  "clicks": 66,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 85600000,
+  "currency": "EUR",
+  "clicks": 78,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 126840000,
+  "currency": "EUR",
+  "clicks": 64,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 125600000,
+  "currency": "EUR",
+  "clicks": 118,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 107170000,
+  "currency": "EUR",
+  "clicks": 55,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 61870000,
+  "currency": "EUR",
+  "clicks": 49,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 96140000,
+  "currency": "EUR",
+  "clicks": 79,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 109350000,
+  "currency": "EUR",
+  "clicks": 62,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 139630000,
+  "currency": "EUR",
+  "clicks": 148,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 121690000,
+  "currency": "EUR",
+  "clicks": 152,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 96680000,
+  "currency": "EUR",
+  "clicks": 60,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 90640000,
+  "currency": "EUR",
+  "clicks": 60,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1014",
+  "channel": "social",
+  "cost_micros": 71330000,
+  "currency": "EUR",
+  "clicks": 39,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 94280000,
+  "currency": "EUR",
+  "clicks": 51,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 117610000,
+  "currency": "EUR",
+  "clicks": 132,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 85430000,
+  "currency": "EUR",
+  "clicks": 47,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 74010000,
+  "currency": "EUR",
+  "clicks": 44,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 86060000,
+  "currency": "EUR",
+  "clicks": 46,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 83570000,
+  "currency": "EUR",
+  "clicks": 103,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 89200000,
+  "currency": "EUR",
+  "clicks": 106,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 78880000,
+  "currency": "EUR",
+  "clicks": 75,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 116860000,
+  "currency": "EUR",
+  "clicks": 103,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 55990000,
+  "currency": "EUR",
+  "clicks": 29,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 66810000,
+  "currency": "EUR",
+  "clicks": 46,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 121890000,
+  "currency": "EUR",
+  "clicks": 132,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 94710000,
+  "currency": "EUR",
+  "clicks": 62,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 122820000,
+  "currency": "EUR",
+  "clicks": 186,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 103860000,
+  "currency": "EUR",
+  "clicks": 64,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 109110000,
+  "currency": "EUR",
+  "clicks": 63,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 77140000,
+  "currency": "EUR",
+  "clicks": 51,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 85360000,
+  "currency": "EUR",
+  "clicks": 43,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 98850000,
+  "currency": "EUR",
+  "clicks": 63,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 102120000,
+  "currency": "EUR",
+  "clicks": 80,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 100930000,
+  "currency": "EUR",
+  "clicks": 167,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 104470000,
+  "currency": "EUR",
+  "clicks": 61,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 98850000,
+  "currency": "EUR",
+  "clicks": 70,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 64360000,
+  "currency": "EUR",
+  "clicks": 80,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 56480000,
+  "currency": "EUR",
+  "clicks": 39,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 103710000,
+  "currency": "EUR",
+  "clicks": 163,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 83690000,
+  "currency": "EUR",
+  "clicks": 107,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 124060000,
+  "currency": "EUR",
+  "clicks": 172,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 103330000,
+  "currency": "EUR",
+  "clicks": 149,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 123930000,
+  "currency": "EUR",
+  "clicks": 63,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1014",
+  "channel": "search",
+  "cost_micros": 56720000,
+  "currency": "EUR",
+  "clicks": 31,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 74210000,
+  "currency": "USD",
+  "clicks": 57,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 69050000,
+  "currency": "USD",
+  "clicks": 52,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 61240000,
+  "currency": "USD",
+  "clicks": 39,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 62090000,
+  "currency": "USD",
+  "clicks": 33,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 89460000,
+  "currency": "USD",
+  "clicks": 114,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 88560000,
+  "currency": "USD",
+  "clicks": 79,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 60140000,
+  "currency": "USD",
+  "clicks": 38,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 95920000,
+  "currency": "USD",
+  "clicks": 52,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 91920000,
+  "currency": "USD",
+  "clicks": 52,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 57610000,
+  "currency": "USD",
+  "clicks": 83,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 59320000,
+  "currency": "USD",
+  "clicks": 69,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 78460000,
+  "currency": "USD",
+  "clicks": 123,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 91380000,
+  "currency": "USD",
+  "clicks": 130,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 62300000,
+  "currency": "USD",
+  "clicks": 72,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 70770000,
+  "currency": "USD",
+  "clicks": 115,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 88360000,
+  "currency": "USD",
+  "clicks": 64,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 55240000,
+  "currency": "USD",
+  "clicks": 29,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 57480000,
+  "currency": "USD",
+  "clicks": 32,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 62080000,
+  "currency": "USD",
+  "clicks": 68,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 59940000,
+  "currency": "USD",
+  "clicks": 93,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 68760000,
+  "currency": "USD",
+  "clicks": 37,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 77790000,
+  "currency": "USD",
+  "clicks": 56,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 71740000,
+  "currency": "USD",
+  "clicks": 37,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 60500000,
+  "currency": "USD",
+  "clicks": 66,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 57110000,
+  "currency": "USD",
+  "clicks": 51,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 92720000,
+  "currency": "USD",
+  "clicks": 61,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 92060000,
+  "currency": "USD",
+  "clicks": 66,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 80490000,
+  "currency": "USD",
+  "clicks": 78,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 87150000,
+  "currency": "USD",
+  "clicks": 121,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 81190000,
+  "currency": "USD",
+  "clicks": 64,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1021",
+  "channel": "social",
+  "cost_micros": 53500000,
+  "currency": "USD",
+  "clicks": 74,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 174980000,
+  "currency": "USD",
+  "clicks": 117,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 134460000,
+  "currency": "USD",
+  "clicks": 114,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 120130000,
+  "currency": "USD",
+  "clicks": 158,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 91720000,
+  "currency": "USD",
+  "clicks": 84,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 145310000,
+  "currency": "USD",
+  "clicks": 183,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 159150000,
+  "currency": "USD",
+  "clicks": 194,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 185410000,
+  "currency": "USD",
+  "clicks": 120,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 157210000,
+  "currency": "USD",
+  "clicks": 99,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 152410000,
+  "currency": "USD",
+  "clicks": 181,
+  "conversions": 11
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 91830000,
+  "currency": "USD",
+  "clicks": 54,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 113580000,
+  "currency": "USD",
+  "clicks": 85,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 134000000,
+  "currency": "USD",
+  "clicks": 70,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 119800000,
+  "currency": "USD",
+  "clicks": 83,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 144390000,
+  "currency": "USD",
+  "clicks": 78,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 192720000,
+  "currency": "USD",
+  "clicks": 101,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 161410000,
+  "currency": "USD",
+  "clicks": 122,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 102990000,
+  "currency": "USD",
+  "clicks": 56,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 109050000,
+  "currency": "USD",
+  "clicks": 116,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 137060000,
+  "currency": "USD",
+  "clicks": 73,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 146830000,
+  "currency": "USD",
+  "clicks": 94,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 168910000,
+  "currency": "USD",
+  "clicks": 232,
+  "conversions": 13
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 165890000,
+  "currency": "USD",
+  "clicks": 136,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 150980000,
+  "currency": "USD",
+  "clicks": 77,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 131090000,
+  "currency": "USD",
+  "clicks": 87,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 123380000,
+  "currency": "USD",
+  "clicks": 95,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 166430000,
+  "currency": "USD",
+  "clicks": 229,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 136840000,
+  "currency": "USD",
+  "clicks": 87,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 183900000,
+  "currency": "USD",
+  "clicks": 197,
+  "conversions": 13
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 167250000,
+  "currency": "USD",
+  "clicks": 186,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 170440000,
+  "currency": "USD",
+  "clicks": 95,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1028",
+  "channel": "search",
+  "cost_micros": 140760000,
+  "currency": "USD",
+  "clicks": 137,
+  "conversions": 10
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 100130000,
+  "currency": "GBP",
+  "clicks": 51,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 96540000,
+  "currency": "GBP",
+  "clicks": 139,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 45610000,
+  "currency": "GBP",
+  "clicks": 27,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 60450000,
+  "currency": "GBP",
+  "clicks": 35,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 90320000,
+  "currency": "GBP",
+  "clicks": 138,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 74050000,
+  "currency": "GBP",
+  "clicks": 61,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 99340000,
+  "currency": "GBP",
+  "clicks": 55,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 93060000,
+  "currency": "GBP",
+  "clicks": 136,
+  "conversions": 10
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 64250000,
+  "currency": "GBP",
+  "clicks": 49,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 71400000,
+  "currency": "GBP",
+  "clicks": 47,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 59210000,
+  "currency": "GBP",
+  "clicks": 46,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 87790000,
+  "currency": "GBP",
+  "clicks": 75,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 84870000,
+  "currency": "GBP",
+  "clicks": 64,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 98320000,
+  "currency": "GBP",
+  "clicks": 67,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 90930000,
+  "currency": "GBP",
+  "clicks": 58,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 90220000,
+  "currency": "GBP",
+  "clicks": 84,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 62030000,
+  "currency": "GBP",
+  "clicks": 48,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 50750000,
+  "currency": "GBP",
+  "clicks": 54,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 84760000,
+  "currency": "GBP",
+  "clicks": 61,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 61860000,
+  "currency": "GBP",
+  "clicks": 52,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 80060000,
+  "currency": "GBP",
+  "clicks": 63,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 70810000,
+  "currency": "GBP",
+  "clicks": 36,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 84250000,
+  "currency": "GBP",
+  "clicks": 134,
+  "conversions": 10
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 67120000,
+  "currency": "GBP",
+  "clicks": 43,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 56420000,
+  "currency": "GBP",
+  "clicks": 33,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 86880000,
+  "currency": "GBP",
+  "clicks": 102,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 61650000,
+  "currency": "GBP",
+  "clicks": 76,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 76930000,
+  "currency": "GBP",
+  "clicks": 69,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 103310000,
+  "currency": "GBP",
+  "clicks": 66,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 103130000,
+  "currency": "GBP",
+  "clicks": 89,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1035",
+  "channel": "search",
+  "cost_micros": 66690000,
+  "currency": "GBP",
+  "clicks": 67,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 107500000,
+  "currency": "GBP",
+  "clicks": 86,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 90910000,
+  "currency": "GBP",
+  "clicks": 78,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 69760000,
+  "currency": "GBP",
+  "clicks": 49,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 64340000,
+  "currency": "GBP",
+  "clicks": 100,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 109020000,
+  "currency": "GBP",
+  "clicks": 108,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 78590000,
+  "currency": "GBP",
+  "clicks": 62,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 74800000,
+  "currency": "GBP",
+  "clicks": 64,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 99230000,
+  "currency": "GBP",
+  "clicks": 140,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 100150000,
+  "currency": "GBP",
+  "clicks": 62,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 76290000,
+  "currency": "GBP",
+  "clicks": 117,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 61420000,
+  "currency": "GBP",
+  "clicks": 53,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 87580000,
+  "currency": "GBP",
+  "clicks": 71,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 87380000,
+  "currency": "GBP",
+  "clicks": 125,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 105190000,
+  "currency": "GBP",
+  "clicks": 71,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 85690000,
+  "currency": "GBP",
+  "clicks": 51,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 96970000,
+  "currency": "GBP",
+  "clicks": 70,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 59400000,
+  "currency": "GBP",
+  "clicks": 39,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 83420000,
+  "currency": "GBP",
+  "clicks": 105,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 106460000,
+  "currency": "GBP",
+  "clicks": 74,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 107120000,
+  "currency": "GBP",
+  "clicks": 149,
+  "conversions": 9
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 107300000,
+  "currency": "GBP",
+  "clicks": 124,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 107450000,
+  "currency": "GBP",
+  "clicks": 56,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 78090000,
+  "currency": "GBP",
+  "clicks": 87,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 50410000,
+  "currency": "GBP",
+  "clicks": 39,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 56540000,
+  "currency": "GBP",
+  "clicks": 42,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 74650000,
+  "currency": "GBP",
+  "clicks": 111,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 101240000,
+  "currency": "GBP",
+  "clicks": 120,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 80890000,
+  "currency": "GBP",
+  "clicks": 94,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 116220000,
+  "currency": "GBP",
+  "clicks": 59,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 109510000,
+  "currency": "GBP",
+  "clicks": 56,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1035",
+  "channel": "social",
+  "cost_micros": 72340000,
+  "currency": "GBP",
+  "clicks": 70,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 50510000,
+  "currency": "USD",
+  "clicks": 77,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 52270000,
+  "currency": "USD",
+  "clicks": 38,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 38350000,
+  "currency": "USD",
+  "clicks": 25,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 36710000,
+  "currency": "USD",
+  "clicks": 40,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 47900000,
+  "currency": "USD",
+  "clicks": 64,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 55930000,
+  "currency": "USD",
+  "clicks": 58,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 42720000,
+  "currency": "USD",
+  "clicks": 40,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 42710000,
+  "currency": "USD",
+  "clicks": 29,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 43750000,
+  "currency": "USD",
+  "clicks": 29,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 44010000,
+  "currency": "USD",
+  "clicks": 35,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 33080000,
+  "currency": "USD",
+  "clicks": 22,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 42410000,
+  "currency": "USD",
+  "clicks": 24,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 42960000,
+  "currency": "USD",
+  "clicks": 25,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 61630000,
+  "currency": "USD",
+  "clicks": 36,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 54150000,
+  "currency": "USD",
+  "clicks": 51,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 53050000,
+  "currency": "USD",
+  "clicks": 27,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 43800000,
+  "currency": "USD",
+  "clicks": 36,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 33330000,
+  "currency": "USD",
+  "clicks": 18,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 49520000,
+  "currency": "USD",
+  "clicks": 36,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 46720000,
+  "currency": "USD",
+  "clicks": 67,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 60890000,
+  "currency": "USD",
+  "clicks": 37,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 50490000,
+  "currency": "USD",
+  "clicks": 62,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 41530000,
+  "currency": "USD",
+  "clicks": 28,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 30240000,
+  "currency": "USD",
+  "clicks": 33,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 43910000,
+  "currency": "USD",
+  "clicks": 39,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 57900000,
+  "currency": "USD",
+  "clicks": 39,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 59980000,
+  "currency": "USD",
+  "clicks": 34,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 41730000,
+  "currency": "USD",
+  "clicks": 37,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 63770000,
+  "currency": "USD",
+  "clicks": 49,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 40500000,
+  "currency": "USD",
+  "clicks": 56,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1042",
+  "channel": "search",
+  "cost_micros": 45300000,
+  "currency": "USD",
+  "clicks": 33,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 107240000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 95020000,
+  "currency": "USD",
+  "clicks": 136,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 75980000,
+  "currency": "USD",
+  "clicks": 87,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 84970000,
+  "currency": "USD",
+  "clicks": 65,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 94340000,
+  "currency": "USD",
+  "clicks": 149,
+  "conversions": 8
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 118240000,
+  "currency": "USD",
+  "clicks": 189,
+  "conversions": 11
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 89020000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 80360000,
+  "currency": "USD",
+  "clicks": 44,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 112840000,
+  "currency": "USD",
+  "clicks": 100,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 71680000,
+  "currency": "USD",
+  "clicks": 114,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 82330000,
+  "currency": "USD",
+  "clicks": 51,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 90420000,
+  "currency": "USD",
+  "clicks": 86,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 106280000,
+  "currency": "USD",
+  "clicks": 62,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 108380000,
+  "currency": "USD",
+  "clicks": 62,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 115740000,
+  "currency": "USD",
+  "clicks": 87,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 106480000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 56610000,
+  "currency": "USD",
+  "clicks": 30,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 71580000,
+  "currency": "USD",
+  "clicks": 53,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 107520000,
+  "currency": "USD",
+  "clicks": 108,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 87270000,
+  "currency": "USD",
+  "clicks": 72,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 103850000,
+  "currency": "USD",
+  "clicks": 83,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 97100000,
+  "currency": "USD",
+  "clicks": 60,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 113670000,
+  "currency": "USD",
+  "clicks": 61,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 81050000,
+  "currency": "USD",
+  "clicks": 129,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 53110000,
+  "currency": "USD",
+  "clicks": 28,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 85400000,
+  "currency": "USD",
+  "clicks": 105,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 113070000,
+  "currency": "USD",
+  "clicks": 117,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 78450000,
+  "currency": "USD",
+  "clicks": 41,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 116690000,
+  "currency": "USD",
+  "clicks": 69,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 80870000,
+  "currency": "USD",
+  "clicks": 57,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1042",
+  "channel": "social",
+  "cost_micros": 61400000,
+  "currency": "USD",
+  "clicks": 36,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 63060000,
+  "currency": "USD",
+  "clicks": 54,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 67990000,
+  "currency": "USD",
+  "clicks": 69,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 42280000,
+  "currency": "USD",
+  "clicks": 70,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 38710000,
+  "currency": "USD",
+  "clicks": 21,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 70490000,
+  "currency": "USD",
+  "clicks": 47,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 72080000,
+  "currency": "USD",
+  "clicks": 41,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 68940000,
+  "currency": "USD",
+  "clicks": 35,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 50830000,
+  "currency": "USD",
+  "clicks": 42,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 58270000,
+  "currency": "USD",
+  "clicks": 43,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 34100000,
+  "currency": "USD",
+  "clicks": 19,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 40940000,
+  "currency": "USD",
+  "clicks": 22,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 70300000,
+  "currency": "USD",
+  "clicks": 75,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 57270000,
+  "currency": "USD",
+  "clicks": 32,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 56040000,
+  "currency": "USD",
+  "clicks": 49,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 57900000,
+  "currency": "USD",
+  "clicks": 46,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 58610000,
+  "currency": "USD",
+  "clicks": 39,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 41190000,
+  "currency": "USD",
+  "clicks": 52,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 50980000,
+  "currency": "USD",
+  "clicks": 47,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 62360000,
+  "currency": "USD",
+  "clicks": 65,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 52050000,
+  "currency": "USD",
+  "clicks": 52,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 52970000,
+  "currency": "USD",
+  "clicks": 70,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 58050000,
+  "currency": "USD",
+  "clicks": 86,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 65000000,
+  "currency": "USD",
+  "clicks": 57,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 35870000,
+  "currency": "USD",
+  "clicks": 54,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 51150000,
+  "currency": "USD",
+  "clicks": 29,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 47610000,
+  "currency": "USD",
+  "clicks": 48,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 59830000,
+  "currency": "USD",
+  "clicks": 45,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 45690000,
+  "currency": "USD",
+  "clicks": 72,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 50930000,
+  "currency": "USD",
+  "clicks": 33,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 52990000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1049",
+  "channel": "social",
+  "cost_micros": 36650000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-01",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 73150000,
+  "currency": "USD",
+  "clicks": 72,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-02",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 77260000,
+  "currency": "USD",
+  "clicks": 72,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-03",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 57190000,
+  "currency": "USD",
+  "clicks": 74,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-04",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 78960000,
+  "currency": "USD",
+  "clicks": 67,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-05",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 72930000,
+  "currency": "USD",
+  "clicks": 93,
+  "conversions": 7
+ },
+ {
+  "date": "2026-10-06",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 99960000,
+  "currency": "USD",
+  "clicks": 56,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-07",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 92270000,
+  "currency": "USD",
+  "clicks": 126,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-08",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 77380000,
+  "currency": "USD",
+  "clicks": 54,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-09",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 87310000,
+  "currency": "USD",
+  "clicks": 57,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-10",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 73760000,
+  "currency": "USD",
+  "clicks": 88,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-11",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 70980000,
+  "currency": "USD",
+  "clicks": 72,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-12",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 68570000,
+  "currency": "USD",
+  "clicks": 59,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-13",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 97300000,
+  "currency": "USD",
+  "clicks": 50,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-14",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 75810000,
+  "currency": "USD",
+  "clicks": 60,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-15",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 87270000,
+  "currency": "USD",
+  "clicks": 60,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-16",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 108530000,
+  "currency": "USD",
+  "clicks": 95,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-17",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 50300000,
+  "currency": "USD",
+  "clicks": 38,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-18",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 76420000,
+  "currency": "USD",
+  "clicks": 51,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-19",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 107530000,
+  "currency": "USD",
+  "clicks": 70,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-20",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 103280000,
+  "currency": "USD",
+  "clicks": 64,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-21",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 101790000,
+  "currency": "USD",
+  "clicks": 91,
+  "conversions": 6
+ },
+ {
+  "date": "2026-10-22",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 103980000,
+  "currency": "USD",
+  "clicks": 79,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-23",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 78470000,
+  "currency": "USD",
+  "clicks": 53,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-24",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 57510000,
+  "currency": "USD",
+  "clicks": 53,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-25",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 76090000,
+  "currency": "USD",
+  "clicks": 49,
+  "conversions": 2
+ },
+ {
+  "date": "2026-10-26",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 77430000,
+  "currency": "USD",
+  "clicks": 55,
+  "conversions": 3
+ },
+ {
+  "date": "2026-10-27",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 98150000,
+  "currency": "USD",
+  "clicks": 53,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-28",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 86700000,
+  "currency": "USD",
+  "clicks": 106,
+  "conversions": 5
+ },
+ {
+  "date": "2026-10-29",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 86000000,
+  "currency": "USD",
+  "clicks": 94,
+  "conversions": 4
+ },
+ {
+  "date": "2026-10-30",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 98430000,
+  "currency": "USD",
+  "clicks": 57,
+  "conversions": 1
+ },
+ {
+  "date": "2026-10-31",
+  "account_id": "acct-1056",
+  "channel": "social",
+  "cost_micros": 50890000,
+  "currency": "USD",
+  "clicks": 58,
+  "conversions": 3
+ }
+]

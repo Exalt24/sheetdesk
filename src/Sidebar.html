@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+  body { font-family: Arial, sans-serif; font-size: 13px; margin: 12px; color: #202124; }
+  h1 { font-size: 16px; margin: 0 0 12px; }
+  label { display: block; margin: 10px 0 4px; font-weight: bold; }
+  select, button { width: 100%; padding: 6px; box-sizing: border-box; }
+  button { margin-top: 12px; cursor: pointer; }
+  #status { margin-top: 14px; min-height: 2em; }
+  .error { color: #b00020; }
+</style>
+</head>
+<body>
+<h1>sheetdesk</h1>
+<label for="client">Client</label>
+<select id="client"></select>
+<label for="month">Month</label>
+<select id="month"></select>
+<button id="run-report" type="button">Run report</button>
+<button id="close-month" type="button">Close month</button>
+<p id="status" role="status"></p>
+<script>
+  function setStatus(text, isError) {
+    var el = document.getElementById('status');
+    el.textContent = text;
+    el.className = isError ? 'error' : '';
+  }
+  function fail(err) { setStatus(err && err.message ? err.message : 'Something went wrong.', true); }
+  function fill(id, values) {
+    var select = document.getElementById(id);
+    select.textContent = '';
+    values.forEach(function (v) {
+      var o = document.createElement('option');
+      o.value = v;
+      o.textContent = v;
+      select.appendChild(o);
+    });
+  }
+  function load(options) {
+    fill('client', options.clients);
+    fill('month', options.months);
+    setStatus('');
+  }
+  function busy(on) {
+    document.getElementById('run-report').disabled = on;
+    document.getElementById('close-month').disabled = on;
+  }
+  function done(result) {
+    busy(false);
+    if (result.status === 'no_data') setStatus('No data for that month.', false);
+    else setStatus('Report ready: ' + result.pdfName + '. Email: ' + result.email + '.', false);
+  }
+  document.getElementById('run-report').onclick = function () {
+    busy(true);
+    setStatus('Working');
+    google.script.run
+      .withSuccessHandler(done)
+      .withFailureHandler(function (err) { busy(false); fail(err); })
+      .sidebarRunReport(document.getElementById('client').value, document.getElementById('month').value);
+  };
+  document.getElementById('close-month').onclick = function () {
+    google.script.run
+      .withSuccessHandler(function () { setStatus('Check the dialog.'); })
+      .withFailureHandler(fail)
+      .sidebarRequestMonthClose(document.getElementById('month').value);
+  };
+  google.script.run.withSuccessHandler(load).withFailureHandler(fail).sidebarGetOptions();
+</script>
+</body>
+</html>

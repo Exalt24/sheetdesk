@@ -1,0 +1,11 @@
+node_modules/
+coverage/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# clasp writes this with your own script id
+.clasp.json
+.clasprc.json
