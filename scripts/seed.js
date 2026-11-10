@@ -72,7 +72,7 @@ function generate(seed = 20261110, opts = {}) {
   const clients = CLIENT_TEMPLATES.map((t, i) => {
     const slug = t.client.toLowerCase().replace(/[^a-z0-9]+/g, '');
     return [t.client, t.contact, `${t.contact.split(' ')[0].toLowerCase()}@${slug}.example.com`,
-      `acct-${1000 + i * 7}`, t.channels[0], Math.round(t.base * 30 / 100) * 100, t.status, '', ''];
+      `acct-${1000 + i * 7}`, t.channels[0], Math.round(t.base * t.channels.length * 30 * 1.1 / 100) * 100, t.status, '', ''];
   });
   const days = daysBetween(from, to);
   const campaigns = [];

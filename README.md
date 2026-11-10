@@ -4,13 +4,17 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 
 [![CI](https://github.com/Exalt24/sheetdesk/actions/workflows/ci.yml/badge.svg)](https://github.com/Exalt24/sheetdesk/actions/workflows/ci.yml)
 
-![The sidebar with a client and month picked and its result line, next to the leads by client dashboard served by doGet](docs/preview.png)
+![The sheetdesk sidebar in a real Google Sheet, with Copperline Plumbing and 2026-10 picked, "Send to me first" ticked and the result line "Report ready"](docs/live-run/sidebar-run-report.png)
 
-*The real sidebar and dashboard HTML in Chromium, filled with what the server functions return against the local fake, after 300 generated leads went through the webhook ([script](scripts/screenshot.js)). Not Google's iframe.*
+*A real Google Sheet on 2026-11-10 after Run report: the sidebar says the report is ready and the email went to the person running it, not the client. The Report Log row is behind it.*
+
+![The one page report PDF for Copperline Plumbing, 2026-10: totals and a table by channel](docs/live-run/report-pdf-page.png)
+
+*The PDF that arrived by email. Its figures match `fixtures/campaigns.csv`. What ran is in [docs/live-run.md](docs/live-run.md).*
 
 ![A real Google Sheet with a Summary tab built by Rebuild summaries from 2,024 campaign rows](docs/live-run/summary-tab.png)
 
-*A real Google Sheet on 2026-11-10: the Summary tab that Rebuild summaries wrote. What ran there is in [docs/live-run.md](docs/live-run.md).*
+*The Summary tab that Rebuild summaries wrote for Tidewater Tutors.*
 
 ## What it does
 
@@ -161,7 +165,7 @@ The tests run against a local fake of Google's services. `npm test` passes, `npm
 - The PDF in the fake is text with a PDF header. Page layout, fonts and the real Doc to PDF conversion are untested.
 - Apps Script quotas apply. One execution runs at most 6 minutes. A consumer account has 90 minutes of trigger runtime a day, 100 email recipients a day, 20,000 URL fetch calls a day and 20 triggers per script (Workspace accounts have more of the first three). The scale job keeps inside 6 minutes with a budget check, but its chunk size and budget are not tuned to real speeds.
 - The Frankfurter reply shape was checked by hand with a few `curl` requests on 2026-11-10. The script has not called it. The ad platform is invented, and real platforms need OAuth, which is not built.
-- The report PDF is plain text and a table, with no agency name, logo or chart. The `monthly_budget` column of the Clients tab is stored for the agency's own use and no report reads it yet, so the sample budgets do not line up with the sample spend.
+- The report PDF is plain text and a table, with no agency name, logo or chart. The `monthly_budget` column of the Clients tab is stored and no report reads it yet.
 - The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs.
 - The sidebar did render in Google's iframe and `google.script.run` worked on 2026-11-10. The dialog and the web app dashboard page were not looked at in a browser there.
 - The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes minutes.

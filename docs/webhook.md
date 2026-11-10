@@ -44,7 +44,7 @@ Order of checks: body size (10,000 characters), parse, secret, unknown fields, f
 
 - no `view` parameter: `{"ok": true, "service": "sheetdesk"}`, nothing else.
 - `?view=status&secret=...`: JSON with total leads and leads per client.
-- `?view=dashboard&secret=...`: an HTML table of leads per client and in the last 7 days. Names are escaped.
+- `?view=dashboard&secret=...`: an HTML table of leads per client and in the last 7 days. Names are escaped. The sample leads in `fixtures/leads.csv` end on 2026-10-31, so the last 7 days column shows only leads posted since, and reads 0 until a new one arrives.
 - an unexpected failure gives the same `server_error` JSON as `doPost`.
 
 ## Call it

@@ -45,3 +45,11 @@ Against the fake in `test/fake/gas.js`. The totals in the summary tabs are compa
 - It cannot keep the same Drive file id on a rerun. That needs the Drive advanced service.
 - A client name with a dollar sign cannot be used in a PDF. The reference does not say how `replaceText` reads `$` in the replacement, so the script refuses it.
 - No charts. The table is plain text cells.
+
+## What the column names mean
+
+- `cpc` is cost per click: spend divided by clicks.
+- `cpa` is cost per conversion (an acquisition, such as a lead or a sale): spend divided by conversions.
+- `conv_rate` is conversions divided by clicks.
+- The Report Log `figures` cell holds `spend in cents|clicks|conversions` for the month, so `1383329|12072|634` is 13,833.29 spend, 12,072 clicks and 634 conversions. The month close compares it with the figures now, and a client is not emailed the same report twice.
+
