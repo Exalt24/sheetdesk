@@ -231,3 +231,28 @@ test('CLASS-TABLE: when a paused row and an active row have the same name the re
     assert.match(p.w.sent[0].to, /^new/, order.join() + ': the active row\'s address');
   }
 });
+
+// CLASS-TABLE: the width of the Clients grid against the two extra columns: a grid that is too narrow grows to eleven columns and no more, a wide one is left as it is
+test('CLASS-TABLE: ensureClientExtras_ grows a Clients grid narrower than eleven columns to exactly eleven and never shrinks or over-grows one', () => {
+  for (const width of [9, 10, 11, 12, 26]) {
+    for (const rowsBefore of [1, 2, 5]) {
+      const p = loadProject();
+      p.fill('Clients', HEADERS.clients, Array.from({ length: rowsBefore - 1 }, (_, i) => ['Client ' + i, 'C', 'c' + i + '@example.com', 'a', 'search', 100, 'active', '', '']));
+      const rowsMax = p.w.run(() => {
+        const sheet = p.w.globals.SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Clients');
+        sheet._maxCols = width;
+        sheet._maxRows = Math.max(rowsBefore, 1);
+        return sheet.getMaxRows();
+      });
+      const sheetNow = p.w.run(() => p.w.globals.SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Clients'));
+      const ok = p.call('ensureClientExtras_', sheetNow);
+      assert.equal(ok, true, 'width ' + width + ': the two columns are there');
+      const after = p.w.run(() => {
+        const sheet = p.w.globals.SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Clients');
+        return [sheet.getMaxColumns(), sheet.getMaxRows()];
+      });
+      assert.deepEqual(after, [Math.max(width, 11), rowsMax], 'width ' + width + ' with ' + rowsBefore + ' rows: the grid is exactly as wide as it needs to be and no taller');
+      assert.deepEqual(p.rows('Clients')[0].slice(9), ['notes', 'review_reason'], 'width ' + width + ': the headers');
+    }
+  }
+});

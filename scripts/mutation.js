@@ -249,7 +249,10 @@ const M = [
  * Mutants whose derivation is known to leave the behaviour unchanged, with the reason. They are
  * skipped, not counted. An entry that matches no mutant any more is an error.
  */
-const EQUIVALENT = {};
+const EQUIVALENT = {
+  'ast:Clients:51@1650+1:number---1': 'ensureGrid_(sheet, 0, ...) asks for no rows, and a grid never needs fewer rows than one, so the call grows nothing either way',
+  'ast:Clients:55@1906+13:return-value-dropped': 'ensureClientExtras_ returns undefined instead of false when the tab holds its own text in J1 or K1; its only caller tests the value for truth, so undefined and false read the same'
+};
 
 /** Tests that judge the syntax tree mutants: the corpus replay and every test named CLASS-TABLE. */
 const TEST_PATTERN = '^(CLASS-TABLE|corpus_sheetdesk)';
