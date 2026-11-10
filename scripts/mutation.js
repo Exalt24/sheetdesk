@@ -8,6 +8,7 @@
  *   node scripts/mutation.js              run every mutant, 4 at a time
  *   node scripts/mutation.js secret       run the mutants whose id contains "secret"
  *   node scripts/mutation.js --ast        run only the mutants derived from the syntax tree
+ *   node scripts/mutation.js --from=N     skip the first N mutants of the list, to resume a stopped run
  *
  * The mutants in M are typed as old text and new text and run against the
  * whole suite. The mutants of scripts/mutation-ast.js are derived from the
@@ -316,7 +317,8 @@ async function main() {
   const flags = process.argv.slice(2).filter((a) => a.startsWith('--'));
   const filter = process.argv.slice(2).find((a) => !a.startsWith('--'));
   const pool = flags.includes('--ast') ? AST : MUTANTS;
-  const list = pool.filter((m) => !filter || m.id.includes(filter));
+  const fromFlag = flags.find((f) => /^--from=[0-9]+$/.test(f));
+  const list = pool.filter((m) => !filter || m.id.includes(filter)).slice(fromFlag ? Number(fromFlag.slice(7)) : 0);
   const ids = new Set();
   for (const m of MUTANTS) {
     if (ids.has(m.id)) throw new Error('duplicate mutant id ' + m.id);
