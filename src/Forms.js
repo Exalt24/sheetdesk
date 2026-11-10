@@ -46,6 +46,8 @@ function installIntakeTrigger() {
     if (t.getHandlerFunction() === 'onIntakeSubmit') ScriptApp.deleteTrigger(t);
   });
   const trigger = ScriptApp.newTrigger('onIntakeSubmit').forForm(form).onFormSubmit().create();
+  // Run from the editor, the return value is not shown anywhere, so the link goes to the execution log.
+  Logger.log('Intake form link: ' + form.getPublishedUrl());
   return { formId: form.getId(), url: form.getPublishedUrl(), triggerId: trigger.getUniqueId() };
 }
 
@@ -139,7 +141,7 @@ function onIntakeSubmit(e) {
   let emailed = false;
   if (status === 'active') {
     try {
-      GmailApp.sendEmail(
+      MailApp.sendEmail(
         parsed.email,
         'We received your details, ' + parsed.client,
         'Hello ' + (parsed.contact || 'there') + ',\n\nWe added ' + parsed.client + ' to our client list. ' +

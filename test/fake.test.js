@@ -191,25 +191,52 @@ test('DOC: at most 20 triggers per script, and everyMinutes takes only 1, 5, 10,
   });
 });
 
-test('DOC/KNOWN: GmailApp.sendEmail checks recipients, subject length, attachments and the daily quota', () => {
+test('DOC/KNOWN: MailApp.sendEmail checks recipients, subject length, attachments and the daily quota', () => {
   const { w, g, run } = fresh();
   run(() => {
-    assert.throws(() => g.GmailApp.sendEmail('', 's', 'b'), /no recipient/);
-    assert.throws(() => g.GmailApp.sendEmail('nobody', 's', 'b'), /Invalid email: nobody/);
-    assert.throws(() => g.GmailApp.sendEmail('a@example.com', 's'.repeat(251), 'b'), /Argument too large: subject/);
-    assert.throws(() => g.GmailApp.sendEmail('a@example.com', 's', 'b', { attachments: ['not a blob'] }), /do not match the method signature/);
-    assert.throws(() => g.GmailApp.sendEmail('a@example.com', 's'), /do not match the method signature/);
+    assert.throws(() => g.MailApp.sendEmail('', 's', 'b'), /no recipient/);
+    assert.throws(() => g.MailApp.sendEmail('nobody', 's', 'b'), /Invalid email: nobody/);
+    assert.throws(() => g.MailApp.sendEmail('a@example.com', 's'.repeat(251), 'b'), /Argument too large: subject/);
+    assert.throws(() => g.MailApp.sendEmail('a@example.com', 's', 'b', { attachments: ['not a blob'] }), /do not match the method signature/);
+    assert.throws(() => g.MailApp.sendEmail('a@example.com', 's'), /do not match the method signature/);
     w.mailQuota = 2;
-    g.GmailApp.sendEmail('a@example.com', 's', 'b', { cc: 'c@example.com' });
-    assert.throws(() => g.GmailApp.sendEmail('a@example.com', 's', 'b'), /Service invoked too many times for one day: email\./);
+    g.MailApp.sendEmail('a@example.com', 's', 'b', { cc: 'c@example.com' });
+    assert.throws(() => g.MailApp.sendEmail('a@example.com', 's', 'b'), /Service invoked too many times for one day: email\./);
   });
   assert.equal(w.sent.length, 1);
   assert.equal(w.sent[0].cc, 'c@example.com');
 });
 
+test('DOC: each mail service accepts only the scope the reference lists for it', () => {
+  // GmailApp.sendEmail lists https://mail.google.com/ and nothing else. MailApp.sendEmail lists script.send_mail.
+  const mailGoogle = 'https://mail.google.com/';
+  const sendMail = 'https://www.googleapis.com/auth/script.send_mail';
+  const gmailSend = 'https://www.googleapis.com/auth/gmail.send';
+  const sheets = 'https://www.googleapis.com/auth/spreadsheets';
+  const send = (scopes, service) => {
+    const p = loadProject({ scopes: [sheets].concat(scopes) });
+    return p.w.run(() => p.w.globals[service].sendEmail('a@example.com', 's', 'b'));
+  };
+  send([mailGoogle], 'GmailApp');
+  send([sendMail], 'MailApp');
+  assert.throws(() => send([gmailSend], 'GmailApp'), /Specified permissions are not sufficient to call GmailApp\.sendEmail\. Required permissions: https:\/\/mail\.google\.com\//);
+  assert.throws(() => send([sendMail], 'GmailApp'), /not sufficient to call GmailApp\.sendEmail/);
+  assert.throws(() => send([mailGoogle], 'MailApp'), /not sufficient to call MailApp\.sendEmail/);
+  assert.throws(() => send([gmailSend], 'MailApp'), /not sufficient to call MailApp\.sendEmail/);
+});
+
+test('DOC: Session.getActiveUser needs userinfo.email, and is blank where the script runs without the user', () => {
+  const { g, run } = fresh();
+  assert.equal(run(() => g.Session.getActiveUser().getEmail()), 'owner@example.test');
+  assert.equal(run(() => g.Session.getActiveUser().getEmail(), { mode: 'simple' }), '');
+  assert.equal(run(() => g.Session.getEffectiveUser().getEmail()), 'owner@example.test');
+  const p = loadProject({ scopes: ['https://www.googleapis.com/auth/spreadsheets'] });
+  assert.throws(() => p.w.run(() => p.w.globals.Session.getActiveUser()), /not sufficient to call Session\.getActiveUser/);
+});
+
 test('KNOWN: a simple trigger cannot send mail, use Drive or fetch URLs', () => {
   const { g, run } = fresh();
-  for (const f of [() => g.GmailApp.sendEmail('a@example.com', 's', 'b'), () => g.DriveApp.createFolder('x'), () => g.UrlFetchApp.fetch('https://x.example.test/'),
+  for (const f of [() => g.MailApp.sendEmail('a@example.com', 's', 'b'), () => g.DriveApp.createFolder('x'), () => g.UrlFetchApp.fetch('https://x.example.test/'),
     () => g.ScriptApp.newTrigger('x'), () => g.DocumentApp.create('x'), () => g.FormApp.create('x')]) {
     assert.throws(() => run(f, { mode: 'simple' }), /You do not have permission to call/);
   }
@@ -323,7 +350,7 @@ test('DOC: an execution that runs past 6 minutes is stopped at the next service 
 
 test('DOC: the manifest scopes decide which services may run', () => {
   const p = loadProject({ scopes: ['https://www.googleapis.com/auth/spreadsheets'] });
-  assert.throws(() => p.w.run(() => p.w.globals.GmailApp.sendEmail('a@example.com', 's', 'b')), /Specified permissions are not sufficient to call GmailApp\.sendEmail/);
+  assert.throws(() => p.w.run(() => p.w.globals.MailApp.sendEmail('a@example.com', 's', 'b')), /Specified permissions are not sufficient to call MailApp\.sendEmail/);
   assert.throws(() => p.w.run(() => p.w.globals.UrlFetchApp.fetch('https://x.example.test/')), /Specified permissions are not sufficient to call UrlFetchApp\.fetch/);
   p.w.run(() => p.w.globals.SpreadsheetApp.flush());
 });

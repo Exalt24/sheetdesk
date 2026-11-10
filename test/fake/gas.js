@@ -11,6 +11,15 @@
  * practice, not in the reference) or STRICT (a deliberate choice, the real
  * service may accept more).
  *
+ * Scopes (SCOPE below) follow the per method "Authorization" lists in the
+ * reference, and a call is accepted only with a scope the reference lists for
+ * it. GmailApp lists only https://mail.google.com/. MailApp lists only
+ * script.send_mail. Session.getActiveUser lists userinfo.email. The
+ * spreadsheets.currentonly scope is accepted where the reference lists it
+ * beside spreadsheets, and SpreadsheetApp.openById and create list only
+ * spreadsheets. script.container.ui is KNOWN: the Ui pages state no scope and
+ * the Spreadsheet.show page names it.
+ *
  * The clock is simulated. Every service call advances it by a cost, the 6
  * minute execution limit is enforced, and Utilities.sleep moves it forward
  * without waiting.
@@ -24,7 +33,10 @@ const SCOPE = {
   sheets: ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/spreadsheets.currentonly'],
   docs: ['https://www.googleapis.com/auth/documents'],
   drive: ['https://www.googleapis.com/auth/drive'],
-  gmail: ['https://mail.google.com/', 'https://www.googleapis.com/auth/gmail.send'],
+  sheetsFull: ['https://www.googleapis.com/auth/spreadsheets'],
+  gmail: ['https://mail.google.com/'],
+  mail: ['https://www.googleapis.com/auth/script.send_mail'],
+  user: ['https://www.googleapis.com/auth/userinfo.email'],
   forms: ['https://www.googleapis.com/auth/forms'],
   fetch: ['https://www.googleapis.com/auth/script.external_request'],
   triggers: ['https://www.googleapis.com/auth/script.scriptapp'],
@@ -149,6 +161,7 @@ function createWorld(opts = {}) {
     formulas: [],
     logs: [],
     sent: [],
+    activeUserEmail: opts.activeUserEmail !== undefined ? opts.activeUserEmail : 'owner@example.test',
     mailQuota: opts.mailQuota !== undefined ? opts.mailQuota : 100,
     nextId: 1,
     props: { script: new Map(), user: new Map(), document: new Map() },
@@ -291,8 +304,16 @@ function createWorld(opts = {}) {
   };
   const Session = {
     getScriptTimeZone() { return w.manifest && w.manifest.timeZone ? w.manifest.timeZone : w.tz; },
-    getActiveUser() { return { getEmail: () => 'owner@example.test' }; },
-    getEffectiveUser() { return { getEmail: () => 'owner@example.test' }; }
+    // DOC: the address is blank where the script runs without the user's authorisation (a simple trigger).
+    getActiveUser() {
+      svc('Session.getActiveUser', { scope: SCOPE.user });
+      const email = w.mode === 'simple' ? '' : w.activeUserEmail;
+      return { getEmail: () => email };
+    },
+    getEffectiveUser() {
+      svc('Session.getEffectiveUser', { scope: SCOPE.user });
+      return { getEmail: () => w.activeUserEmail };
+    }
   };
 
   // ---- PropertiesService
@@ -417,10 +438,56 @@ function createWorld(opts = {}) {
       w.formulas.push(v);
       return v;
     }
+    return typedFromText(v, tz);
+  }
+
+  const MONTH_NAMES = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const MONTH_WORD = /^(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?|sep(t(ember)?)?|oct(ober)?|nov(ember)?|dec(ember)?)$/i;
+
+  /**
+   * What Sheets makes of text it is given as if typed. Every line is KNOWN:
+   * seen in practice, not stated in the reference. Some lines depend on the
+   * locale. This is the US English reading: month first, comma thousands.
+   * The matching guard is sheetText_ in src/Util.js.
+   */
+  function typedFromText(v, tz) {
+    const day = (y, mo, d) => new Date(zonedMidnight(y, mo, d, tz));
+    const monthOf = (name) => (MONTH_WORD.test(name) ? MONTH_NAMES.indexOf(name.slice(0, 3).toLowerCase()) + 1 : 0);
+    const thisYear = zoneParts(w.now, tz).y;
+    let m;
+    // plain numbers, and booleans
     if (/^-?\d+(\.\d+)?$/.test(v)) return Number(v);
     if (/^(true|false)$/i.test(v)) return v.toLowerCase() === 'true';
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
-    if (m) return new Date(zonedMidnight(Number(m[1]), Number(m[2]), Number(m[3]), tz));
+    // 1,000 and 1,000.50 and 1e5 and 1.5E-3 and .5
+    if (/^[-+]?(\d{1,3}(,\d{3})+(\.\d+)?|\d+(\.\d+)?|\.\d+)([eE][-+]?\d+)?$/.test(v)) return Number(v.replace(/,/g, ''));
+    // percent and currency signs
+    if (/^-?\d+(\.\d+)?%$/.test(v)) return Number(v.slice(0, -1)) / 100;
+    if (/^[$\u20ac\u00a3\u00a5\u20b1]\s*\d[\d,]*(\.\d+)?$/.test(v)) return Number(v.replace(/[^\d.]/g, ''));
+    // a time of day becomes a time value on the Sheets epoch day
+    m = /^(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\s?([AaPp])[Mm])?$/.exec(v);
+    if (m) {
+      let h = Number(m[1]);
+      if (m[4]) h = (h % 12) + (m[4].toLowerCase() === 'p' ? 12 : 0);
+      if (h < 24 && Number(m[2]) < 60) return new Date(Date.UTC(1899, 11, 30, h, Number(m[2]), Number(m[3] || 0)));
+    }
+    // dates: 2026-10-03, 2026-10, 2026/10/03, 3/4, 3/4/2026, Oct 5, 5 Oct 2026, Oct 2026
+    m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+    if (m) return day(Number(m[1]), Number(m[2]), Number(m[3]));
+    m = /^(\d{4})-(\d{2})$/.exec(v);
+    if (m && Number(m[2]) >= 1 && Number(m[2]) <= 12) return day(Number(m[1]), Number(m[2]), 1);
+    m = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/.exec(v);
+    if (m) return day(Number(m[1]), Number(m[2]), Number(m[3]));
+    m = /^(\d{1,2})\/(\d{1,2})(?:\/(\d{2}|\d{4}))?$/.exec(v);
+    if (m && Number(m[1]) >= 1 && Number(m[1]) <= 12 && Number(m[2]) >= 1 && Number(m[2]) <= 31) {
+      const y = m[3] ? (m[3].length === 2 ? 2000 + Number(m[3]) : Number(m[3])) : thisYear;
+      return day(y, Number(m[1]), Number(m[2]));
+    }
+    m = /^([A-Za-z]{3,9})\.?\s+(\d{1,2})(?:,?\s+(\d{4}))?$/.exec(v);
+    if (m && monthOf(m[1]) > 0) return day(m[3] ? Number(m[3]) : thisYear, monthOf(m[1]), Number(m[2]));
+    m = /^(\d{1,2})\s+([A-Za-z]{3,9})\.?(?:,?\s+(\d{4}))?$/.exec(v);
+    if (m && monthOf(m[2]) > 0) return day(m[3] ? Number(m[3]) : thisYear, monthOf(m[2]), Number(m[1]));
+    m = /^([A-Za-z]{3,9})\.?\s+(\d{4})$/.exec(v);
+    if (m && monthOf(m[1]) > 0) return day(Number(m[2]), monthOf(m[1]), 1);
     return v;
   }
 
@@ -694,12 +761,12 @@ function createWorld(opts = {}) {
       return w.activeSpreadsheet;
     },
     openById(id) {
-      svc('SpreadsheetApp.openById', { scope: SCOPE.sheets, restricted: true });
+      svc('SpreadsheetApp.openById', { scope: SCOPE.sheetsFull, restricted: true });
       const s = w.spreadsheets.get(id);
       if (!s) throw gasError('Unexpected error while getting the method or property openById on object SpreadsheetApp.');
       return s;
     },
-    create(name) { svc('SpreadsheetApp.create', { scope: SCOPE.sheets, restricted: true }); return new Spreadsheet(name); },
+    create(name) { svc('SpreadsheetApp.create', { scope: SCOPE.sheetsFull, restricted: true }); return new Spreadsheet(name); },
     getUi() { svc('SpreadsheetApp.getUi', { scope: SCOPE.ui }); return Ui; },
     flush() { svc('SpreadsheetApp.flush', { scope: SCOPE.sheets }); w.unflushed = false; }
   };
@@ -1017,8 +1084,8 @@ function createWorld(opts = {}) {
   };
 
   // ---- Gmail (DOC: subject up to 250 chars, attachments are blobs, quota per day)
-  function sendMail(api, to, subject, body, options) {
-    svc(api, { scope: SCOPE.gmail, restricted: true });
+  function sendMail(api, scope, to, subject, body, options) {
+    svc(api, { scope, restricted: true });
     if (typeof to !== 'string' || typeof subject !== 'string' || typeof body !== 'string') {
       throw gasError('The parameters (' + [to, subject, body].map((x) => typeof x).join(',') + ') do not match the method signature for ' + api + '.');
     }
@@ -1042,7 +1109,17 @@ function createWorld(opts = {}) {
       at: w.now
     });
   }
-  const GmailApp = { sendEmail(to, subject, body, options) { sendMail('GmailApp.sendEmail', to, subject, body, options); return GmailApp; } };
+  const GmailApp = { sendEmail(to, subject, body, options) { sendMail('GmailApp.sendEmail', SCOPE.gmail, to, subject, body, options); return GmailApp; } };
+  // DOC: MailApp.sendEmail(recipient, subject, body, options) takes the same options and the same quota.
+  // STRICT: the message object form and the (to, replyTo, subject, body) form are not implemented.
+  const MailApp = {
+    sendEmail(to, subject, body, options) {
+      if (options !== undefined && (options === null || typeof options !== 'object')) {
+        throw gasError('The parameters do not match the method signature for MailApp.sendEmail.');
+      }
+      sendMail('MailApp.sendEmail', SCOPE.mail, to, subject, body, options);
+    }
+  };
 
   // ---- Forms
   function makeItem(form, type) {
@@ -1175,7 +1252,7 @@ function createWorld(opts = {}) {
   };
 
   const globals = {
-    SpreadsheetApp, DocumentApp, DriveApp, GmailApp, FormApp, HtmlService, ContentService, UrlFetchApp,
+    SpreadsheetApp, DocumentApp, DriveApp, GmailApp, MailApp, FormApp, HtmlService, ContentService, UrlFetchApp,
     CacheService, PropertiesService, LockService, ScriptApp, Utilities, Logger, Session, MimeType
   };
 

@@ -22,7 +22,7 @@ for (const f of srcFiles) {
 }
 
 const APPS_SCRIPT_SERVICES = [
-  'SpreadsheetApp', 'DocumentApp', 'DriveApp', 'GmailApp', 'FormApp', 'HtmlService', 'ContentService',
+  'SpreadsheetApp', 'DocumentApp', 'DriveApp', 'GmailApp', 'MailApp', 'FormApp', 'HtmlService', 'ContentService',
   'UrlFetchApp', 'CacheService', 'PropertiesService', 'LockService', 'ScriptApp', 'Utilities', 'Logger',
   'Session', 'MimeType'
 ];
