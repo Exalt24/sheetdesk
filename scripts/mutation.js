@@ -1,4 +1,5 @@
 'use strict';
+// LIFESPAN: permanent
 /**
  * A small mutation harness. Each mutant removes or flips one guard in src/.
  * The suite must fail for every one. A mutant the tests miss is a guard

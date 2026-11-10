@@ -1,4 +1,5 @@
 'use strict';
+// LIFESPAN: permanent
 /**
  * Mutants derived from the syntax tree, for the code of the corpus round fixes.
  *
