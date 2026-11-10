@@ -8,7 +8,7 @@ Tests: `test/*.test.js`. Mutation harness: `scripts/mutation.js`. Fake: `test/fa
 npm install
 npm test            # 340 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 147 typed and 108 syntax tree mutants, over 30 minutes
+npm run mutation    # 151 typed and 108 syntax tree mutants, over 30 minutes
 ```
 
 | Command | Result |
