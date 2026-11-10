@@ -6,16 +6,16 @@ Tests: `test/*.test.js`. Mutation harness: `scripts/mutation.js`. Fake: `test/fa
 
 ```bash
 npm install
-npm test            # 228 tests
+npm test            # 340 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 143 mutants, about 15 minutes
+npm run mutation    # 147 typed and 108 syntax tree mutants, over 30 minutes
 ```
 
 | Command | Result |
 |---|---|
-| `npm test` | 228 tests pass in about 9 seconds on Windows 11 with Node 24 |
+| `npm test` | 340 tests (339 run, 1 skipped by name) pass in about 16 seconds on Windows 11 with Node 24 |
 | `npm run lint` | 0 errors, 0 warnings |
-| `npm run mutation` | 143 mutants, 143 caught, 0 survived |
+| `npm run mutation` | the 143 mutants of 0.2.0: 143 caught. The 112 added later: no survivor in the part of the run that finished, see below |
 
 The tests do not touch Google. One run by hand on a live account is written up in [live-run.md](live-run.md). The tests prove the code against [a local fake of Google's services](fake-and-seed.md) that was written from Google's reference, so they are as accurate as that fake.
 
@@ -42,10 +42,17 @@ The harness refuses a mutant when its text to change is not found exactly once, 
 
 The guards in the list include the secret check, the lock, the idempotency check, the chunk cursor, the time budget, retry on 429, the PDF replace, the sidebar input checks, the formula guard, each form of text that Sheets would read as a value, the preview recipient, and the wrapper that turns an unexpected failure into JSON.
 
+The mutants of the second review round are not typed. `scripts/mutation-ast.js` parses the changed functions with espree (it comes with ESLint), picks the statements that carry the fixes and derives every mutant from the syntax tree: each comparison and arithmetic operator swapped, each condition made always true, always false or negated, each number moved by one, each string emptied, each call and assignment removed, and the `addCount_` call turned back into a plain `+`. A mutant is an exact position in the file, so it hits the one node it came from. These mutants run only against the corpus replay and the tests named `CLASS-TABLE`, so a fix has to be held by its class test and not by a test written for one mutant. Mutants known to change nothing are listed with the reason in `EQUIVALENT` in `scripts/mutation.js`.
+
 ```bash
 node scripts/mutation.js              # every mutant, 4 at a time
 node scripts/mutation.js preview      # the mutants whose id contains "preview"
+node scripts/mutation.js --ast        # only the mutants derived from the syntax tree
 ```
+
+## The corpus
+
+`test/corpus/corpus_sheetdesk_1.jsonl` holds 98 cases written by an independent reviewer who had only the README and the docs: 85 that the code already passed and 13 that it failed. Each line has an input, the result the docs promise, a reason and whether the case is real or invented. `test/corpus.test.js` replays every line through the code. 12 of the 13 failures were fixed. The last one, a lead whose id is a web address, is skipped by name in the test because the id shape rule was kept on purpose.
 
 ## What this does not show
 

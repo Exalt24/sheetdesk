@@ -37,7 +37,7 @@ function aggregate_(rows) {
     const t = byChannel[r.channel] || (byChannel[r.channel] = { cents: 0, clicks: 0, conversions: 0 });
     t.cents += toCents_(r.spendUsd);
     t.clicks += r.clicks;
-    t.conversions += r.conversions;
+    t.conversions = addCount_(t.conversions, r.conversions);
   });
   return out;
 }
@@ -69,7 +69,7 @@ function sumChannels_(byChannel) {
   Object.keys(byChannel).forEach(function (ch) {
     all.cents += byChannel[ch].cents;
     all.clicks += byChannel[ch].clicks;
-    all.conversions += byChannel[ch].conversions;
+    all.conversions = addCount_(all.conversions, byChannel[ch].conversions);
   });
   return all;
 }

@@ -84,8 +84,11 @@ function parseCampaignRow_(row, fmtDay, rateTable) {
   if (!isDate_(row[2])) return { ok: false, reason: 'bad_date' };
   const spend = parseNumber_(row[3]);
   if (spend === null || spend < 0) return { ok: false, reason: 'bad_spend' };
-  const clicks = parseCount_(row[4]);
-  const conversions = parseCount_(row[5]);
+  // Only spend and the date must be there. A blank clicks or conversions cell counts as 0 (an email
+  // channel has no clicks, an awareness campaign no conversions), and conversions may be fractional.
+  const clicks = isBlankCell_(row[4]) ? 0 : parseCount_(row[4]);
+  const conversionsNumber = isBlankCell_(row[5]) ? 0 : parseNumber_(row[5]);
+  const conversions = conversionsNumber !== null && conversionsNumber >= 0 ? conversionsNumber : null;
   if (clicks === null) return { ok: false, reason: 'bad_clicks' };
   if (conversions === null) return { ok: false, reason: 'bad_conversions' };
   const ccy = String(row[6]).trim().toUpperCase() || 'USD';

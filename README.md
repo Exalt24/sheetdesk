@@ -152,12 +152,12 @@ The 50,000 row job has no menu item. In the editor pick `startBulkNormalize` and
 
 ```bash
 npm install
-npm test            # 228 tests
+npm test            # 340 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 143 mutants, about 15 minutes
+npm run mutation    # 147 typed and 108 syntax tree mutants, over 30 minutes
 ```
 
-The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and all 143 mutants are caught. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
+The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and the 143 mutants of 0.2.0 were all caught. The 112 added after the second review have not finished a full run yet. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
 
 ## Limits
 
@@ -166,7 +166,7 @@ The tests run against a local fake of Google's services. `npm test` passes, `npm
 - Apps Script quotas apply. One execution runs at most 6 minutes. A consumer account has 90 minutes of trigger runtime a day, 100 email recipients a day, 20,000 URL fetch calls a day and 20 triggers per script (Workspace accounts have more of the first three). The scale job keeps inside 6 minutes with a budget check, but its chunk size and budget are not tuned to real speeds.
 - The Frankfurter reply shape was checked by hand with a few `curl` requests on 2026-11-10. The script has not called it. The ad platform is invented, and real platforms need OAuth, which is not built.
 - The report PDF is plain text and a table, with no agency name, logo or chart. The `monthly_budget` column of the Clients tab is stored and no report reads it yet.
-- The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs.
+- The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs. An optional lead field (email, name, phone, source, campaign, message) is stored as typed even when it looks wrong, and the reply lists it in `warnings`. Nothing checks that an email exists or that a phone number is one.
 - The sidebar did render in Google's iframe and `google.script.run` worked on 2026-11-10. The dialog and the web app dashboard page were not looked at in a browser there.
 - The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes minutes.
 

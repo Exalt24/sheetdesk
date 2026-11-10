@@ -48,10 +48,13 @@ function webhookParse_(e) {
 
 /**
  * Checks and normalises the lead fields. Every value is a string, a number or
- * null. Anything else (object, array, boolean) is rejected.
+ * null. Anything else (object, array, boolean) is rejected. A lead with a
+ * lead_id in the right shape and a known client is always accepted: an odd
+ * optional value (an email that is not an address, a text over its limit) is
+ * kept as typed and listed in warnings.
  * @param {Object} fields
  * @param {string[]} clientNames
- * @return {{lead: ?Object, error: ?string, detail: ?Object}}
+ * @return {{lead: ?Object, error: ?string, detail: ?Object, warnings: (Array<{field: string, issue: string}>|undefined)}}
  */
 function webhookValidate_(fields, clientNames) {
   const unknown = Object.keys(fields).filter(function (k) { return WEBHOOK_FIELDS.indexOf(k) === -1; });
@@ -72,17 +75,20 @@ function webhookValidate_(fields, clientNames) {
   if (!clean.lead_id) return { lead: null, error: 'missing_field', detail: { field: 'lead_id' } };
   if (!/^[A-Za-z0-9_.:-]{1,64}$/.test(clean.lead_id)) return { lead: null, error: 'invalid_field', detail: { field: 'lead_id' } };
   if (!clean.client) return { lead: null, error: 'missing_field', detail: { field: 'client' } };
+  const warnings = [];
   const limited = Object.keys(WEBHOOK_LIMITS);
   for (let i = 0; i < limited.length; i++) {
-    if (clean[limited[i]].length > WEBHOOK_LIMITS[limited[i]]) {
-      return { lead: null, error: 'invalid_field', detail: { field: limited[i] } };
-    }
+    const k = limited[i];
+    if (clean[k].length <= WEBHOOK_LIMITS[k]) continue;
+    // A name, phone, source, campaign or message that is too long is kept whole and reported.
+    if (k === 'client') return { lead: null, error: 'invalid_field', detail: { field: 'client' } };
+    warnings.push({ field: k, issue: 'too_long', max: WEBHOOK_LIMITS[k] });
   }
-  if (clean.email && !isEmail_(clean.email)) return { lead: null, error: 'invalid_field', detail: { field: 'email' } };
+  if (clean.email && !isEmail_(clean.email)) warnings.push({ field: 'email', issue: 'not_an_email' });
   const canonical = canonicalClient_(clientNames, clean.client);
   if (!canonical) return { lead: null, error: 'unknown_client' };
   clean.client = canonical;
-  return { lead: clean, error: null, detail: null };
+  return { lead: clean, error: null, detail: null, warnings: warnings };
 }
 
 /**
@@ -153,7 +159,9 @@ function handleLeadPost_(e) {
       sheetText_(lead.campaign),
       sheetText_(lead.message)
     ]);
-    return jsonOut_({ ok: true, duplicate: false, lead_id: lead.lead_id });
+    const reply = { ok: true, duplicate: false, lead_id: lead.lead_id };
+    if (checked.warnings.length) reply.warnings = checked.warnings;
+    return jsonOut_(reply);
   } finally {
     releaseLock_(lock);
   }

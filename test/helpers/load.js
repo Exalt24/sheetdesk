@@ -6,7 +6,9 @@
  *
  * A mutation run sets SHEETDESK_MUTANT to a JSON file {file, find, replace}.
  * The loader applies it to the source text and refuses to continue when the
- * text to change is not found exactly once.
+ * text to change is not found exactly once. A mutant derived from the syntax
+ * tree also carries {start, end}: the exact position of the node, where the
+ * text must still be `find`.
  */
 
 const fs = require('node:fs');
@@ -32,7 +34,10 @@ function activeMutant() {
 function readSource(file) {
   let text = fs.readFileSync(path.join(SRC, file), 'utf8');
   const mutant = activeMutant();
-  if (mutant && mutant.file === file) {
+  if (mutant && mutant.file === file && mutant.start !== undefined) {
+    if (text.slice(mutant.start, mutant.end) !== mutant.find) throw new Error('MUTANT_NOT_APPLIED: ' + mutant.id + ' is not at its position');
+    text = text.slice(0, mutant.start) + mutant.replace + text.slice(mutant.end);
+  } else if (mutant && mutant.file === file) {
     const parts = text.split(mutant.find);
     if (parts.length !== 2) throw new Error('MUTANT_NOT_APPLIED: ' + mutant.id + ' found ' + (parts.length - 1) + ' times');
     text = parts.join(mutant.replace);

@@ -85,6 +85,27 @@ function parseCount_(v) {
 }
 
 /**
+ * True for an empty cell: no value, or text with nothing but spaces.
+ * @param {*} v
+ * @return {boolean}
+ */
+function isBlankCell_(v) {
+  return v === undefined || v === null || (typeof v === 'string' && v.trim() === '');
+}
+
+/**
+ * Adds two counts and rounds to 4 decimals, so fractional conversions such as
+ * 0.1 and 0.2 add up to 0.3 and not 0.30000000000000004. Whole numbers are
+ * unchanged.
+ * @param {number} a
+ * @param {number} b
+ * @return {number}
+ */
+function addCount_(a, b) {
+  return Math.round((a + b) * 10000) / 10000;
+}
+
+/**
  * Money as whole cents. Sums are kept in cents so totals do not drift.
  * @param {number} amount
  * @return {number}

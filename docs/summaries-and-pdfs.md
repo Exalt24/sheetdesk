@@ -21,6 +21,8 @@ Source: `src/Reporting.js`, `src/Campaigns.js`. Tests: `test/reporting.test.js`,
 
 Spend in another currency is converted to USD with the rate of that day from the Rates sheet, or the latest earlier day within 7 days (weekends have no rate). A row with no usable rate is counted as rejected and left out. Money is summed in whole cents.
 
+Only the date and the spend must be there. A blank `clicks` or `conversions` cell counts as 0 (an email channel has no clicks, an awareness campaign no conversions), and `conversions` may be fractional, such as the 2.5 a Google Ads export gives with data driven attribution. Fractional conversions are added with 4 decimals, so 0.1 and 0.2 make 0.3. Text, a negative number or fractional `clicks` still reject the row: it is counted in `rejected`, left out, and its spend is not in the totals. The bulk job reads the rows the same way (`bad_clicks` or `bad_conversions` in Clean).
+
 ## How it was tested
 
 Against the fake in `test/fake/gas.js`. The totals in the summary tabs are compared with an independent calculation in `scripts/seed.js` (`referenceRollup`) for every client and month of the generated agency. Other tests cover:
@@ -29,6 +31,7 @@ Against the fake in `test/fake/gas.js`. The totals in the summary tabs are compa
 - a rerun giving the same tab
 - bad rows counted and left out
 - rate fallback and the 7 day limit
+- every value of a count cell against both count columns, and sums of fractional conversions (`test/reporting-counts.test.js`), with the adversary's cases in `test/corpus/corpus_sheetdesk_1.jsonl`
 - a PDF with the right text and one table row per channel
 - one PDF after two runs
 - no email on an unchanged rerun, an email when the figures change

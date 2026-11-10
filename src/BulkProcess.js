@@ -12,6 +12,8 @@
  */
 
 const BULK_CONTINUE_HANDLER = 'continueBulkJob';
+/** The read time per row is only learned from a batch of at least this many rows. */
+const BULK_MIN_RATE_ROWS = 100;
 
 /**
  * Cleans one Campaigns row into a Clean row.
@@ -144,7 +146,8 @@ function runBulkSlice_(startedMs) {
         cursor.next += n;
         cursor.rowsDone += n;
         cursor.lastChunkMs = Date.now() - c0;
-        cursor.readMsPerRow = Math.max(cursor.readMsPerRow, readMs / n);
+        // A short batch (the last one) is mostly the fixed cost of the call, so it says nothing about the rate per row.
+        if (n >= BULK_MIN_RATE_ROWS) cursor.readMsPerRow = Math.max(cursor.readMsPerRow, readMs / n);
         saveCursor_(cursor);
         didChunk = true;
       }
@@ -201,7 +204,7 @@ function writeRollup_(ss, total) {
       const s = sums[key] || (sums[key] = { client: r[0], month: r[2], cents: 0, clicks: 0, conversions: 0, rows: 0 });
       s.cents += toCents_(r[4]);
       s.clicks += r[5];
-      s.conversions += r[6];
+      s.conversions = addCount_(s.conversions, r[6]);
       s.rows += 1;
     }
   }

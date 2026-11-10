@@ -14,7 +14,7 @@ How a run works:
 4. It saves the cursor (next row, rows done, last chunk time) in the `BULK_CURSOR` script property after every chunk.
 5. Before every chunk after the first it checks that `elapsed + 1.25 * last chunk time` is under the 4.5 minute budget. The first chunk of a run always runs, so a slow chunk cannot stall the job.
 6. When the budget is used it replaces the trigger with one that fires in 1 minute and ends. The new trigger is created before the old one is deleted, so a job that exists always has a trigger.
-7. The rollup is one pass over Clean. It starts only when the time left covers an estimate made from the measured read speed. It rewrites the whole Rollup sheet, so running it twice gives one result.
+7. The rollup is one pass over Clean. It starts only when the time left covers an estimate made from the measured read speed. The speed is learned only from a batch of at least 100 rows: the last batch can hold one row, and a read of one row is mostly the fixed cost of the call, which would make the whole sheet look too slow to roll up. `test/bulk.test.js` runs the job for every last batch size from 1 to 120 rows. It rewrites the whole Rollup sheet, so running it twice gives one result.
 8. At the end it writes one Job Log row (replacing a row from an earlier finish of the same job), deletes the cursor, then deletes the triggers. If the run is killed between those steps, a leftover trigger finds no cursor and removes itself.
 
 Rows with a blank client, text or negative spend, a bad date, a bad count or a currency without a rate stay in Clean with their reason and are left out of the rollup.

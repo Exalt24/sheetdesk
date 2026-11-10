@@ -278,3 +278,51 @@ test('progress survives a kill: the cursor already holds the chunks that were wr
   assert.equal(cursor.rowsDone, 1500);
   assert.equal(p.w.triggers.length, 1, 'the safety trigger is waiting');
 });
+
+// CLASS-TABLE: the size of the last batch, 1 to 120 rows, for two batch sizes. A job always finishes, whatever the last batch holds.
+// The budget is scaled down so the table is small: a last batch of a few rows has a read time per row of about
+// 15 ms divided by its size, which looked too slow for the rollup before the rate was learned only from 100 rows or more.
+test('CLASS-TABLE: the job finishes for every last batch size from 1 to 120', () => {
+  let jobs = 0;
+  for (const chunk of [200, 100]) {
+    for (let last = 1; last <= 120; last++) {
+      const n = 2 * chunk + last;
+      const p = loadProject();
+      p.fill('Campaigns', HEADERS.campaigns, Array.from({ length: n }, (_, i) => ['Summit Yoga', 'social', '2026-12-' + String(1 + (i % 28)).padStart(2, '0'), 10, 5, 1, 'USD']));
+      p.get('SD').CHUNK_ROWS = chunk;
+      p.get('SD').BUDGET_MS = 3000;
+      const r = runToEnd(p, { maxRuns: 8 });
+      const where = 'chunk ' + chunk + ', last batch ' + last;
+      assert.equal(r.statuses[r.statuses.length - 1], 'done', where + ': ' + r.statuses.join(','));
+      assert.ok(r.statuses.length <= 3, where + ': ' + r.statuses.join(','));
+      assert.equal(p.w.triggers.length, 0, where + ': no trigger is left');
+      assert.deepEqual(p.rows('Rollup')[1], ['Summit Yoga', '2026-12', n * 10, n * 5, n, n], where);
+      assert.equal(p.rows('Job Log')[1][4], n, where);
+      jobs++;
+    }
+  }
+  assert.equal(jobs, 240);
+});
+
+// CLASS-TABLE: the size of the last batch against the rate the job learns. Only batches of 100 rows or more set it.
+test('CLASS-TABLE: the read time per row is learned from batches of 100 rows or more only', () => {
+  for (const chunk of [100, 150]) {
+    for (const last of [1, 2, 5, 50, 99, 100, 101, 120]) {
+      const p = loadProject();
+      p.fill('Campaigns', HEADERS.campaigns, Array.from({ length: 2 * chunk + last }, () => ['Summit Yoga', 'social', '2026-12-01', 10, 5, 1, 'USD']));
+      p.get('SD').CHUNK_ROWS = chunk;
+      p.get('SD').BUDGET_MS = 1; // one batch per run, so the cursor can be read after each
+      const rate = () => JSON.parse(p.prop('BULK_CURSOR')).readMsPerRow;
+      const where = 'chunk ' + chunk + ', last batch ' + last;
+      p.call('startBulkNormalize');
+      const first = rate();
+      assert.ok(first > 0 && first < 1, where + ': a full batch sets the rate: ' + first);
+      p.w.fireNextClockTrigger();
+      const second = rate(); // the clock is whole milliseconds, so the same full batch can read a millisecond apart
+      assert.ok(second >= first && second < 1, where + ': the next full batch keeps the higher of the two: ' + second);
+      p.w.fireNextClockTrigger();
+      if (last < 100) assert.equal(rate(), second, where + ': a short last batch leaves the rate alone');
+      else assert.ok(rate() >= second && rate() < 1, where + ': a last batch of 100 rows or more may raise it a little');
+    }
+  }
+});

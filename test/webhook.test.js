@@ -91,7 +91,7 @@ test('unknown fields are rejected by name, and only after the secret is right', 
   assert.equal(leadRows(p).length, 0);
 });
 
-test('field checks: missing, malformed, too long and wrong typed values', () => {
+test('field checks: a missing or malformed lead_id and a wrong typed value are refused (an odd optional value is not, see webhook-optional.test.js)', () => {
   const p = setup();
   const cases = [
     [{ lead_id: undefined }, 'missing_field', 'lead_id'],
@@ -100,11 +100,8 @@ test('field checks: missing, malformed, too long and wrong typed values', () => 
     [{ lead_id: 'has space' }, 'invalid_field', 'lead_id'],
     [{ lead_id: 'x'.repeat(65) }, 'invalid_field', 'lead_id'],
     [{ lead_id: '<script>' }, 'invalid_field', 'lead_id'],
-    [{ email: 'not-an-email' }, 'invalid_field', 'email'],
-    [{ email: 'a@b' }, 'invalid_field', 'email'],
-    [{ name: 'n'.repeat(121) }, 'invalid_field', 'name'],
-    [{ message: 'm'.repeat(2001) }, 'invalid_field', 'message'],
-    [{ phone: 'p'.repeat(41) }, 'invalid_field', 'phone'],
+    [{ lead_id: 'https://example.test/leads/1' }, 'invalid_field', 'lead_id'],
+    [{ client: 'c'.repeat(121) }, 'invalid_field', 'client'],
     [{ name: { first: 'Ana' } }, 'invalid_field', 'name'],
     [{ name: ['Ana'] }, 'invalid_field', 'name'],
     [{ name: true }, 'invalid_field', 'name']

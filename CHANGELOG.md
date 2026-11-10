@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+Changes after a second independent review, which sent 98 test cases through the code (now in `test/corpus/`).
+
+- A lead with a `lead_id` and a client is always stored. An email that is not an address, or a name, phone, source, campaign or message over its usual size, is kept as typed and the reply lists it in `warnings`. It used to refuse the whole lead and lose the phone and message with it. The `lead_id` shape, the secret and the unknown field checks are unchanged.
+- A blank clicks or conversions cell counts as 0 and conversions may be fractional, so a row is no longer left out of the summaries, and its spend with it, for an email channel or a Google Ads export. Text, negative counts and fractional clicks still reject the row.
+- The bulk job learns its read time per row only from a batch of 100 rows or more. A last batch of one row made the rollup look too slow, so a sheet of 10,001 rows never finished.
+
 ## 0.2.0, 2026-11-10
 
 Changes after an independent review of 0.1.0.

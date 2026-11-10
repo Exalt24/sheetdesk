@@ -6,6 +6,13 @@
  *
  *   node scripts/mutation.js              run every mutant, 4 at a time
  *   node scripts/mutation.js secret       run the mutants whose id contains "secret"
+ *   node scripts/mutation.js --ast        run only the mutants derived from the syntax tree
+ *
+ * The mutants in M are typed as old text and new text and run against the
+ * whole suite. The mutants of scripts/mutation-ast.js are derived from the
+ * syntax tree of the corpus round fixes, and run only against the corpus
+ * replay and the tests named CLASS-TABLE, so a fix is judged by the class
+ * test and not by a test written for one mutant.
  *
  * How it works: the mutant is written to a temp JSON file and its path is
  * passed in SHEETDESK_MUTANT. test/helpers/load.js applies it to the source
@@ -20,6 +27,7 @@ const os = require('node:os');
 const path = require('node:path');
 const vm = require('node:vm');
 const { spawn } = require('node:child_process');
+const { astMutants } = require('./mutation-ast');
 
 const ROOT = path.join(__dirname, '..');
 const TIMEOUT_MS = 120000;
@@ -40,9 +48,13 @@ const M = [
   ['body-size', 'Webhook.js', "  if (e.postData.contents.length > WEBHOOK_MAX_BODY) return { fields: null, error: 'too_large' };\n", '', 'there is no body size limit'],
   ['value-types', 'Webhook.js', "      return { lead: null, error: 'invalid_field', detail: { field: k } };", '      clean[k] = String(v);', 'objects and arrays are stored as text'],
   ['lead-id-shape', 'Webhook.js', "  if (!/^[A-Za-z0-9_.:-]{1,64}$/.test(clean.lead_id)) return { lead: null, error: 'invalid_field', detail: { field: 'lead_id' } };\n", '', 'lead_id can hold any characters'],
-  ['email-shape', 'Webhook.js', "  if (clean.email && !isEmail_(clean.email)) return { lead: null, error: 'invalid_field', detail: { field: 'email' } };\n", '', 'a bad email is stored'],
+  ['email-shape', 'Webhook.js', "  if (clean.email && !isEmail_(clean.email)) warnings.push({ field: 'email', issue: 'not_an_email' });\n", '', 'an email that is not an address is stored with no warning'],
+  ['warnings-reply', 'Webhook.js', '    if (checked.warnings.length) reply.warnings = checked.warnings;\n', '', 'the reply does not list the odd fields'],
   ['unknown-client', 'Webhook.js', "  if (!canonical) return { lead: null, error: 'unknown_client' };\n", '', 'a lead for a client that does not exist is stored'],
-  ['field-limits', 'Webhook.js', '    if (clean[limited[i]].length > WEBHOOK_LIMITS[limited[i]]) {', '    if (false) {', 'field length limits are gone'],
+  ['field-limits', 'Webhook.js', '    if (clean[k].length <= WEBHOOK_LIMITS[k]) continue;', '    continue;', 'no limit is checked: a client over 120 characters is looked up and a long text is not reported'],
+  ['blank-count-zero', 'Campaigns.js', '  const clicks = isBlankCell_(row[4]) ? 0 : parseCount_(row[4]);', '  const clicks = parseCount_(row[4]);', 'a blank clicks cell rejects the row and its spend'],
+  ['fractional-conversions', 'Campaigns.js', '  const conversionsNumber = isBlankCell_(row[5]) ? 0 : parseNumber_(row[5]);', '  const conversionsNumber = isBlankCell_(row[5]) ? 0 : parseCount_(row[5]);', 'a fractional conversions value rejects the row and its spend'],
+  ['bulk-rate-tiny-batch', 'BulkProcess.js', '        if (n >= BULK_MIN_RATE_ROWS) cursor.readMsPerRow', '        cursor.readMsPerRow', 'a last batch of one row makes the rollup look too slow'],
   ['formula-guard', 'Util.js', '  return risky ? "\'" + s : s;', '  return s;', 'text from outside is written as typed, so =IMPORTXML runs'],
   ['text-numbers-guard', 'Util.js', '(,\\d{3})+(\\.\\d+)?|\\d+(\\.\\d+)?|\\.\\d+)', '(,\\d{3})+(\\.\\d+)?|\\.\\d+)', 'lead ids like 007 turn into numbers'],
   ['text-thousands', 'Util.js', '(\\d{1,3}(,\\d{3})+(\\.\\d+)?|\\d+(\\.\\d+)?|\\.\\d+)', '(\\d+(\\.\\d+)?|\\.\\d+)', 'the text 1,000 turns into a number'],
@@ -184,24 +196,51 @@ const M = [
   ['failure-log-cut', 'Webhook.js', 'String(err && err.message ? err.message : err).slice(0, 300)', 'String(err && err.message ? err.message : err)', 'a long message is logged whole']
 ];
 
-const MUTANTS = M.map(([id, file, find, replace, breaks]) => ({ id, file, find, replace, breaks }));
+/**
+ * Mutants whose derivation is known to leave the behaviour unchanged, with the reason. They are
+ * skipped, not counted. An entry that matches no mutant any more is an error.
+ */
+const EQUIVALENT = {};
+
+/** Tests that judge the syntax tree mutants: the corpus replay and every test named CLASS-TABLE. */
+const TEST_PATTERN = '^(CLASS-TABLE|corpus_sheetdesk_1)';
+const TEST_DIR = path.join(ROOT, 'test');
+function classTestFiles() {
+  return fs.readdirSync(TEST_DIR).filter((f) => f.endsWith('.test.js'))
+    .filter((f) => f === 'corpus.test.js' || fs.readFileSync(path.join(TEST_DIR, f), 'utf8').includes('CLASS-TABLE'))
+    .map((f) => 'test/' + f);
+}
+
+const HAND = M.map(([id, file, find, replace, breaks]) => ({ id, file, find, replace, breaks }));
+const AST = astMutants().filter((m) => !(m.id in EQUIVALENT));
+const MUTANTS = HAND.concat(AST);
 
 function validate(m) {
   const full = path.join(ROOT, 'src', m.file);
   const text = fs.readFileSync(full, 'utf8');
-  const parts = text.split(m.find);
-  if (parts.length !== 2) return 'the text to change was found ' + (parts.length - 1) + ' times, not once';
+  let mutated;
+  if (m.start !== undefined) {
+    if (text.slice(m.start, m.end) !== m.find) return 'the text at the position is not the text the mutant expects';
+    mutated = text.slice(0, m.start) + m.replace + text.slice(m.end);
+  } else {
+    const parts = text.split(m.find);
+    if (parts.length !== 2) return 'the text to change was found ' + (parts.length - 1) + ' times, not once';
+    mutated = parts.join(m.replace);
+  }
   if (m.file.endsWith('.js')) {
-    try { new vm.Script(parts.join(m.replace), { filename: m.file }); } catch (e) { return 'the mutated file does not compile: ' + e.message; }
+    try { new vm.Script(mutated, { filename: m.file }); } catch (e) { return 'the mutated file does not compile: ' + e.message; }
   }
   return null;
 }
 
 function runOne(m) {
   return new Promise((resolve) => {
-    const file = path.join(os.tmpdir(), 'sheetdesk-mutant-' + process.pid + '-' + m.id + '.json');
+    const file = path.join(os.tmpdir(), 'sheetdesk-mutant-' + process.pid + '-' + m.id.replace(/[^A-Za-z0-9_-]/g, '_') + '.json');
     fs.writeFileSync(file, JSON.stringify(m));
-    const child = spawn(process.execPath, ['--test', 'test/*.test.js'], {
+    const args = m.id.startsWith('ast:') || m.id === 'baseline-ast'
+      ? ['--test', '--test-name-pattern=' + TEST_PATTERN, ...classTestFiles()]
+      : ['--test', 'test/*.test.js'];
+    const child = spawn(process.execPath, args, {
       cwd: ROOT, env: Object.assign({}, process.env, { SHEETDESK_MUTANT: file }), stdio: ['ignore', 'pipe', 'pipe']
     });
     let out = '';
@@ -220,8 +259,10 @@ function runOne(m) {
 }
 
 async function main() {
-  const filter = process.argv[2];
-  const list = MUTANTS.filter((m) => !filter || m.id.includes(filter));
+  const flags = process.argv.slice(2).filter((a) => a.startsWith('--'));
+  const filter = process.argv.slice(2).find((a) => !a.startsWith('--'));
+  const pool = flags.includes('--ast') ? AST : MUTANTS;
+  const list = pool.filter((m) => !filter || m.id.includes(filter));
   const ids = new Set();
   for (const m of MUTANTS) {
     if (ids.has(m.id)) throw new Error('duplicate mutant id ' + m.id);
@@ -233,10 +274,12 @@ async function main() {
     process.exit(2);
   }
   // The suite must pass with no mutant, or every mutant would look caught.
-  const base = await runOne({ id: 'baseline', file: 'Config.js', find: 'const SD = {', replace: 'const SD = {' });
-  if (base.code !== 0) {
-    console.log('The suite fails with no mutant: ' + base.failed.join('; '));
-    process.exit(2);
+  for (const id of ['baseline', 'baseline-ast']) {
+    const base = await runOne({ id, file: 'Config.js', find: 'const SD = {', replace: 'const SD = {' });
+    if (base.code !== 0) {
+      console.log('The suite fails with no mutant (' + id + '): ' + base.failed.join('; '));
+      process.exit(2);
+    }
   }
   const results = [];
   let next = 0;

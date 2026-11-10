@@ -20,9 +20,13 @@ Source: `src/Webhook.js`, `src/Dashboard.html`, `src/Clients.js`. Tests: `test/w
 }
 ```
 
-Only `lead_id` and `client` are required.
+Only `lead_id` and `client` are required. A lead with a `lead_id` in the right shape and a client from the Clients tab is always stored.
 
-Order of checks: body size (10,000 characters), parse, secret, unknown fields, field values, client name, then the lock. Every reply is a JSON body with `ok`. Errors have an `error` code: `no_body`, `too_large`, `bad_json`, `not_configured`, `unauthorized`, `unknown_field`, `missing_field`, `invalid_field`, `unknown_client`, `busy` and `server_error`.
+- **`lead_id`** is 1 to 64 characters from letters, digits and `_ . : -`. Anything else, such as a space or a slash (a booking link used as an id), is refused with `invalid_field`.
+- **An odd optional value is kept.** An `email` that is not an address (`ana@gmail`, a comma for the dot, `Ana Archer <ana@example.com>`) and a `name`, `phone`, `source`, `campaign` or `message` longer than its usual size (120, 40, 60, 120 and 2,000 characters) are stored as typed, after the text safety step below. The reply then carries a `warnings` list that names each field, for example `{"ok":true,"duplicate":false,"lead_id":"z-1001","warnings":[{"field":"email","issue":"not_an_email"},{"field":"message","issue":"too_long","max":2000}]}`. A lead with nothing odd has no `warnings` key. A retry of a lead that is already stored answers `duplicate` and carries no warnings. The whole body is still capped at 10,000 characters.
+- **Still refused:** an object, a list or a true or false value in a field, a `client` over 120 characters, an unknown client, an unknown field and a wrong secret.
+
+Order of checks: body size (10,000 characters), parse, secret, unknown fields, field values, client name, then the lock. Every reply is a JSON body with `ok`. Errors have an `error` code: `no_body`, `too_large`, `bad_json`, `not_configured`, `unauthorized`, `unknown_field`, `missing_field`, `invalid_field` (a wrong typed value, a `lead_id` of the wrong shape or a `client` over 120 characters), `unknown_client`, `busy` and `server_error`.
 
 - **The secret** is held in the `WEBHOOK_SECRET` script property. With no secret set, every request is refused (`not_configured`). The comparison does not stop at the first different character. The secret is read from the body field `secret`, or from the `secret` URL parameter when the body has none.
 - **Unknown fields** are rejected by name, but only after the secret is right, so a caller without the secret learns nothing about the schema.
@@ -80,12 +84,13 @@ One secret covers every caller. There is no secret per caller or per client, and
 
 ## How it was tested
 
-Against the fake, with the secret, bad body, field and client cases, the formula and number text cases, the lock held by another run (busy, then a successful retry), two overlapping requests for one `lead_id` (the second is told to retry, and a later call is `duplicate`), a client added after the cache filled, the status counts against the fixtures, the escaped dashboard, and a seeded property test: 25 random sequences of 40 requests with wrong secrets, extra fields, bad emails, lock contention, case variants of the client name and look-alike ids (`007`, `7`, `7` as a number). Each sequence must end with every accepted id stored once and nothing else.
+Against the fake, with the secret, bad body, field and client cases, a table of every optional field against odd and ordinary values (`test/webhook-optional.test.js`) and the adversary's cases in `test/corpus/corpus_sheetdesk_1.jsonl` (`test/corpus.test.js`), the formula and number text cases, the lock held by another run (busy, then a successful retry), two overlapping requests for one `lead_id` (the second is told to retry, and a later call is `duplicate`), a client added after the cache filled, the status counts against the fixtures, the escaped dashboard, and a seeded property test: 25 random sequences of 40 requests with wrong secrets, extra fields, bad emails, lock contention, case variants of the client name and look-alike ids (`007`, `7`, `7` as a number). Each sequence must end with every accepted id stored once and nothing else.
 
 Each step that can throw has a test that makes it throw: a renamed header on Leads or Clients, a cache that refuses a write or a read, a failing append, a failing flush, a lock service that fails. The test checks the reply is the `server_error` JSON with no message in it, the cause is in the log, the lock is released, and a retry after a failed flush is a duplicate.
 
 ## What it does NOT do
 
+- No check that an email is real, or that a phone is a phone. Those are stored as typed and reported in `warnings`, and nothing reads the warnings but the caller.
 - No rate limiting. A caller with the secret can send as fast as Apps Script allows.
 - No per-caller secrets, see above.
 - It was not called by Zapier or Make. The request shape follows their documented JSON payload.
