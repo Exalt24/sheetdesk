@@ -271,3 +271,23 @@ test('CLASS-TABLE: the fourth column of a new client row is written empty for an
     if (status === 'active') assert.equal(row[6], 'active', label);
   }
 });
+
+/** Budget bodies: [what is typed after any currency word, the dollars kept, or null when the answer is not a budget]. */
+const BUDGET_BODIES = [
+  ['2.5k', 2500], ['1.1k', 1100], ['0.29k', 290], ['1.15k', 1150], ['0.5k', 500], ['2500.5', 2500.5], ['0', 0], ['10', 10],
+  ['0.0012301k', 1.23], ['0.0012349k', 1.23], ['0.0012351k', 1.24], ['0.0012399k', 1.24],
+  ['-0.01', null], ['-0.5', null], ['-1', null], ['-0.0001k', null], ['-0.5k', null], ['-1k', null]
+];
+
+// CLASS-TABLE: every size of budget against the cent it is kept to and the sign it is refused at, with each currency word around it
+test('CLASS-TABLE: a budget keeps its cents and a budget below zero is refused', () => {
+  const p = loadProject();
+  for (const prefix of ['', '$', 'usd ', 'US$']) {
+    for (const suffix of ['', ' USD']) {
+      for (const [body, want] of BUDGET_BODIES) {
+        const text = prefix + body + suffix;
+        assert.equal(p.plain(p.call('parseBudget_', text)), want, JSON.stringify(text));
+      }
+    }
+  }
+});

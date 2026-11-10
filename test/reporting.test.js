@@ -360,3 +360,23 @@ test('report: changed figures whose email failed on quota are sent by the next r
   p.w.mailQuota = 5;
   assert.equal(p.plain(p.call('runClientReport', 'Harbor Lane Bakery', '2026-10')).email, 'sent');
 });
+
+// CLASS-TABLE: every length of a client name that is not a client, through both entry points that name it in the refusal
+test('CLASS-TABLE: an unknown client is named in the refusal by its first 60 characters, and a short name is named whole', () => {
+  const p = loadSeeded();
+  const entries = [
+    ['runClientReport', (name) => p.call('runClientReport', name, '2026-10')],
+    ['sidebarRunReport', (name) => p.call('sidebarRunReport', name, '2026-10', false)]
+  ];
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  for (const [entry, run] of entries) {
+    for (const length of [1, 12, 59, 60, 61, 80, 200]) {
+      let name = '';
+      for (let i = 0; i < length; i++) name += letters[(i * 7) % 26] + (i % 10 === 9 ? ' ' : '');
+      name = name.slice(0, length);
+      const shown = name.slice(0, Math.min(length, 60));
+      assert.equal(shown.length, Math.min(length, 60), 'the table is built right');
+      assert.throws(() => run(name), (e) => e.message === 'Unknown client: ' + shown, entry + ', ' + length + ' characters');
+    }
+  }
+});

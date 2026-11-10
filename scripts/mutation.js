@@ -255,7 +255,17 @@ const EQUIVALENT = {
   'ast:Clients:51@1650+1:number---1': 'ensureGrid_(sheet, 0, ...) asks for no rows, and a grid never needs fewer rows than one, so the call grows nothing either way',
   'ast:Forms:165@7120+17:string-to-empty': 'the text of a Logger.log line that only an owner reading the script log sees, with no effect on any row, return value or email',
   'ast:Webhook:154@7237+1:number-+-1':'the duplicate check reads four columns of the Leads tab instead of three and compares only the first and the third, so the extra column is read and never used',
-  'ast:Clients:55@1906+13:return-value-dropped': 'ensureClientExtras_ returns undefined instead of false when the tab holds its own text in J1 or K1; its only caller tests the value for truth, so undefined and false read the same'
+  'ast:Reporting:32@1133+1:number-+-1': 'assertMonthEnded_ is reached only after assertMonth_, so the month is exactly seven characters (yyyy-MM) and slice(5, 8) holds the same two characters as slice(5, 7)',
+  'ast:Menu:138@5095+1:<-to-<=': 'the two sides are equal days only when the new day is the earliest one already held, and first is then set to the value it already has',
+  'ast:Menu:139@5131+1:>-to->=': 'the two sides are equal days only when the new day is the latest one already held, and last is then set to the value it already has',
+  'ast:Menu:145@5347+1:<-to-<=': 'the two sides are equal days only when the first of the month is exactly three years back, and either branch then returns that same day',
+  'ast:Menu:145@5386+1:>-to->=': 'the two sides are equal days only when the latest foreign row is today, and either branch then returns that same day',
+  'ast:AdPlatform:123@5074+12:string-to-empty': 'a date written as yyyy-MM-dd alone is read as midnight UTC by Date.parse, the same instant as with T00:00:00Z, so the piece end is the same day',
+  'ast:AdPlatform:123@5122+8:number-+-1': 'the piece end is one day count in milliseconds plus a few milliseconds (91 times the extra one), and toISOString().slice(0, 10) keeps only the day, so the day string is the same',
+  'ast:AdPlatform:124@5204+1:<-to-<=': 'the two sides are equal days only when a piece ends on the last day asked for, and either branch then passes that same day to the pull',
+  'ast:AdPlatform:130@5424+12:string-to-empty': 'a date written as yyyy-MM-dd alone is read as midnight UTC by Date.parse, the same instant as with T00:00:00Z, so the next piece starts on the same day',
+  'ast:AdPlatform:130@5466+8:number-+-1': 'the next piece start is whole days in milliseconds plus a few milliseconds (92 times the extra one), and toISOString().slice(0, 10) keeps only the day, so the day string is the same',
+  'ast:Clients:55@1906+13:return-value-dropped':'ensureClientExtras_ returns undefined instead of false when the tab holds its own text in J1 or K1; its only caller tests the value for truth, so undefined and false read the same'
 };
 
 /** Tests that judge the syntax tree mutants: the corpus replay and every test named CLASS-TABLE. */

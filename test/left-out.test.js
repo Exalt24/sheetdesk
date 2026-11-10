@@ -282,3 +282,75 @@ test('CLASS-TABLE: syncRatesInPieces_ refuses a bad range and adds the counts of
   const one = p.plain(p.call('syncRatesInPieces_', '2026-11-01', '2026-11-01'));
   assert.equal(one.pieces, 1);
 });
+
+/** Campaigns tab shapes for the rate pull: grids as loose as a new sheet, and as tight as one the owner trimmed to its data. */
+const GRIDS = ['loose', 'tight'];
+const permutations = (xs) => (xs.length < 2 ? [xs] : xs.flatMap((x, i) => permutations(xs.slice(0, i).concat(xs.slice(i + 1))).map((rest) => [x].concat(rest))));
+
+// CLASS-TABLE: every order of the dates on the tab and every grid size against the range of the rate pull
+test('CLASS-TABLE: the rate pull range ignores row order and spare grid, and an empty tab pulls 30 days', () => {
+  for (const grid of GRIDS) {
+    for (const order of permutations(['2026-12-20', '2026-11-25', '2026-10-05'])) {
+      const p = loadProject();
+      p.fill('Campaigns', HEADERS.campaigns, order.map((d) => ['Summit Yoga', 'search', d, 5, 1, 0, 'EUR']));
+      if (grid === 'tight') {
+        const sheet = p.sheet('Campaigns');
+        sheet._maxRows = p.rows('Campaigns').length;
+        sheet._maxCols = HEADERS.campaigns.length;
+      }
+      assert.deepEqual(p.plain(p.call('ratePullRange_')), { from: '2026-10-01', to: '2026-12-20' }, grid + ' ' + order.join(' '));
+    }
+    const empty = loadProject();
+    empty.fill('Campaigns', HEADERS.campaigns, []);
+    if (grid === 'tight') {
+      const sheet = empty.sheet('Campaigns');
+      sheet._maxRows = 1;
+      sheet._maxCols = HEADERS.campaigns.length;
+    }
+    assert.deepEqual(empty.plain(empty.call('ratePullRange_')), { from: '2026-10-11', to: '2026-11-10' }, grid + ' headers only');
+  }
+});
+
+/** The euro rates the stand-in holds, as Rates rows, for the days from `from` to `to`. */
+const eurRows = (p, from, to) => p.fx.rates.filter((r) => r.quote === 'EUR' && r.date >= from && r.date <= to).map((r) => [r.date, r.quote, r.rate]);
+
+// CLASS-TABLE: how many rates were on the Rates tab and how many of those had another value, against the words the owner reads
+test('CLASS-TABLE: the Pull currency rates message gives the new and changed counts under the title Rates', () => {
+  for (const have of [0, 3, 10]) {
+    for (const changed of [0, 1, 3]) {
+      if (changed > have) continue;
+      const p = euroSheet('2026-10-05', '2026-10-31');
+      installFrankfurter(p.w, p.fx.rates);
+      const all = eurRows(p, '2026-10-01', '2026-11-10');
+      assert.ok(all.length > 12, 'the stand-in holds enough euro days');
+      const stored = all.slice(0, have).map((r, i) => (i < changed ? [r[0], r[1], r[2] + 0.5] : r));
+      if (stored.length) p.fill('Rates', HEADERS.rates, stored);
+      p.call('menuSyncRates');
+      const t = p.w.ui.toasts;
+      assert.equal(t.length, 1, 'one message');
+      assert.equal(t[0].title, 'Rates');
+      const m = /^(\d+) new, (\d+) changed$/.exec(t[0].msg);
+      assert.ok(m, 'the message reads "N new, M changed": ' + t[0].msg);
+      assert.deepEqual([Number(m[1]), Number(m[2])], [all.length - have, changed], 'have ' + have + ', changed ' + changed);
+    }
+  }
+});
+
+// CLASS-TABLE: changed rates in the first piece, the second piece or both, against the total the pieces add up to
+test('CLASS-TABLE: syncRatesInPieces_ adds the changed counts of every piece into one total', () => {
+  for (const inFirst of [0, 1, 2]) {
+    for (const inSecond of [0, 1]) {
+      const p = euroSheet('2026-08-20', '2026-10-31');
+      installFrankfurter(p.w, p.fx.rates);
+      const all = eurRows(p, '2026-08-01', '2026-11-10');
+      const first = all.filter((r) => r[0] <= '2026-10-31');
+      const second = all.filter((r) => r[0] > '2026-10-31');
+      assert.ok(first.length > 3 && second.length > 0, 'both pieces hold rates');
+      const bump = new Set(first.slice(0, inFirst).concat(second.slice(0, inSecond)).map((r) => r[0]));
+      p.fill('Rates', HEADERS.rates, all.map((r) => (bump.has(r[0]) ? [r[0], r[1], r[2] + 0.5] : r)));
+      const r = p.plain(p.call('syncRatesInPieces_', '2026-08-01', '2026-11-10'));
+      assert.equal(r.pieces, 2);
+      assert.deepEqual([r.fetched, r.inserted, r.updated], [all.length, 0, inFirst + inSecond], 'first ' + inFirst + ', second ' + inSecond);
+    }
+  }
+});

@@ -250,3 +250,24 @@ test('CLASS-TABLE: the month close dialog prints the no address sentence after t
   only.click('confirm');
   assert.equal(only.status(), line + ' NO ADDRESS.');
 });
+
+// CLASS-TABLE: every text that is not a month, long gone or not, against the button that opens the close dialog
+test('CLASS-TABLE: the sidebar refuses a value that is not a month before it opens the dialog', () => {
+  for (const year of ['2020', '2026', '1999']) {
+    for (const tail of ['-13', '-00', '-1', '-10-01', '/10', ' 10', '-10 ', '10']) {
+      const month = year + tail;
+      const p = loadSeeded();
+      assert.throws(() => p.call('sidebarRequestMonthClose', month), /Invalid month/, JSON.stringify(month));
+      assert.equal(p.w.ui.dialog, null, JSON.stringify(month) + ': no dialog');
+    }
+    const ok = loadSeeded();
+    const month = year + '-01';
+    assert.deepEqual(ok.plain(ok.call('sidebarRequestMonthClose', month)), { opened: true }, month + ': a finished month still opens');
+    assert.match(ok.w.ui.dialog.content, new RegExp('value="' + month + '"'));
+  }
+  for (const value of [null, undefined, '', 202010, {}]) {
+    const p = loadSeeded();
+    assert.throws(() => p.call('sidebarRequestMonthClose', value), /Invalid month/, String(value));
+    assert.equal(p.w.ui.dialog, null);
+  }
+});
