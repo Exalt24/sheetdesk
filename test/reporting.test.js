@@ -346,3 +346,15 @@ test('month close: no deletions of anyone else files in the folder', () => {
   p.call('runClientReport', 'Summit Yoga', '2026-10');
   assert.equal(p.w.files.get(other).isTrashed(), false);
 });
+
+test('report: changed figures whose email failed on quota are sent by the next run, not reported as already sent', () => {
+  const p = loadSeeded();
+  p.call('runClientReport', 'Harbor Lane Bakery', '2026-10');
+  p.append('Campaigns', [['Harbor Lane Bakery', 'video', '2026-10-31', 10, 5, 1, 'USD']]);
+  p.w.mailQuota = 0;
+  const failed = p.plain(p.call('runClientReport', 'Harbor Lane Bakery', '2026-10'));
+  assert.match(failed.email, /^failed:/);
+  assert.equal(p.rows('Report Log')[1][5], '', 'a failed send leaves no emailed time for the new figures');
+  p.w.mailQuota = 5;
+  assert.equal(p.plain(p.call('runClientReport', 'Harbor Lane Bakery', '2026-10')).email, 'sent');
+});

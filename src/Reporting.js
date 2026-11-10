@@ -365,7 +365,8 @@ function buildReport_(ss, client, month, agg, opts) {
   const alreadySent = prior && String(prior[4]) === figures && prior[5] !== '';
   const now = new Date();
   let email;
-  let emailedAt = prior ? prior[5] : '';
+  // The emailed time belongs to the figures that were emailed. Changed figures start with none, so a preview or a failed send cannot mark them as sent.
+  let emailedAt = prior && String(prior[4]) === figures ? prior[5] : '';
   const subject = client.client + ' marketing report, ' + month;
   const body = 'Hello ' + (client.contact_name || 'there') + ',\n\nThe ' + month + ' report is attached. ' +
     'Spend was ' + moneyText_(total.cents) + ', with ' + total.clicks + ' clicks and ' +

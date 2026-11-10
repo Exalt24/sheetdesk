@@ -146,7 +146,15 @@ test('the menu item opens the dialog with last month, also across new year', () 
 test('dialogConfirmMonthClose closes the month and returns counts', () => {
   const p = loadSeeded();
   const r = p.plain(p.call('dialogConfirmMonthClose', '2026-10'));
-  assert.deepEqual(r, { month: '2026-10', done: 8, errors: 0, pending: 0, emailed: 8 });
+  assert.deepEqual(r, { month: '2026-10', done: 8, errors: 0, pending: 0, emailed: 8, emailFailed: 0 });
+});
+
+test('dialogConfirmMonthClose shows the reports that were built but not emailed when mail is refused', () => {
+  const p = loadSeeded({ world: { mailQuota: 0 } });
+  const r = p.plain(p.call('dialogConfirmMonthClose', '2026-10'));
+  assert.equal(r.done, 8);
+  assert.equal(r.emailed, 0);
+  assert.equal(r.emailFailed, 8, 'every refused email is counted, not read as done');
 });
 
 test('setUp creates the data sheets and one secret, and keeps the secret on a rerun', () => {

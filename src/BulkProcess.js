@@ -113,7 +113,11 @@ function bulkJobStatus() {
 function runBulkSlice_(startedMs) {
   const t0 = startedMs === undefined ? Date.now() : startedMs;
   const lock = LockService.getScriptLock();
-  if (!lock.tryLock(5000)) return { status: 'locked' };
+  if (!lock.tryLock(5000)) {
+    // The trigger that fired is used up. Re-arm it, or a job that is still running is left with nothing to resume it.
+    if (loadCursor_()) replaceContinuationTrigger_(SD.CONTINUE_AFTER_MS);
+    return { status: 'locked' };
+  }
   try {
     const cursor = loadCursor_();
     if (!cursor) {

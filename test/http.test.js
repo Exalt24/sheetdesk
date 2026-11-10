@@ -259,6 +259,7 @@ test('syncAdCosts adds new days, ignores unknown accounts and bad records, and c
   const r = p.plain(p.call('syncAdCosts', '2026-11-01', '2026-12-01'));
   assert.equal(r.fetched, 8);
   assert.equal(r.invalid, 5);
+  assert.equal(r.duplicates, 1, 'the duplicate key is counted, so the replacement is visible');
   assert.equal(r.unknownAccount, 1);
   assert.equal(r.inserted, 1, 'the second record has the same key as the first and wins');
   const last = p.rows('Campaigns').pop();

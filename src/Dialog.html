@@ -27,7 +27,8 @@
     setStatus('Working');
     google.script.run
       .withSuccessHandler(function (r) {
-        setStatus(r.done + ' done, ' + r.errors + ' failed, ' + r.pending + ' waiting, ' + r.emailed + ' emailed.');
+        setStatus(r.done + ' done, ' + r.errors + ' failed, ' + r.pending + ' waiting, ' + r.emailed + ' emailed, ' +
+          r.emailFailed + ' not emailed (mail refused; the next close sends them).');
         document.getElementById('confirm').disabled = false;
       })
       .withFailureHandler(function (err) {

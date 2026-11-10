@@ -48,8 +48,10 @@ function syncAdCosts(fromIso, toIso) {
   { itemsKey: 'data', nextKey: 'next_page_token' });
 
   const out = [];
+  const seenKeys = {};
   let unknownAccount = 0;
   let invalid = 0;
+  let duplicates = 0;
   result.items.forEach(function (it) {
     if (checkAdItem_(it)) {
       invalid++;
@@ -60,6 +62,11 @@ function syncAdCosts(fromIso, toIso) {
       unknownAccount++;
       return;
     }
+    // Two records with one client, channel and day: the later one replaces the earlier, because the Campaigns row is keyed by those three.
+    // Counted, so the replacement shows in the sync result instead of going unnoticed.
+    const key = client + '|' + it.channel.trim().toLowerCase() + '|' + it.date;
+    if (Object.prototype.hasOwnProperty.call(seenKeys, key)) duplicates++;
+    seenKeys[key] = true;
     out.push([client, it.channel.trim().toLowerCase(), it.date, Math.round(it.cost_micros / 10000) / 100,
       it.clicks, it.conversions, it.currency]);
   });
@@ -78,7 +85,8 @@ function syncAdCosts(fromIso, toIso) {
     updated: counts.updated,
     unchanged: counts.unchanged,
     unknownAccount: unknownAccount,
-    invalid: invalid
+    invalid: invalid,
+    duplicates: duplicates
   };
 }
 

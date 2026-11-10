@@ -326,3 +326,16 @@ test('CLASS-TABLE: the read time per row is learned from batches of 100 rows or 
     }
   }
 });
+
+test('a continuation that finds the lock held re-arms itself, so the job still has a trigger', () => {
+  const { p } = setupScale(2000, 81, { chunk: 500, cost: { writeCellMs: 55 } });
+  const started = p.call('startBulkNormalize');
+  assert.ok(p.call('bulkJobStatus'), 'the job is still running after the first slice: ' + started.status);
+  p.w.triggers.length = 0; // Apps Script has used up the trigger that just fired
+  p.w.locks.script = { holder: 'other-run', releaseAt: p.w.now + 60000 };
+  assert.deepEqual(p.plain(p.call('continueBulkJob')), { status: 'locked' });
+  assert.ok(p.w.triggers.length >= 1, 'a continuation trigger is left for the job');
+  p.w.locks.script = { holder: null, releaseAt: null };
+  const next = p.w.fireNextClockTrigger();
+  assert.ok(['continuing', 'done'].includes(next.result.status), 'the job goes on: ' + next.result.status);
+});

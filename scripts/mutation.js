@@ -35,6 +35,11 @@ const PARALLEL = 4;
 
 /** [id, file, text to find (exactly once), replacement, what it breaks] */
 const M = [
+  // ---- guards added after the second review (ad sync duplicates, bulk trigger re-arm, emailed time, month close dialog)
+  ['sync-counts-duplicates', 'AdPlatform.js', "    if (Object.prototype.hasOwnProperty.call(seenKeys, key)) duplicates++;\n", '', 'two ad records for one client, channel and day replace each other with no count in the sync result'],
+  ['bulk-lock-rearms-trigger', 'BulkProcess.js', "    if (loadCursor_()) replaceContinuationTrigger_(SD.CONTINUE_AFTER_MS);\n", '', 'a continuation that finds the lock held leaves the running job with no trigger to resume it'],
+  ['emailed-time-follows-figures', 'Reporting.js', "  let emailedAt = prior && String(prior[4]) === figures ? prior[5] : '';\n", "  let emailedAt = prior ? prior[5] : '';\n", 'changed figures keep the old emailed time, so a preview or a failed send marks them as already sent'],
+  ['dialog-counts-failed-email', 'Menu.js', "    emailFailed: r.results.filter(function (x) { return /^failed/.test(String(x.email)); }).length\n", "    emailFailed: 0\n", 'the month close dialog reads a refused email as done'],
   // ---- webhook
   ['setup-pins-time-zone', 'Menu.js', "  if (ss.getSpreadsheetTimeZone() !== zone) ss.setSpreadsheetTimeZone(zone);\n", '', 'Set up leaves the Sheet time zone as it was, so dates can be read a day early'],
   ['secret-check', 'Webhook.js', "  if (!safeEquals_(typeof given === 'string' ? given : '', expected)) return webhookError_('unauthorized');\n", '', 'the shared secret is not checked on POST'],

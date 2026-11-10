@@ -171,7 +171,7 @@ function sidebarRequestMonthClose(month) {
 /**
  * Dialog button: runs the month close.
  * @param {string} month
- * @return {{month: string, done: number, errors: number, pending: number, emailed: number}}
+ * @return {{month: string, done: number, errors: number, pending: number, emailed: number, emailFailed: number}}
  */
 function dialogConfirmMonthClose(month) {
   // runMonthClose checks the month first.
@@ -181,6 +181,8 @@ function dialogConfirmMonthClose(month) {
     done: r.results.filter(function (x) { return x.status === 'ok' || x.status === 'no_data'; }).length,
     errors: r.results.filter(function (x) { return x.status === 'error'; }).length,
     pending: r.pending.length,
-    emailed: r.results.filter(function (x) { return x.email === 'sent'; }).length
+    emailed: r.results.filter(function (x) { return x.email === 'sent'; }).length,
+    // A report that was built but whose email the mail service refused (for example on quota). The next close sends it.
+    emailFailed: r.results.filter(function (x) { return /^failed/.test(String(x.email)); }).length
   };
 }

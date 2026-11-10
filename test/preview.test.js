@@ -162,3 +162,14 @@ test('every script property is explained in SD.PROP_NOTES', () => {
   assert.match(notes.REPORT_CC, /Send to me first/);
   assert.match(notes.AD_API_BASE, /stand-in/);
 });
+
+test('preview after the figures changed: the preview does not mark the new figures as emailed, so the real run sends them', () => {
+  const p = loadSeeded();
+  p.call('runClientReport', CLIENT, '2026-10');
+  p.append('Campaigns', [[CLIENT, 'video', '2026-10-31', 10, 5, 1, 'USD']]);
+  p.call('runClientReport', CLIENT, '2026-10', { preview: true });
+  assert.equal(p.rows('Report Log')[1][5], '', 'the changed figures have no emailed time yet');
+  const real = p.plain(p.call('runClientReport', CLIENT, '2026-10'));
+  assert.equal(real.email, 'sent');
+  assert.equal(p.w.sent.filter((m) => m.to === CLIENT_ADDRESS).length, 2);
+});
