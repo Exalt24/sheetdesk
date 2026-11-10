@@ -32,7 +32,7 @@ Against the fake, which enforces the 6 minute limit, charges simulated time for 
 
 ## What it does NOT do
 
-- It was not run on a real account, so the chunk size and the budget are not tuned to real speeds. Reading 5,000 rows by 7 columns and writing 5,000 rows by 9 columns is expected to be faster than the simulated clock. That is expected, not measured. The budget check makes the job correct at any speed.
+- The bulk job was not run on a real account, so the chunk size and the budget are not tuned to real speeds. Reading 5,000 rows by 7 columns and writing 5,000 rows by 9 columns is expected to be faster than the simulated clock. That is expected, not measured. The budget check makes the job correct at any speed.
 - Rows added to Campaigns while a job runs are picked up by the next job, not this one. The job works on the row count it saw at the start. A test adds two rows between runs and checks both halves of that.
 - The cursor is one script property, so there is one job at a time per script.
 - Time driven triggers have their own daily runtime limit (90 minutes on a consumer account, 6 hours on Workspace). A very large sheet can hit it.

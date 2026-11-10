@@ -1,6 +1,6 @@
 # Running and changing it
 
-Source: `src/Config.js`, `src/Clients.js`, `src/Reporting.js`, `src/BulkProcess.js`, `.clasp.json`. Nothing on this page has been run on a live Google account. The steps follow Google's and clasp's documentation.
+Source: `src/Config.js`, `src/Clients.js`, `src/Reporting.js`, `src/BulkProcess.js`, `.clasp.json`. The clasp create, push and deployment steps ran on 2026-11-10 ([live-run.md](live-run.md)). The other steps follow Google's and clasp's documentation and were not run.
 
 ## Change the agency name
 

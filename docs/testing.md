@@ -17,7 +17,7 @@ npm run mutation    # 142 mutants, about 15 minutes
 | `npm run lint` | 0 errors, 0 warnings |
 | `npm run mutation` | 142 mutants, 142 caught, 0 survived |
 
-Nothing here has run on a live Google account. The tests prove the code against [a local fake of Google's services](fake-and-seed.md) that was written from Google's reference, so they are as accurate as that fake.
+The tests do not touch Google. One run by hand on a live account is written up in [live-run.md](live-run.md). The tests prove the code against [a local fake of Google's services](fake-and-seed.md) that was written from Google's reference, so they are as accurate as that fake.
 
 ## What the tests load
 

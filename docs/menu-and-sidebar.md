@@ -34,5 +34,5 @@ All four are public and end without an underscore, because Apps Script hides fun
 
 ## What it does NOT do
 
-- The HTML was never rendered in a browser or inside the Google iframe. Layout and the `google.script.run` round trip are untested; only the server side and the names are.
+- The sidebar was rendered inside Google's iframe on 2026-11-10 and its Run report round trip worked ([live-run.md](live-run.md)). The month close dialog was not opened there, and the layout was judged by eye on one screen size only.
 - No keyboard shortcuts, no progress bar during a long month close.
