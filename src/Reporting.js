@@ -12,6 +12,30 @@ function assertMonth_(month) {
 }
 
 /**
+ * The current month as yyyy-MM in the Sheet time zone, the zone the data is dated in.
+ * @return {string}
+ */
+function currentMonth_() {
+  return Utilities.formatDate(new Date(), spreadsheet_().getSpreadsheetTimeZone(), 'yyyy-MM');
+}
+
+/**
+ * Throws unless the month is over. A month close emails every client, so it
+ * is refused for a month that is still running (or has not started), judged in
+ * the Sheet time zone: a month ends when the first of the next month begins there.
+ * @param {string} month a valid month key
+ */
+function assertMonthEnded_(month) {
+  if (month < currentMonth_()) return;
+  const tz = spreadsheet_().getSpreadsheetTimeZone();
+  const y = Number(month.slice(0, 4));
+  const m = Number(month.slice(5, 7));
+  const next = (m === 12 ? y + 1 : y) + '-' + String(m === 12 ? 1 : m + 1).padStart(2, '0') + '-01';
+  throw new Error('The month ' + month + ' has not ended yet: it is ' + Utilities.formatDate(new Date(), tz, 'yyyy-MM-dd') +
+    ' in the Sheet time zone (' + tz + '), and a month close emails every client. Close it on or after ' + next + '.');
+}
+
+/**
  * Throws unless the name is an existing client. Returns the stored client.
  * @param {Client[]} clients
  * @param {*} name
@@ -19,7 +43,9 @@ function assertMonth_(month) {
  */
 function assertClient_(clients, name) {
   if (typeof name !== 'string' || !name.trim()) throw new Error('Pick a client.');
-  const hit = clients.filter(function (c) { return c.client === name; })[0];
+  const named = clients.filter(function (c) { return c.client === name; });
+  // The same name on two rows (a returning client who filled the form again): the active row is the client.
+  const hit = named.filter(function (c) { return c.status === 'active'; })[0] || named[0];
   if (!hit) throw new Error('Unknown client: ' + name.slice(0, 60));
   return hit;
 }
@@ -40,6 +66,62 @@ function aggregate_(rows) {
     t.conversions = addCount_(t.conversions, r.conversions);
   });
   return out;
+}
+
+/** Why a Campaigns row is left out of the totals, by reason code, in the order a sentence lists them. */
+const REJECT_WORDS_ = [
+  ['no_rate', 'no currency rate for the day (sheetdesk, Data, Pull currency rates fetches them)'],
+  ['bad_date', 'no usable date'],
+  ['no_client', 'no client name'],
+  ['no_channel', 'no channel'],
+  ['bad_spend', 'a spend that is below zero or not a number'],
+  ['bad_clicks', 'clicks that are not a whole number'],
+  ['bad_conversions', 'conversions that are below zero or not a number']
+];
+
+/**
+ * Counts the Campaigns rows that were left out of the totals and says why, in
+ * one sentence. A month whose rows were all left out has no figures, so this
+ * is what keeps it from reading as "no data".
+ * @param {Array<{row: number, reason: string}>} rejected from readCampaigns_
+ * @return {({rows: number, reasons: Object, text: string}|undefined)} nothing when no row was left out
+ */
+function leftOutOf_(rejected) {
+  if (!rejected.length) return;
+  const reasons = {};
+  rejected.forEach(function (r) { reasons[r.reason] = (reasons[r.reason] || 0) + 1; });
+  const known = REJECT_WORDS_.map(function (w) { return w[0]; });
+  const parts = [];
+  REJECT_WORDS_.forEach(function (w) {
+    if (reasons[w[0]]) parts.push(reasons[w[0]] + ' with ' + w[1]);
+  });
+  Object.keys(reasons).forEach(function (k) {
+    if (known.indexOf(k) === -1) parts.push(reasons[k] + ' with the problem ' + k);
+  });
+  const n = rejected.length;
+  return {
+    rows: n,
+    reasons: reasons,
+    text: n + (n === 1 ? ' Campaigns row is' : ' Campaigns rows are') + ' left out of the totals: ' + parts.join(', ') + '.'
+  };
+}
+
+/**
+ * The active clients whose report could not be emailed because the address is
+ * empty or not one address (a comma or semicolon list, no dot after the @).
+ * @param {string[]} names
+ * @return {({count: number, clients: string[], text: string}|undefined)} nothing when there are none
+ */
+function noAddressOf_(names) {
+  if (!names.length) return;
+  const n = names.length;
+  const shown = names.slice(0, 10);
+  return {
+    count: n,
+    clients: shown,
+    text: n + (n === 1 ? ' client has' : ' clients have') + ' no usable email address, so ' + (n === 1 ? 'it was' : 'they were') +
+      ' not emailed: ' + shown.join(', ') + (n > shown.length ? ' and ' + (n - shown.length) + ' more' : '') + '.'
+  };
 }
 
 /**
@@ -98,10 +180,14 @@ function summaryTable_(byMonth) {
  * sheet once, writes each tab with one setValues call. Safe to rerun.
  * Two names that would share a tab or a PDF name are both left out and named
  * in `skipped`; every other client is rebuilt. A Campaigns row whose client is
- * no client in the Clients tab is counted and named in `unmatched`. Both keys
- * are present only when there is something to say.
+ * no client in the Clients tab is counted and named in `unmatched`. A row that
+ * was left out of every total (no currency rate for its day, no usable date, a
+ * spend that is not a number) is counted in `rejected` and, with the reasons and
+ * one sentence, in `leftOut`. The three keys are present only when there is
+ * something to say.
  * @return {{tabs: number, rows: number, rejected: number, skipped: (string[]|undefined),
- *   unmatched: ({rows: number, clients: string[]}|undefined)}}
+ *   unmatched: ({rows: number, clients: string[]}|undefined),
+ *   leftOut: ({rows: number, reasons: Object, text: string}|undefined)}}
  */
 function buildClientSummaries() {
   const ss = spreadsheet_();
@@ -125,6 +211,8 @@ function buildClientSummaries() {
   if (skipped.length) result.skipped = skipped;
   const unmatched = unmatchedRows_(parsed.rows, ss.getSheetByName(SD.SHEETS.CLIENTS) ? loadClients_(ss) : undefined);
   if (unmatched) result.unmatched = unmatched;
+  const leftOut = leftOutOf_(parsed.rejected);
+  if (leftOut) result.leftOut = leftOut;
   return result;
 }
 
@@ -377,19 +465,23 @@ function findReportLog_(ss, client, month) {
  *   REPORT_CC property when Google gives no address) and never to the client.
  *   A preview does not count as the client's email: the next real run sends it.
  * @return {{status: string, client: string, month: string, pdfName: string, pdfId: string,
- *   replaced: number, email: string, spend: string}}
+ *   replaced: number, email: string, spend: string, unmatched: (Object|undefined), leftOut: (Object|undefined)}}
  */
 function runClientReport(clientName, month, options) {
   assertMonth_(month);
   const ss = spreadsheet_();
   const clients = loadClients_(ss);
   const client = assertClient_(clients, clientName);
-  const clash = nameClashes_(clients.map(function (c) { return c.client; }))[client.client];
+  // Only the active clients and this one count: a parked row (needs_review) never stops an active client's report.
+  const live = clients.filter(function (c) { return c.status === 'active' || c === client; });
+  const clash = nameClashes_(live.map(function (c) { return c.client; }))[client.client];
   if (clash !== undefined) throw new Error(clash);
-  const rows = readCampaigns_(ss).rows;
-  const result = buildReport_(ss, client, month, aggregate_(rows), options || {});
-  const unmatched = unmatchedRows_(rows, clients);
+  const parsed = readCampaigns_(ss);
+  const result = buildReport_(ss, client, month, aggregate_(parsed.rows), options || {});
+  const unmatched = unmatchedRows_(parsed.rows, clients);
   if (unmatched) result.unmatched = unmatched;
+  const leftOut = leftOutOf_(parsed.rejected);
+  if (leftOut) result.leftOut = leftOut;
   return result;
 }
 
@@ -559,21 +651,29 @@ function pdfStillExists_(id) {
  * A client whose name would share a PDF file name or a summary tab with another
  * is not reported: its result is an error that names both, the other clients
  * run, and the messages are also listed in `clashes` (present only when there
- * are any).
+ * are any). Only active clients count for a clash: a parked row (needs_review)
+ * never stops an active client.
+ *
+ * A month close emails every client, so it is refused for a month that has not
+ * ended in the Sheet time zone. An active client whose address is empty or not
+ * one address gets its report built but no email, and is named in `noAddress`.
  * @param {string} month yyyy-MM
- * @return {{month: string, results: Object[], pending: string[], summaries: Object, clashes: (string[]|undefined)}}
+ * @return {{month: string, results: Object[], pending: string[], summaries: Object, clashes: (string[]|undefined),
+ *   noAddress: ({count: number, clients: string[], text: string}|undefined)}}
  */
 function runMonthClose(month) {
   assertMonth_(month);
+  assertMonthEnded_(month);
   const started = Date.now();
   const ss = spreadsheet_();
   const allClients = loadClients_(ss);
   const clients = allClients.filter(function (c) { return c.status === 'active'; });
-  const clashes = nameClashes_(allClients.map(function (c) { return c.client; }));
+  const clashes = nameClashes_(clients.map(function (c) { return c.client; }));
   const summaries = buildClientSummaries();
   const agg = aggregate_(readCampaigns_(ss).rows);
   const results = [];
   const pending = [];
+  const noAddress = [];
   let slowest = 0;
   clients.forEach(function (c) {
     if (clashes[c.client] !== undefined) {
@@ -586,7 +686,9 @@ function runMonthClose(month) {
     }
     const t0 = Date.now();
     try {
-      results.push(buildReport_(ss, c, month, agg, { skipIfCurrent: true }));
+      const built = buildReport_(ss, c, month, agg, { skipIfCurrent: true });
+      results.push(built);
+      if ((built.status === 'ok' || built.status === 'current') && !isEmail_(c.contact_email)) noAddress.push(c.client);
     } catch (err) {
       results.push({ status: 'error', client: c.client, month: month, error: String(err && err.message ? err.message : err).slice(0, 200) });
     }
@@ -598,5 +700,7 @@ function runMonthClose(month) {
   const out = { month: month, results: results, pending: pending, summaries: summaries };
   const clashed = clashMessages_(clashes);
   if (clashed.length) out.clashes = clashed;
+  const missing = noAddressOf_(noAddress);
+  if (missing) out.noAddress = missing;
   return out;
 }

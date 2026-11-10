@@ -99,8 +99,9 @@ function webhookValidate_(fields, clientNames) {
 /**
  * Lead webhook. Expects JSON like
  * {"secret": "...", "lead_id": "z-1001", "client": "Harbor Lane Bakery", "name": "...", "email": "..."}.
- * Order of checks: size, parse, secret, fields. A repeat of a lead_id is a
- * success with duplicate:true, so a Zap that retries never adds a second row.
+ * Order of checks: size, parse, secret, fields. A repeat of a lead_id for the
+ * same client is a success with duplicate:true, so a Zap that retries never adds
+ * a second row. The same lead_id for another client is a new lead.
  * Anything the checks do not expect (a renamed Leads header, a failing flush)
  * is logged and answered as server_error, so the caller still gets JSON.
  * @param {Object} e
@@ -149,9 +150,12 @@ function handleLeadPost_(e) {
   try {
     const ss = spreadsheet_();
     const sheet = getOrCreateSheet_(ss, SD.SHEETS.LEADS, SD.HEADERS.LEADS);
-    const known = readRows_(sheet, 1);
+    // The key is the client and the lead_id together: two clients can each use the id 1001.
+    const known = readRows_(sheet, 3);
     for (let i = 0; i < known.length; i++) {
-      if (String(known[i][0]) === lead.lead_id) return jsonOut_({ ok: true, duplicate: true, lead_id: lead.lead_id });
+      if (String(known[i][0]) === lead.lead_id && String(known[i][2]) === lead.client) {
+        return jsonOut_({ ok: true, duplicate: true, lead_id: lead.lead_id });
+      }
     }
     sheet.appendRow([
       sheetText_(lead.lead_id),

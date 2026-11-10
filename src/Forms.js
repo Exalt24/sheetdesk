@@ -66,10 +66,25 @@ function intakeAnswers_(response) {
 }
 
 /**
+ * Reads a monthly budget as people write it: 2500, 2,500, $2,500, USD 2,500,
+ * 2500 USD, 2.5k, $2.5K. Any commas are dropped, as before.
+ * @param {string} text
+ * @return {?number} the amount in dollars, or null when it is not a number of zero or more
+ */
+function parseBudget_(text) {
+  let t = String(text).trim().toLowerCase().replace(/,/g, '');
+  t = t.replace(/^(us\$|usd|\$)\s*/, '').replace(/\s*usd$/, '');
+  const k = /^(.*?)\s*k$/.exec(t);
+  const n = parseNumber_(k ? k[1] : t);
+  if (n === null || n < 0) return null;
+  return k ? Math.round(n * 1000 * 100) / 100 : n;
+}
+
+/**
  * Validates one intake answer set.
  * @param {Object} a title -> answer
  * @return {{ok: boolean, problems: string[], client: string, contact: string, email: string,
- *   channel: string, budget: number}}
+ *   channel: string, budget: number, notes: string}}
  */
 function checkIntake_(a) {
   const T = SD.INTAKE_TITLES;
@@ -81,8 +96,8 @@ function checkIntake_(a) {
   if (!isEmail_(email)) problems.push('contact email');
   let budget = 0;
   if (budgetText) {
-    const n = parseNumber_(budgetText.replace(/,/g, ''));
-    if (n === null || n < 0) problems.push('monthly budget');
+    const n = parseBudget_(budgetText);
+    if (n === null) problems.push('monthly budget');
     else budget = n;
   }
   return {
@@ -92,7 +107,8 @@ function checkIntake_(a) {
     contact: String(a[T.CONTACT] || '').trim().slice(0, 120),
     email: email,
     channel: String(a[T.CHANNEL] || '').trim().slice(0, 40),
-    budget: budget
+    budget: budget,
+    notes: String(a[T.NOTES] || '').trim().slice(0, 50000)
   };
 }
 
@@ -100,10 +116,12 @@ function checkIntake_(a) {
  * Installable trigger handler. Writes the response to Clients once (the
  * response id is the key) and emails a confirmation. A response that fails
  * validation, or whose client name would share a report file name or a summary
- * tab with an existing client, is stored with the status needs_review and no
- * email is sent.
+ * tab with an active client, is stored with the status needs_review and no
+ * email is sent, and the review_reason cell says which check failed. A parked
+ * row (needs_review) is not a client: it never holds a new name back. The Notes
+ * answer is kept in the notes column.
  * @param {{response: GoogleAppsScript.Forms.FormResponse}} e
- * @return {{status: string, client: string, emailed: boolean}}
+ * @return {{status: string, client: string, emailed: boolean, reason: (string|undefined)}}
  */
 function onIntakeSubmit(e) {
   if (!e || !e.response) throw new Error('onIntakeSubmit needs a form response event.');
@@ -112,6 +130,7 @@ function onIntakeSubmit(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   let status;
+  let reason;
   try {
     const ss = spreadsheet_();
     const sheet = getOrCreateSheet_(ss, SD.SHEETS.CLIENTS, SD.HEADERS.CLIENTS);
@@ -119,13 +138,18 @@ function onIntakeSubmit(e) {
     for (let i = 0; i < rows.length; i++) {
       if (String(rows[i][7]) === responseId) return { status: 'duplicate', client: String(rows[i][0]), emailed: false };
     }
-    // A name that would share a PDF file name or a summary tab with a listed client (other case, a trailing
+    // A name that would share a PDF file name or a summary tab with an active client (other case, a trailing
     // period, other spacing) is held for review: the reports refuse both names, so it must not be confirmed.
-    const nameTaken = rows.some(function (r) {
-      return String(r[0]).trim() !== '' && namesClash_(String(r[0]).trim(), parsed.client);
-    });
-    status = parsed.ok && !nameTaken ? 'active' : 'needs_review';
-    sheet.appendRow([
+    // Only active rows count: a parked row is not a client and never holds a new name back.
+    const taken = rows.filter(function (r) {
+      return String(r[6]).trim().toLowerCase() === 'active' && String(r[0]).trim() !== '' && namesClash_(String(r[0]).trim(), parsed.client);
+    })[0];
+    status = parsed.ok && !taken ? 'active' : 'needs_review';
+    const why = [];
+    if (!parsed.ok) why.push('Check failed: ' + parsed.problems.join(', ') + '.');
+    if (taken) why.push('The name would share a report file name or summary tab with the active client "' + String(taken[0]).trim() + '".');
+    reason = why.join(' ');
+    const row = [
       sheetText_(parsed.client),
       sheetText_(parsed.contact),
       sheetText_(parsed.email),
@@ -135,7 +159,11 @@ function onIntakeSubmit(e) {
       status,
       sheetText_(responseId),
       new Date()
-    ]);
+    ];
+    // The notes and the reason follow created_at. When a column of the tab's own sits there, the row keeps its nine columns.
+    if (ensureClientExtras_(sheet)) row.push(sheetText_(parsed.notes), sheetText_(reason));
+    else Logger.log('The Clients tab has its own text in J1 or K1, so the notes and the review reason of response ' + responseId + ' were not kept.');
+    sheet.appendRow(row);
     SpreadsheetApp.flush();
     invalidateClientCache_();
   } finally {
@@ -156,5 +184,7 @@ function onIntakeSubmit(e) {
       Logger.log('Confirmation email failed for response ' + responseId + ': ' + err.message);
     }
   }
-  return { status: status, client: parsed.client, emailed: emailed };
+  const out = { status: status, client: parsed.client, emailed: emailed };
+  if (reason) out.reason = reason;
+  return out;
 }

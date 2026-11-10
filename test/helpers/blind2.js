@@ -206,10 +206,12 @@ const RUNNERS = {
   }),
   33: () => intakeThen(null, { [T.CLIENT]: 'HARBOR LANE BAKERY', [T.EMAIL]: MAIL.harbor }, (p) => {
     const d = p.plain(p.call('dialogConfirmMonthClose', '2026-10'));
-    assert.equal(d.done, 7, 'the seven other active clients have their report');
-    assert.equal(d.emailed, 7);
-    assert.equal(d.errors, 1, 'the clash is one failed client, named');
-    assert.match(d.clashes[0], /"Harbor Lane Bakery" and "HARBOR LANE BAKERY"/);
+    // The held row is not a client, so it stops no one: all eight active clients have their report (test/name-collisions.test.js holds
+    // the class, and the case where the second name is an active client and does stop both).
+    assert.equal(d.done, 8, 'the eight active clients have their report');
+    assert.equal(d.emailed, 8);
+    assert.equal(d.errors, 0, 'a parked row stops no client');
+    assert.equal(d.clashes, undefined);
   }),
   34: (c) => {
     const p = loadSeeded();

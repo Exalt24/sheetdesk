@@ -90,6 +90,12 @@ function runWebhook(input) {
 
 function runSummary(input) {
   const p = project(input);
+  // A month close is refused for a month that has not ended, so a case that closes a month runs on the third day after it ends,
+  // which is what "early January" says in the case that closes December.
+  if (['runMonthClose', 'dialogConfirmMonthClose'].includes(input.call.fn) && /^\d{4}-\d{2}$/.test(input.call.args[0])) {
+    const [y, m] = input.call.args[0].split('-').map(Number);
+    p.w.now = Date.UTC(y, m, 3, 15, 0, 0);
+  }
   const results = [];
   const times = input.twice ? 2 : 1;
   for (let i = 0; i < times; i++) {

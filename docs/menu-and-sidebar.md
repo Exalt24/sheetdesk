@@ -10,14 +10,16 @@ The sidebar has a client picker, a month picker, a **Send to me first** box (tic
 
 | Function | Does | Checks |
 |---|---|---|
-| `sidebarGetOptions()` | active clients and the months found in Campaigns | none needed, takes no argument |
+| `sidebarGetOptions()` | active clients, the months found in Campaigns (newest first) and `defaultMonth`, the newest of them that has ended, which the month picker starts on. The key is left out when every month is still running | none needed, takes no argument |
 | `sidebarRunReport(client, month, sendToMe)` | the monthly report for one client. Only an explicit `false` emails the client. Anything else, including a missing value, sends the PDF to the person running the script | month shape, client exists in the Clients sheet |
-| `sidebarRequestMonthClose(month)` | opens the confirm dialog | month shape |
-| `dialogConfirmMonthClose(month)` | runs the month close | month shape |
+| `sidebarRequestMonthClose(month)` | opens the confirm dialog | month shape, and that the month has ended |
+| `dialogConfirmMonthClose(month)` | runs the month close | month shape, and that the month has ended |
 
 With the box ticked, **Run report** builds the PDF and emails it to you, and the status line says so. Untick the box to email the client. The status line shows the result in words, for example "sent to you, not to the client".
 
-**Close month** opens a modal dialog first. The dialog has the month prefilled, a **Close month** button and **Cancel**. The month close only runs when the button is pressed.
+**Close month** opens a modal dialog first. The dialog says "This builds a report for every active client and emails each client the PDF. Send to me first does not apply here.", and has the month prefilled, a **Close month** button and **Cancel**. The month close only runs when the button is pressed. It emails clients, so the picker starts on the last month that has ended and a month that has not ended in the Sheet's time zone is refused with the reason ("The month 2026-11 has not ended yet: it is 2026-11-10 in the Sheet time zone (Asia/Manila), and a month close emails every client. Close it on or after 2026-12-01."), both when the dialog is opened and when the button is pressed. Run report is not refused for a running month, so a report for it can still be previewed.
+
+After a close the dialog line says how many clients are done, failed, waiting, emailed and not emailed. Then, only when there is something to say, it says which clients were left out, which Campaigns rows match no client, how many Campaigns rows were left out of the totals and why (`leftOut`, for example no currency rate for the day), and which clients have no usable email address (`noAddress`: empty, a comma or semicolon list, no dot after the @). Those clients get their report built but no email. The Run report line carries the same `leftOut` sentence, and a month where every row was left out reads "No report for that month" with the sentence, not "No data for that month".
 
 All four are public and end without an underscore, because Apps Script hides functions that end in `_` from `google.script.run`. The browser can call them with any argument, so each one checks its own input. They return plain objects only, since `google.script.run` cannot carry a `Date`.
 

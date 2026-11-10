@@ -25,7 +25,7 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 A small agency repeats the same chores every month. Add up each client's ad spend, build a report, email it, and keep new leads and new clients in the right place. sheetdesk does these chores from one Google Sheet.
 
 - **Reports.** Pick a client and a month in a sidebar and get a PDF report. Tick "Send to me first" and the PDF comes to you. Check it, then untick the box and send it to the client.
-- **Month close.** One button builds a report for every active client. A client is not emailed the same figures twice.
+- **Month close.** One button builds a report for every active client and emails each client the PDF, so it only runs for a month that has ended. A client is not emailed the same figures twice.
 - **Summaries.** One tab per client with spend, clicks, conversions, cost per click and cost per conversion, by month and channel. Money in euros or pounds is converted to dollars with the rate of the day.
 - **Leads.** Zapier or Make posts new leads to a web address. Each lead lands in the Leads tab once, even when Zapier retries.
 - **New clients.** A Google Form collects a client's details, adds a row to the Clients tab and sends a confirmation.
@@ -45,7 +45,7 @@ A script that works once when you click it is not a tool. Here each chore is a m
 ```mermaid
 flowchart LR
   Z[Zapier or Make] -->|POST JSON with secret| W[doPost]
-  W -->|script lock, one row per lead_id| L[(Leads)]
+  W -->|script lock, one row per client and lead_id| L[(Leads)]
   F[Intake form] -->|installable trigger| I[onIntakeSubmit]
   I --> C[(Clients)]
   A[Ad platform API] -->|UrlFetchApp, retries, pages| S[syncAdCosts]
@@ -72,7 +72,7 @@ Apps Script loads every file in `src/` into one global scope, so the modules cal
 |---|---|---|
 | Summaries, PDFs, month close | One summary tab per client from one `getValues`. A monthly report built from a template Doc, exported to a PDF with a stable name (a rerun replaces it), and emailed. | [summaries-and-pdfs.md](docs/summaries-and-pdfs.md) |
 | Menu, sidebar, dialog | `onOpen` menu, a sidebar with a client picker, a confirm dialog for the month close. Server functions check their input. | [menu-and-sidebar.md](docs/menu-and-sidebar.md) |
-| Web app | `doPost` lead webhook with a shared secret, bad JSON and unknown field errors, one row per `lead_id` under a lock. `doGet` status JSON or an HTML dashboard. | [webhook.md](docs/webhook.md) |
+| Web app | `doPost` lead webhook with a shared secret, bad JSON and unknown field errors, one row per client and `lead_id` under a lock. `doGet` status JSON or an HTML dashboard. | [webhook.md](docs/webhook.md) |
 | Intake form | An installable `onFormSubmit` trigger writes a client row and sends a confirmation. | [intake-form.md](docs/intake-form.md) |
 | Ad costs and rates | A `UrlFetchApp` client with backoff, `Retry-After`, pagination and a response check. Pulls daily ad costs and USD rates. | [ad-and-fx.md](docs/ad-and-fx.md) |
 | Scale | 50,000 rows in chunks, a time budget, a saved cursor and a continuation trigger. | [scale.md](docs/scale.md) |
@@ -108,7 +108,7 @@ You need a Google account, Node 24 and `clasp`, Google's command line tool for A
    clasp push
    ```
 
-6. Reload the Sheet. A **sheetdesk** menu appears. Choose **sheetdesk**, then **Set up**. This creates the Campaigns, Clients, Leads and Rates tabs and saves a random webhook secret in the script properties. The first time, Google asks for permission:
+6. Reload the Sheet. A **sheetdesk** menu appears. Choose **sheetdesk**, then **Set up**. This creates the Campaigns, Clients, Leads and Rates tabs, saves a random webhook secret in the script properties, and sets the Sheet's time zone to the script's: the `timeZone` line of `src/appsscript.json`, America/Chicago. Change that line before you push if your agency works in another zone. The first time, Google asks for permission:
 
    - Google shows "Google hasn't verified this app", because the script has not been submitted for Google's review. You deployed it yourself, so choose Advanced, then Go to the project, then Allow.
    - The permissions are one line each. Spreadsheets: read and write the Sheet. Documents: build the report from a template Doc. Drive: save the PDF and trash the working copy. Send mail: email the report. Forms: create the intake form. External requests: call the ad platform and the rates API. Triggers: run the intake form and the bulk job. Menus and sidebars: show the menu and sidebar. Email address: find your address for "Send to me first". The table in [maintenance.md](docs/maintenance.md) says which call needs each one.

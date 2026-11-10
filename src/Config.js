@@ -30,6 +30,9 @@ const SD = {
     REPORT_LOG: ['client', 'month', 'pdf_name', 'pdf_id', 'figures', 'emailed_at', 'updated_at'],
     JOB_LOG: ['job', 'run', 'started_at', 'ended_at', 'rows_done', 'note']
   },
+  // Two columns the intake form fills after created_at. They are not required: a Clients tab without them
+  // still works, and the intake form or Set up adds them when the two cells are blank.
+  CLIENT_EXTRA_HEADERS: ['notes', 'review_reason'],
   PROPS: {
     SPREADSHEET_ID: 'SPREADSHEET_ID',
     WEBHOOK_SECRET: 'WEBHOOK_SECRET',
@@ -58,6 +61,8 @@ const SD = {
   MAX_EXEC_MS: 6 * 60 * 1000,
   BUDGET_MS: 4.5 * 60 * 1000,
   CHUNK_ROWS: 5000,
+  RATE_PULL_MAX_DAYS: 1096,
+  RATE_PULL_PIECE_DAYS: 92,
   CONTINUE_AFTER_MS: 60 * 1000,
   SAFETY_NET_MS: 7 * 60 * 1000,
   CACHE_CLIENTS_KEY: 'sd:clients',

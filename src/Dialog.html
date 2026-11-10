@@ -10,6 +10,7 @@
 </style>
 </head>
 <body>
+<p>This builds a report for every active client and emails each client the PDF. Send to me first does not apply here.</p>
 <label for="month">Month to close</label>
 <input id="month" value="<?= month ?>">
 <button id="confirm" type="button">Close month</button>
@@ -33,6 +34,8 @@
         if (r.skipped) text += ' Summaries left out: ' + r.skipped.join(' ');
         if (r.unmatched) text += ' ' + r.unmatched.rows + ' Campaigns row(s) name a client that is not in the Clients tab (' +
           r.unmatched.clients.join(', ') + ').';
+        if (r.leftOut) text += ' ' + r.leftOut.text;
+        if (r.noAddress) text += ' ' + r.noAddress.text;
         setStatus(text);
         document.getElementById('confirm').disabled = false;
       })

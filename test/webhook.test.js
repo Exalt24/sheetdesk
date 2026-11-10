@@ -282,7 +282,10 @@ test('property: random request sequences never store a lead twice or lose an acc
     for (let step = 0; step < 40; step++) {
       const id = pool[Math.floor(rand() * pool.length)];
       const roll = rand();
-      const body = lead({ lead_id: rand() < 0.2 && /^\d+$/.test(id) ? Number(id) : id, client: variants[Math.floor(rand() * variants.length)] });
+      const asked = variants[Math.floor(rand() * variants.length)];
+      const body = lead({ lead_id: rand() < 0.2 && /^\d+$/.test(id) ? Number(id) : id, client: asked });
+      // the key is the client and the id together, with the client as the Clients tab spells it
+      const key = (asked.trim().toLowerCase() === 'foxglove florist' ? 'Foxglove Florist' : 'Summit Yoga') + '|' + String(body.lead_id);
       if (roll < 0.15) body.secret = 'wrong';
       else if (roll < 0.25) body.extra = 1;
       else if (roll < 0.3) body.email = 'bad';
@@ -290,14 +293,14 @@ test('property: random request sequences never store a lead twice or lose an acc
       const r = post(p, body);
       p.w.releaseOtherLocks();
       if (r.ok) {
-        assert.equal(r.duplicate, model.has(String(body.lead_id)), 'seed ' + seed + ' step ' + step);
-        model.add(String(body.lead_id));
+        assert.equal(r.duplicate, model.has(key), 'seed ' + seed + ' step ' + step);
+        model.add(key);
       } else {
         assert.ok(['unauthorized', 'unknown_field', 'invalid_field', 'busy'].includes(r.error), r.error);
       }
     }
-    const stored = leadRows(p).map((r) => String(r[0]));
-    assert.equal(stored.length, new Set(stored).size, 'seed ' + seed + ': no id stored twice');
+    const stored = leadRows(p).map((r) => r[2] + '|' + String(r[0]));
+    assert.equal(stored.length, new Set(stored).size, 'seed ' + seed + ': no id stored twice for one client');
     assert.deepEqual([...stored].sort(), [...model].sort(), 'seed ' + seed + ': every accepted lead is stored');
     assert.deepEqual(p.w.violations, []);
     assert.deepEqual(p.w.formulas, []);

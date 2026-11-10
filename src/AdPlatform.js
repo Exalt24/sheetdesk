@@ -109,6 +109,30 @@ function checkRatesBody_(body, quotes) {
 }
 
 /**
+ * Pulls rates for a long range in pieces of at most RATE_PULL_PIECE_DAYS days,
+ * the size of one ad cost pull, and adds the counts up.
+ * @param {string} fromIso
+ * @param {string} toIso
+ * @return {{currencies: string[], fetched: number, inserted: number, updated: number, pieces: number}}
+ */
+function syncRatesInPieces_(fromIso, toIso) {
+  if (!isIsoDate_(fromIso) || !isIsoDate_(toIso) || fromIso > toIso) throw new Error('Give a valid date range.');
+  const total = { currencies: [], fetched: 0, inserted: 0, updated: 0, pieces: 0 };
+  let start = fromIso;
+  while (start <= toIso) {
+    const stop = new Date(Date.parse(start + 'T00:00:00Z') + (SD.RATE_PULL_PIECE_DAYS - 1) * 86400000).toISOString().slice(0, 10);
+    const r = syncCurrencyRates(start, stop < toIso ? stop : toIso);
+    total.currencies = r.currencies;
+    total.fetched += r.fetched;
+    total.inserted += r.inserted;
+    total.updated += r.updated;
+    total.pieces++;
+    start = new Date(Date.parse(start + 'T00:00:00Z') + SD.RATE_PULL_PIECE_DAYS * 86400000).toISOString().slice(0, 10);
+  }
+  return total;
+}
+
+/**
  * Pulls daily USD based rates for the currencies used in Campaigns (or the
  * ones given) and upserts them into the Rates sheet.
  * Not called against the live API by this repo: see docs/ad-and-fx.md.

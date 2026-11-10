@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+Changes after a fourth pass, a blind recall of the README, docs, source and tests that found seven problems.
+
+- Pull currency rates covers every month the foreign currency rows are in (up to 3 years back, in pieces of 92 days), not the last 30 days. A row with no rate was left out of the totals and nothing said so. The report result, the Run report line, the Rebuild summaries message and the month close dialog now count the rows left out and say why in one sentence, and a month where every row was left out no longer reads "No data for that month".
+- The month close dialog says that it emails every client. The month picker starts on the last month that has ended, and a month close for a month that has not ended in the Sheet's time zone is refused with the reason.
+- A lead_id is unique for each client, not across clients. A second client's lead with an id another client already used was dropped while the reply said ok.
+- The month close names the clients whose report was built but who got no email because the address is empty or not one address.
+- The intake form keeps the Notes answer in a `notes` column, reads a budget written as `$2,500`, `2500 USD` or `2.5k`, and records which check failed in a `review_reason` column and in the return value.
+- A row held as `needs_review` no longer stops the active client of the same name: only active rows count for a name clash, and when a paused row and an active row share a name the active one is reported.
+- The README Set up step and docs/maintenance.md say that Set up changes the Sheet's time zone to the script's, and a test checks the README line names the zone.
+
 Changes after a third pass, a blind adversary corpus of 53 cases (now in `test/corpus/corpus_sheetdesk_blind_2.jsonl`).
 
 - A numeric `lead_id` that is not an exact whole number (a 17 digit id, 1.5) is refused with a hint to send it as text. JSON had already changed its last digits, so two leads shared an id and the second was answered `duplicate` and never stored.

@@ -19,6 +19,8 @@ The stand-in host `ads.example.test` exists only in the test fake (`test/fake/se
 
 **Currency rates.** `syncCurrencyRates(from, to)` asks the Frankfurter API for rates against USD for every non USD currency used in Campaigns: `https://api.frankfurter.dev/v2/rates?base=USD&quotes=EUR,GBP&from=2026-10-01&to=2026-10-10`. The reply is a list of `{date, base, quote, rate}`. The script checks every record and upserts into the Rates sheet. A rate is units of the currency per 1 USD, so a euro amount is divided by it.
 
+The menu item **Pull currency rates** asks for every day from the first day of the earliest month that has a Campaigns row in another currency up to today, never more than 3 years back, and with no such row for the last 30 days. A long range goes in pieces of at most 92 days (the size of one ad cost pull), so one call never asks for a very long stretch. A report needs the rate of each row's own day: with only the last 30 days pulled, the rows of last month had no rate and were left out of the totals.
+
 ## How it was tested
 
 Against the fake only. `UrlFetchApp` in the fake serves the stand-in ad platform and a Frankfurter stand-in built from the generated rates.

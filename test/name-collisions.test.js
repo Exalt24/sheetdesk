@@ -10,6 +10,10 @@
  * The tables are built by code: each kind of collision against each entry
  * point (report, summaries, month close, intake), then each kind of Campaigns
  * row that matches no client against the places that must say so.
+ *
+ * Only active rows are clients (round 4, F6): a row held as needs_review never
+ * stops an active client's report or the month close, but it is not reported
+ * either while it shares a file name with an active client.
  */
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -77,14 +81,17 @@ test('CLASS-TABLE: Run report refuses the clients that collide, names both, and 
     for (const status of ['needs_review', 'active']) {
       const p = build(a, b, status);
       const where = label + ', second name ' + status;
-      for (const name of [a, b]) {
+      // a parked second row stops only itself: the active client is reported, the parked name is refused with both named
+      const refused = status === 'active' ? [a, b] : [b];
+      for (const name of refused) {
         assert.throws(() => p.call('runClientReport', name, '2026-10'), (e) => {
           assertNamesBoth(e.message, a, b, where + ', ' + name, what);
           return true;
         });
       }
       assert.equal(p.w.sent.length, 0, where + ': nothing was sent for the colliding pair');
-      for (const name of FIXTURE_ACTIVE.filter((n) => n !== a && n !== b)) {
+      const reported = status === 'active' ? FIXTURE_ACTIVE.filter((n) => n !== a && n !== b) : FIXTURE_ACTIVE.concat(FIXTURE_ACTIVE.includes(a) ? [] : [a]);
+      for (const name of reported) {
         const r = p.plain(p.call('runClientReport', name, '2026-10'));
         assert.equal(r.status, 'ok', where + ': ' + name);
         assert.equal(r.email, 'sent', where + ': ' + name);
@@ -123,14 +130,15 @@ test('CLASS-TABLE: the month close reports every other client and lists the coll
       const where = label + ', second name ' + status;
       const p = build(a, b, status);
       const r = p.plain(p.call('runMonthClose', '2026-10'));
-      const clashing = [a, b].filter((n) => n === a || status === 'active');
-      const others = FIXTURE_ACTIVE.filter((n) => n !== a && n !== b);
+      // a parked second row is not a client: nobody is stopped by it
+      const clashing = status === 'active' ? [a, b] : [];
+      const others = status === 'active' ? FIXTURE_ACTIVE.filter((n) => n !== a && n !== b) : FIXTURE_ACTIVE.concat(FIXTURE_ACTIVE.includes(a) ? [] : [a]);
       assert.deepEqual(r.results.filter((x) => x.status === 'ok').map((x) => x.client).sort(), others.slice().sort(), where + ': every other client has its report');
       assert.ok(r.results.filter((x) => x.status === 'ok').every((x) => x.email === 'sent'), where + ': and its email');
       const errors = r.results.filter((x) => x.status === 'error');
       assert.deepEqual(errors.map((x) => x.client).sort(), clashing.slice().sort(), where + ': the colliding active clients are the errors');
       for (const x of errors) assertNamesBoth(x.error, a, b, where + ', ' + x.client, what);
-      assert.equal(r.clashes.length, 1, where);
+      assert.equal(r.clashes === undefined ? 0 : r.clashes.length, status === 'active' ? 1 : 0, where);
       assert.equal(r.pending.length, 0, where);
       assert.equal(p.w.sent.length, others.length, where + ': one email per other client');
       assert.equal(p.rows('Job Log')[1][4], others.length + errors.length, where + ': the job log counts what was run');
@@ -140,7 +148,8 @@ test('CLASS-TABLE: the month close reports every other client and lists the coll
       assert.equal(d.done, others.length, where + ': dialog done');
       assert.equal(d.errors, errors.length, where + ': dialog failed');
       assert.equal(d.emailed, others.length, where + ': dialog emailed');
-      assertNamesBoth(d.clashes[0], a, b, where + ': the dialog names both', what);
+      if (status === 'active') assertNamesBoth(d.clashes[0], a, b, where + ': the dialog names both', what);
+      else assert.equal(d.clashes, undefined, where + ': a parked row adds no clash to the dialog');
     }
   }
 });
@@ -161,7 +170,10 @@ test('CLASS-TABLE: the intake form holds a name that would share a file name or 
     }
     const before = p.w.sent.length;
     const [second] = p.w.submitForm(f, formAnswers(b));
-    assert.deepEqual(p.plain(second), { status: 'needs_review', client: b, emailed: false }, label + ': the second name is held');
+    assert.deepEqual(p.plain(second), {
+      status: 'needs_review', client: b, emailed: false,
+      reason: 'The name would share a report file name or summary tab with the active client "' + a + '".'
+    }, label + ': the second name is held and says why');
     assert.equal(p.w.sent.length, before, label + ': no email for the held name');
     const row = p.rows('Clients').filter((x) => x[0] === b)[0];
     assert.equal(row[6], 'needs_review', label + ': the row is kept for a person to look at');
@@ -173,11 +185,11 @@ test('CLASS-TABLE: the intake form holds a name that would share a file name or 
 
 // CLASS-TABLE: a held intake row does not stop the reports of the clients that do not collide
 test('CLASS-TABLE: after a held intake row every other client still gets a report, a summary and a month close', () => {
-  for (const [label, a, b] of KINDS.filter((k) => FIXTURE_ACTIVE.includes(k[1]))) {
+  for (const [label, , b] of KINDS.filter((k) => FIXTURE_ACTIVE.includes(k[1]))) {
     const p = loadSeeded();
     const f = p.w.forms.get(p.plain(p.call('installIntakeTrigger')).formId);
     p.w.submitForm(f, formAnswers(b));
-    const others = FIXTURE_ACTIVE.filter((n) => n !== a);
+    const others = FIXTURE_ACTIVE;
     const single = p.plain(p.call('runClientReport', 'Copperline Plumbing', '2026-10'));
     assert.equal(single.status, 'ok', label);
     const summaries = p.plain(p.call('buildClientSummaries'));
@@ -334,7 +346,7 @@ test('CLASS-TABLE: an identical name on two rows is one client, a three way clas
 
   const q = loadSeeded();
   const names = ['Harbor Lane Bakery', 'harbor lane bakery', 'HARBOR LANE BAKERY'];
-  q.append('Clients', names.slice(1).map((n) => clientRow(n, 'needs_review')));
+  q.append('Clients', names.slice(1).map((n) => clientRow(n, 'active')));
   q.append('Campaigns', names.slice(1).map(campaignRow));
   const want = 'Clients "Harbor Lane Bakery", "harbor lane bakery" and "HARBOR LANE BAKERY" would share one report file name.';
   assert.throws(() => q.call('runClientReport', 'Harbor Lane Bakery', '2026-10'), (e) => e.message === want);

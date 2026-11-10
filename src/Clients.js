@@ -39,6 +39,25 @@ function loadClients_(ss) {
 }
 
 /**
+ * Makes sure the Clients tab has the notes and review_reason columns after
+ * created_at. They are added when both header cells are empty. A tab that has
+ * its own text in either cell is left alone.
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
+ * @return {boolean} true when the two columns are there
+ */
+function ensureClientExtras_(sheet) {
+  const extra = SD.CLIENT_EXTRA_HEADERS;
+  const first = SD.HEADERS.CLIENTS.length + 1;
+  ensureGrid_(sheet, 1, first + extra.length - 1);
+  const cells = sheet.getRange(1, first, 1, extra.length);
+  const have = cells.getValues()[0].map(function (h) { return String(h).trim(); });
+  if (have.join('|') === extra.join('|')) return true;
+  if (have.join('') !== '') return false;
+  cells.setValues([extra]);
+  return true;
+}
+
+/**
  * Client names for the webhook. Cached for 5 minutes so a busy Zap does not
  * read the sheet on every call. Adding a client clears the cache.
  * @return {string[]}

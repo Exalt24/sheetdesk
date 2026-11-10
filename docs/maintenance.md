@@ -12,13 +12,17 @@ The folder and the template are made once and then found again by id (`REPORT_FO
 
 Three ways, all end in a row in the Clients tab.
 
-1. Type the row. The columns are `client`, `contact_name`, `contact_email`, `ad_account_id`, `primary_channel`, `monthly_budget`, `status`, `intake_response_id`, `created_at`. Set `status` to `active`. A client with any other status is left out of the sidebar picker and the month close. Fill `ad_account_id` if you pull ad costs, because the ad sync maps an account to a client with it.
-2. Send the client the intake form. Run `installIntakeTrigger` once from the editor. The form link is written to the execution log at the bottom of the editor (see [intake-form.md](intake-form.md)). A good answer becomes an `active` row. A bad email or a repeated name becomes `needs_review`. Change that to `active` after you have looked at it.
+1. Type the row. The columns are `client`, `contact_name`, `contact_email`, `ad_account_id`, `primary_channel`, `monthly_budget`, `status`, `intake_response_id`, `created_at`. Two more columns, `notes` and `review_reason`, follow them and are filled by the intake form; Set up adds their headers. Set `status` to `active`. A client with any other status is left out of the sidebar picker and the month close, and never blocks an active client's report. Fill `ad_account_id` if you pull ad costs, because the ad sync maps an account to a client with it.
+2. Send the client the intake form. Run `installIntakeTrigger` once from the editor. The form link is written to the execution log at the bottom of the editor (see [intake-form.md](intake-form.md)). A good answer becomes an `active` row. A bad email, a budget that is not a number or a name that clashes with an active client becomes `needs_review`, and the `review_reason` column says which. Change that to `active` after you have looked at it. The form also keeps the Notes answer in the `notes` column.
 3. The webhook does not add clients. A lead for a name that is not in the Clients tab is refused with `unknown_client`.
 
 The webhook keeps the client list for 5 minutes. A client you type by hand is accepted by the webhook within 5 minutes. The intake form clears that list at once.
 
 Client names must differ after punctuation is removed: `A/B Co` and `A-B Co` would share one summary tab and one PDF name, so the script reports neither of them, says so in the result, and carries on with every other client.
+
+## Set up and the time zone
+
+**Set up changes the Sheet's time zone.** It sets the time zone of the Sheet to the script's, which is the `timeZone` line of `src/appsscript.json` (America/Chicago in this repo), and it does so even when you chose another zone for the Sheet. The reason: on 2026-11-10 a Sheet made by clasp held one zone in the Sheets API and answered another from `getSpreadsheetTimeZone()`, so every date was formatted a day early. Make the two agree, and every month and day key the code builds from a date cell is right. If your agency works in another zone, change `timeZone` in `src/appsscript.json` before you push and run Set up. The month close asks whether a month has ended in the Sheet's zone, not in the zone of your computer.
 
 ## Add a channel
 

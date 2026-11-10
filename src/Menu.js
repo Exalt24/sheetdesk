@@ -52,7 +52,7 @@ function previousMonth_() {
 function showMonthCloseDialog_(month) {
   const t = HtmlService.createTemplateFromFile('Dialog');
   t.month = month;
-  SpreadsheetApp.getUi().showModalDialog(t.evaluate().setWidth(340).setHeight(190), 'Close a month');
+  SpreadsheetApp.getUi().showModalDialog(t.evaluate().setWidth(340).setHeight(250), 'Close a month');
 }
 
 /** Menu item: month close dialog with last month filled in. */
@@ -68,15 +68,18 @@ function menuRebuildSummaries() {
 
 /**
  * The toast text for Rebuild summaries: the counts, then every name clash
- * that left clients out and every Campaigns row that matches no client.
- * @param {{tabs: number, rows: number, skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined)}} r
+ * that left clients out, every Campaigns row that matches no client and every
+ * Campaigns row that was left out of the totals, with the reason.
+ * @param {{tabs: number, rows: number, skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined),
+ *   leftOut: ({text: string}|undefined)}} r
  * @return {string}
  */
 function summariesMessage_(r) {
-  let text = r.tabs + ' tabs, ' + r.rows + ' rows';
-  if (r.skipped) text += '. Left out: ' + r.skipped.join(' ');
-  if (r.unmatched) text += (r.skipped ? ' ' : '. ') + unmatchedText_(r.unmatched);
-  return text;
+  const more = [];
+  if (r.skipped) more.push('Left out: ' + r.skipped.join(' '));
+  if (r.unmatched) more.push(unmatchedText_(r.unmatched));
+  if (r.leftOut) more.push(r.leftOut.text);
+  return r.tabs + ' tabs, ' + r.rows + ' rows' + (more.length ? '. ' + more.join(' ') : '');
 }
 
 /** Menu item: last 30 days of ad costs. */
@@ -85,9 +88,14 @@ function menuSyncAdCosts() {
   SpreadsheetApp.getActiveSpreadsheet().toast(r.inserted + ' new, ' + r.updated + ' changed', 'Ad costs');
 }
 
-/** Menu item: last 30 days of currency rates. */
+/**
+ * Menu item: currency rates for every month the Campaigns rows in another
+ * currency cover, from the first day of the earliest month to today (the last 30
+ * days when there is no such row). A report needs the rate of each row's own day.
+ */
 function menuSyncRates() {
-  const r = syncCurrencyRates(daysAgoIso_(30), daysAgoIso_(0));
+  const range = ratePullRange_();
+  const r = syncRatesInPieces_(range.from, range.to);
   SpreadsheetApp.getActiveSpreadsheet().toast(r.inserted + ' new, ' + r.updated + ' changed', 'Rates');
 }
 
@@ -109,6 +117,35 @@ function daysAgoIso_(n) {
 }
 
 /**
+ * The days to pull rates for: the first day of the earliest month with a
+ * Campaigns row in a currency other than USD, up to today (or the latest such
+ * day when that is later). Never more than 3 years back. With no such row, the
+ * last 30 days.
+ * @return {{from: string, to: string}} yyyy-MM-dd
+ */
+function ratePullRange_() {
+  const ss = spreadsheet_();
+  const today = daysAgoIso_(0);
+  const sheet = ss.getSheetByName(SD.SHEETS.CAMPAIGNS);
+  let first = '';
+  let last = '';
+  if (sheet && sheet.getLastRow() > 1) {
+    const fmt = makeDateFormatter_(ss.getSpreadsheetTimeZone(), 'yyyy-MM-dd');
+    sheet.getRange(2, 1, sheet.getLastRow() - 1, 7).getValues().forEach(function (r) {
+      const ccy = String(r[6]).trim().toUpperCase();
+      if (!isDate_(r[2]) || !ccy || ccy === 'USD') return;
+      const iso = fmt(r[2]);
+      if (first === '' || iso < first) first = iso;
+      if (iso > last) last = iso;
+    });
+  }
+  if (first === '') return { from: daysAgoIso_(30), to: today };
+  const earliest = daysAgoIso_(SD.RATE_PULL_MAX_DAYS);
+  const from = first.slice(0, 7) + '-01';
+  return { from: from < earliest ? earliest : from, to: last > today ? last : today };
+}
+
+/**
  * Creates the data sheets with their headers and, if missing, a random
  * webhook secret, and pins the Sheet's time zone to the script's. Safe to run
  * again.
@@ -125,6 +162,7 @@ function setUp() {
   if (ss.getSpreadsheetTimeZone() !== zone) ss.setSpreadsheetTimeZone(zone);
   const names = ['CAMPAIGNS', 'CLIENTS', 'LEADS', 'RATES'];
   names.forEach(function (k) { getOrCreateSheet_(ss, SD.SHEETS[k], SD.HEADERS[k]); });
+  ensureClientExtras_(ss.getSheetByName(SD.SHEETS.CLIENTS));
   const props = PropertiesService.getScriptProperties();
   let secretCreated = false;
   if (!props.getProperty(SD.PROPS.WEBHOOK_SECRET)) {
@@ -137,7 +175,8 @@ function setUp() {
 /**
  * Called by the sidebar on load. Returns plain data only: google.script.run
  * cannot return a Date.
- * @return {{clients: string[], months: string[]}}
+ * @return {{clients: string[], months: string[], defaultMonth: (string|undefined)}} defaultMonth is the newest
+ *   month in the list that has ended, left out when every month in the list is still running
  */
 function sidebarGetOptions() {
   const ss = spreadsheet_();
@@ -153,7 +192,13 @@ function sidebarGetOptions() {
       if (isDate_(r[0])) months[fmt(r[0])] = true;
     });
   }
-  return { clients: clients, months: Object.keys(months).sort().reverse() };
+  const list = Object.keys(months).sort().reverse();
+  const out = { clients: clients, months: list };
+  // The newest month may still be running. The picker starts on the last month that has ended.
+  const finished = previousMonth_();
+  const start = list.filter(function (m) { return m <= finished; })[0];
+  if (start) out.defaultMonth = start;
+  return out;
 }
 
 /**
@@ -177,6 +222,7 @@ function sidebarRunReport(clientName, month, sendToMe) {
  */
 function sidebarRequestMonthClose(month) {
   assertMonth_(month);
+  assertMonthEnded_(month);
   showMonthCloseDialog_(month);
   return { opened: true };
 }
@@ -185,7 +231,9 @@ function sidebarRequestMonthClose(month) {
  * Dialog button: runs the month close.
  * @param {string} month
  * @return {{month: string, done: number, errors: number, pending: number, emailed: number, emailFailed: number,
- *   clashes: (string[]|undefined), skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined)}}
+ *   clashes: (string[]|undefined), skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined),
+ *   leftOut: ({rows: number, reasons: Object, text: string}|undefined),
+ *   noAddress: ({count: number, clients: string[], text: string}|undefined)}}
  */
 function dialogConfirmMonthClose(month) {
   // runMonthClose checks the month first.
@@ -202,5 +250,7 @@ function dialogConfirmMonthClose(month) {
   if (r.clashes) out.clashes = r.clashes;
   if (r.summaries.skipped) out.skipped = r.summaries.skipped;
   if (r.summaries.unmatched) out.unmatched = r.summaries.unmatched;
+  if (r.summaries.leftOut) out.leftOut = r.summaries.leftOut;
+  if (r.noAddress) out.noAddress = r.noAddress;
   return out;
 }
