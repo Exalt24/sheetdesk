@@ -161,7 +161,7 @@ const M = [
   ['bulk-trigger-cleanup', 'BulkProcess.js', '  old.forEach(function (t) { ScriptApp.deleteTrigger(t); });\n', '', 'old continuation triggers pile up'],
   ['bulk-trigger-final', 'BulkProcess.js', "      deleteContinuationTriggers_();\n      return { status: 'done'", "      return { status: 'done'", 'a trigger is left after the job is done'],
   ['bulk-trigger-idle', 'BulkProcess.js', '    if (!cursor) {\n      deleteContinuationTriggers_();\n', '    if (!cursor) {\n', 'a late trigger stays after the job is gone'],
-  ['bulk-lock', 'BulkProcess.js', "  if (!lock.tryLock(5000)) return { status: 'locked' };\n", '', 'two runs can work on the job at once'],
+  ['bulk-lock', 'BulkProcess.js', "  if (!lock.tryLock(5000)) {\n    // The trigger that fired is used up. Re-arm it, or a job that is still running is left with nothing to resume it.\n    if (loadCursor_()) replaceContinuationTrigger_(SD.CONTINUE_AFTER_MS);\n    return { status: 'locked' };\n  }\n", '', 'two runs can work on the job at once'],
   ['bulk-restart-guard', 'BulkProcess.js', "    if (existing && !opts.restart) throw new Error('A bulk job is already running at row ' + existing.next + '. Pass restart to drop it.');\n", '', 'a second start overwrites a running job'],
   ['bulk-rollup-bad-rows', 'BulkProcess.js', "      if (r[7] !== 'ok') continue;\n", '', 'bad rows are added to the rollup'],
   ['bulk-rollup-estimate', 'BulkProcess.js', '      if (Date.now() - t0 + estimate <= SD.BUDGET_MS) {', '      if (true) {', 'the rollup starts without enough time left'],
