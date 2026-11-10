@@ -75,7 +75,7 @@ function menuRebuildSummaries() {
 function summariesMessage_(r) {
   let text = r.tabs + ' tabs, ' + r.rows + ' rows';
   if (r.skipped) text += '. Left out: ' + r.skipped.join(' ');
-  if (r.unmatched) text += '. ' + unmatchedText_(r.unmatched);
+  if (r.unmatched) text += (r.skipped ? ' ' : '. ') + unmatchedText_(r.unmatched);
   return text;
 }
 

@@ -244,7 +244,7 @@ test('CLASS-TABLE: a Campaigns row whose client matches no client is counted and
     const sentence = count + (count === 1 ? ' Campaigns row names' : ' Campaigns rows name') + ' a client that is not in the Clients tab (' + name + '), so ' +
       (count === 1 ? 'it is' : 'they are') + ' in no report.';
     const counts = s.tabs + ' tabs, ' + s.rows + ' rows' + (s.skipped ? '. Left out: ' + s.skipped.join(' ') : '');
-    assert.equal(toast, counts + '. ' + sentence, label + ': the menu message names it');
+    assert.equal(toast, counts + (s.skipped ? ' ' : '. ') + sentence, label + ': the menu message names it');
 
     const c = withRows(name, count);
     const close = c.plain(c.call('runMonthClose', '2026-10'));
@@ -361,4 +361,32 @@ test('CLASS-TABLE: several unmatched names are listed in order with commas', () 
   assert.deepEqual(r.unmatched, { rows: 3, clients: ['Nobody Ltd', 'Sumit Yoga'] });
   p.call('menuRebuildSummaries');
   assert.equal(p.w.ui.toasts[0].msg, r.tabs + ' tabs, ' + r.rows + ' rows. 3 Campaigns rows name a client that is not in the Clients tab (Nobody Ltd, Sumit Yoga), so they are in no report.');
+});
+
+// CLASS-TABLE: a blank row in Clients clashes with nothing, even with a name that has no letters or digits
+test('CLASS-TABLE: a blank client row is ignored when the intake form checks a new name', () => {
+  for (const name of ['Client', 'CLIENT', '...', 'Bluebell Bikes']) {
+    const p = loadSeeded();
+    p.append('Clients', [['', 'Someone', 'someone@example.com', '', 'search', 0, 'active', '', '']]);
+    const f = p.w.forms.get(p.plain(p.call('installIntakeTrigger')).formId);
+    const [res] = p.w.submitForm(f, formAnswers(name));
+    assert.deepEqual(p.plain(res), { status: 'active', client: name, emailed: true }, name);
+  }
+});
+
+// CLASS-TABLE: clashes among the Campaigns names alone (no Clients clash) reach the dialog, and two clashes are joined in the menu message
+test('CLASS-TABLE: summary clashes reach the month close dialog and two clashes are both in the menu message', () => {
+  const p = loadSeeded();
+  p.append('Campaigns', [campaignRow('summit yoga'), campaignRow('LUMEN OPTICALS')]);
+  const first = 'Clients "Lumen Opticals" and "LUMEN OPTICALS" would share one report file name.';
+  const second = 'Clients "Summit Yoga" and "summit yoga" would share one report file name.';
+  const d = p.plain(p.call('dialogConfirmMonthClose', '2026-10'));
+  assert.deepEqual(d.skipped, [second, first]);
+  assert.equal(d.clashes, undefined, 'the Clients names do not clash');
+  assert.equal(d.errors, 0);
+  const q = loadSeeded();
+  q.append('Campaigns', [campaignRow('summit yoga'), campaignRow('LUMEN OPTICALS')]);
+  const r = q.plain(q.call('buildClientSummaries'));
+  q.call('menuRebuildSummaries');
+  assert.equal(q.w.ui.toasts[0].msg, r.tabs + ' tabs, ' + r.rows + ' rows. Left out: ' + second + ' ' + first + ' 2 Campaigns rows name a client that is not in the Clients tab (LUMEN OPTICALS, summit yoga), so they are in no report.');
 });
