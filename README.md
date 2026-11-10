@@ -16,6 +16,10 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 
 *The Summary tab that Rebuild summaries wrote for Tidewater Tutors.*
 
+![A Data Studio report of the same Sheet: a line chart of daily ad spend from August to October and a table of conversions, clicks and spend for the nine clients](docs/live-run/data-studio-report.png)
+
+*A Data Studio (Looker Studio) report on the same Sheet, built by hand in the editor and shared by link: [open the report](https://datastudio.google.com/reporting/e3ad4a80-d1d2-47cb-bdfd-20df33d35874). Its figures match the Summary and Campaigns tabs. How it was built: [docs/live-run.md](docs/live-run.md).*
+
 ## What it does
 
 A small agency repeats the same chores every month. Add up each client's ad spend, build a report, email it, and keep new leads and new clients in the right place. sheetdesk does these chores from one Google Sheet.

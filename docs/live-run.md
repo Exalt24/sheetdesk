@@ -32,6 +32,14 @@ The fix is in `setUp()`: it sets the Sheet's time zone to the script's (`timeZon
 
 A smaller finding: loading phone numbers that begin with a plus sign through the Sheets API with value conversion on turned them into `#ERROR!` cells, because Sheets read them as formulas. The Leads tab is filled by the webhook, which keeps such text as text (the `=1+1` call above), so the import steps do not touch it.
 
+## The Data Studio report
+
+A report in Data Studio (Looker Studio, renamed in 2023) reads the same Sheet. It was built by hand in the report editor on 2026-11-10, because Google's Looker Studio API cannot create a report from scratch. It has two parts: a line chart of daily ad spend from August to October, and a table of conversions, clicks and spend for each of the nine clients.
+
+![The Data Studio report: spend over time and a table by client](live-run/data-studio-report.png)
+
+The report is shared by link, so anyone with the address can view it without signing in: [open it](https://datastudio.google.com/reporting/e3ad4a80-d1d2-47cb-bdfd-20df33d35874). It was opened signed out to check that, and its table totals were compared with the sums of the generated campaign rows in `fixtures/campaigns.csv`. It does not refresh from this repository: it reads the Sheet, and the Sheet holds invented data.
+
 ## What did not run
 
 Month close, the intake form trigger, the 50,000 row bulk job with its continuation trigger, the ad platform and exchange rate syncs, and a report to a client's own address. The run used one account, one Sheet and sample data. No quota was measured. The dialog and the web app dashboard page were not looked at in a browser.
