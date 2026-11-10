@@ -253,7 +253,8 @@ const M = [
  */
 const EQUIVALENT = {
   'ast:Clients:51@1650+1:number---1': 'ensureGrid_(sheet, 0, ...) asks for no rows, and a grid never needs fewer rows than one, so the call grows nothing either way',
-  'ast:Webhook:154@7237+1:number-+-1': 'the duplicate check reads four columns of the Leads tab instead of three and compares only the first and the third, so the extra column is read and never used',
+  'ast:Forms:165@7120+17:string-to-empty': 'the text of a Logger.log line that only an owner reading the script log sees, with no effect on any row, return value or email',
+  'ast:Webhook:154@7237+1:number-+-1':'the duplicate check reads four columns of the Leads tab instead of three and compares only the first and the third, so the extra column is read and never used',
   'ast:Clients:55@1906+13:return-value-dropped': 'ensureClientExtras_ returns undefined instead of false when the tab holds its own text in J1 or K1; its only caller tests the value for truth, so undefined and false read the same'
 };
 

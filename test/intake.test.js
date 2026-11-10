@@ -256,3 +256,18 @@ test('CLASS-TABLE: ensureClientExtras_ grows a Clients grid narrower than eleven
     }
   }
 });
+
+// CLASS-TABLE: the placeholder column of a new Clients row, for every way a row is written
+test('CLASS-TABLE: the fourth column of a new client row is written empty for an active row and a held row, and the columns around it keep their values', () => {
+  for (const [label, over, status] of [['active', {}, 'active'], ['held for a bad budget', { [T.BUDGET]: 'abc' }, 'held']]) {
+    const p = loadProject();
+    submit(p, over);
+    const row = lastRow(p);
+    assert.equal(row[3], '', label + ': the fourth column stays empty');
+    assert.equal(row[0], 'Bluebell Bikes', label + ': client');
+    assert.equal(row[2] === '' || typeof row[2] === 'string', true, label + ': email column');
+    assert.notEqual(row[4], '', label + ': channel column');
+    assert.equal(typeof row[6], 'string', label + ': status column');
+    if (status === 'active') assert.equal(row[6], 'active', label);
+  }
+});
