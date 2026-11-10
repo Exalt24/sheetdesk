@@ -325,6 +325,12 @@ async function main() {
     for (const [m, why] of bad) console.log('INVALID  ' + m.id + ': ' + why);
     process.exit(2);
   }
+  if (flags.includes('--check')) {
+    // No test is run: every mutant still finds its text in the source, so a source edit that moves a guard
+    // fails here, in `npm test`, and not 70 minutes into a full run.
+    console.log('checked ' + list.length + ' mutants: every one finds its text exactly once and compiles');
+    process.exit(0);
+  }
   // The suite must pass with no mutant, or every mutant would look caught.
   for (const id of ['baseline', 'baseline-ast']) {
     const base = await runOne({ id, file: 'Config.js', find: 'const SD = {', replace: 'const SD = {' });
