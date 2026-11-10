@@ -162,6 +162,14 @@ test('setUp creates the data sheets and one secret, and keeps the secret on a re
   assert.equal(p.prop('WEBHOOK_SECRET'), secret);
 });
 
+test('setUp pins the Sheet time zone to the script time zone so date cells are read on the right day', () => {
+  const p = loadProject();
+  p.ss.setSpreadsheetTimeZone('Etc/GMT');
+  const r = p.plain(p.call('setUp'));
+  assert.equal(r.timeZone, 'America/Chicago');
+  assert.equal(p.ss._tz, 'America/Chicago');
+});
+
 test('menuSetUp tells the user a secret exists without printing it', () => {
   const p = loadProject();
   p.call('menuSetUp');

@@ -6,16 +6,16 @@ Tests: `test/*.test.js`. Mutation harness: `scripts/mutation.js`. Fake: `test/fa
 
 ```bash
 npm install
-npm test            # 227 tests
+npm test            # 228 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 142 mutants, about 15 minutes
+npm run mutation    # 143 mutants, about 15 minutes
 ```
 
 | Command | Result |
 |---|---|
-| `npm test` | 227 tests pass in about 9 seconds on Windows 11 with Node 24 |
+| `npm test` | 228 tests pass in about 9 seconds on Windows 11 with Node 24 |
 | `npm run lint` | 0 errors, 0 warnings |
-| `npm run mutation` | 142 mutants, 142 caught, 0 survived |
+| `npm run mutation` | 143 mutants, 143 caught, 0 survived |
 
 The tests do not touch Google. One run by hand on a live account is written up in [live-run.md](live-run.md). The tests prove the code against [a local fake of Google's services](fake-and-seed.md) that was written from Google's reference, so they are as accurate as that fake.
 
@@ -51,4 +51,4 @@ node scripts/mutation.js preview      # the mutants whose id contains "preview"
 
 - The fake can differ from Google's services in ways this repo cannot see. Where the reference is silent the fake is strict, so it may refuse something the real service accepts.
 - The mutants are guards that were chosen by hand. A guard nobody thought of has no mutant.
-- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It has not run yet, because the repo is not pushed. The mutation run is not in CI because it takes minutes.
+- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes minutes.

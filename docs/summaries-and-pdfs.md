@@ -41,7 +41,7 @@ Against the fake in `test/fake/gas.js`. The totals in the summary tabs are compa
 
 ## What it does NOT do
 
-- One report ran on a real Google account on 2026-11-10 and its PDF was read ([live-run.md](live-run.md)). Month close and the email to a client's own address have not. The PDF in the fake is text with a PDF header, not a rendered page, so page layout is untested.
+- One report ran on a real Google account on 2026-11-10 and its PDF was read ([live-run.md](live-run.md)). Month close and the email to a client's own address have not. The PDF in the fake is text with a PDF header. The real one was read on 2026-11-10: one page, plain text and a table, no agency name or logo.
 - It cannot keep the same Drive file id on a rerun. That needs the Drive advanced service.
 - A client name with a dollar sign cannot be used in a PDF. The reference does not say how `replaceText` reads `$` in the replacement, so the script refuses it.
 - No charts. The table is plain text cells.

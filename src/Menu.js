@@ -97,11 +97,19 @@ function daysAgoIso_(n) {
 
 /**
  * Creates the data sheets with their headers and, if missing, a random
- * webhook secret. Safe to run again.
- * @return {{sheets: string[], secretCreated: boolean}}
+ * webhook secret, and pins the Sheet's time zone to the script's. Safe to run
+ * again.
+ *
+ * The pin matters: on 2026-11-10 a Sheet made by clasp held the zone Etc/GMT
+ * in the Sheets API while getSpreadsheetTimeZone() answered America/Los_Angeles,
+ * so every date was formatted a day early. Setting the zone here makes the two
+ * agree and keeps the month and day keys the code builds from date cells right.
+ * @return {{sheets: string[], secretCreated: boolean, timeZone: string}}
  */
 function setUp() {
   const ss = spreadsheet_();
+  const zone = Session.getScriptTimeZone();
+  if (ss.getSpreadsheetTimeZone() !== zone) ss.setSpreadsheetTimeZone(zone);
   const names = ['CAMPAIGNS', 'CLIENTS', 'LEADS', 'RATES'];
   names.forEach(function (k) { getOrCreateSheet_(ss, SD.SHEETS[k], SD.HEADERS[k]); });
   const props = PropertiesService.getScriptProperties();
@@ -110,7 +118,7 @@ function setUp() {
     props.setProperty(SD.PROPS.WEBHOOK_SECRET, Utilities.getUuid() + Utilities.getUuid());
     secretCreated = true;
   }
-  return { sheets: names.map(function (k) { return SD.SHEETS[k]; }), secretCreated: secretCreated };
+  return { sheets: names.map(function (k) { return SD.SHEETS[k]; }), secretCreated: secretCreated, timeZone: zone };
 }
 
 /**

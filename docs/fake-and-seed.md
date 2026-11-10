@@ -4,7 +4,7 @@ Source: `test/fake/gas.js`, `test/fake/services.js`, `test/helpers/load.js`, `sc
 
 ## The fake
 
-`test/fake/gas.js` is a local stand-in for SpreadsheetApp, DocumentApp, DriveApp, GmailApp, MailApp, FormApp, HtmlService, ContentService, UrlFetchApp, CacheService, PropertiesService, LockService, ScriptApp, Utilities, Logger and Session. It was written from Google's public Apps Script reference. It is not Google's code and has not been compared with a live account.
+`test/fake/gas.js` is a local stand-in for SpreadsheetApp, DocumentApp, DriveApp, GmailApp, MailApp, FormApp, HtmlService, ContentService, UrlFetchApp, CacheService, PropertiesService, LockService, ScriptApp, Utilities, Logger and Session. It was written from Google's public Apps Script reference. It is not Google's code. One run on a live account on 2026-11-10 compared it with Google on the menu, Set up, summaries, the sidebar report and the web app, and found one difference, a Sheet time zone that Apps Script reported wrongly ([live-run.md](live-run.md)).
 
 The loader (`test/helpers/load.js`) puts every file of `src/` into one `vm` context next to the fake, the same way Apps Script uses one global scope. It reads `src/appsscript.json`, so the fake refuses a service whose scope is missing from the manifest.
 

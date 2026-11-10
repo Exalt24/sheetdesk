@@ -28,6 +28,7 @@ const PARALLEL = 4;
 /** [id, file, text to find (exactly once), replacement, what it breaks] */
 const M = [
   // ---- webhook
+  ['setup-pins-time-zone', 'Menu.js', "  if (ss.getSpreadsheetTimeZone() !== zone) ss.setSpreadsheetTimeZone(zone);\n", '', 'Set up leaves the Sheet time zone as it was, so dates can be read a day early'],
   ['secret-check', 'Webhook.js', "  if (!safeEquals_(typeof given === 'string' ? given : '', expected)) return webhookError_('unauthorized');\n", '', 'the shared secret is not checked on POST'],
   ['secret-fail-closed', 'Webhook.js', "  if (!expected) return webhookError_('not_configured');\n  const given", '  const given', 'POST works when no secret is configured'],
   ['secret-get-check', 'Webhook.js', "  if (!safeEquals_(typeof p.secret === 'string' ? p.secret : '', expected)) return webhookError_('unauthorized');\n", '', 'the dashboard and status views need no secret'],

@@ -26,7 +26,6 @@ A small agency repeats the same chores every month. Add up each client's ad spen
 
 A made-up agency, Fernwood Digital, runs on it: nine invented clients, 2,024 generated campaign rows and 300 generated leads.
 
-<!-- READY-TO-USE LINE: one plain sentence. Replace it with the result of the first live deployment. -->
 **Ready to use for:** trying on a copy of a Sheet. On 2026-11-10 the menu, Set up, the summaries, the sidebar report with its PDF and the web app ran on a real Google account ([what ran](docs/live-run.md)). Month close, the form trigger and the bulk job did not. See [Limits](#limits).
 
 ## Why it exists
@@ -74,7 +73,7 @@ Apps Script loads every file in `src/` into one global scope, so the modules cal
 
 ## Deploy with clasp
 
-You need a Google account, Node 24 and `clasp`, Google's command line tool for Apps Script. Nothing here has been deployed yet, so these are the documented steps, not a recorded run.
+You need a Google account, Node 24 and `clasp`, Google's command line tool for Apps Script. The first part of these steps (clasp create, push and a deployment) was run on 2026-11-10 and is recorded in [docs/live-run.md](docs/live-run.md).
 
 1. Switch on the Apps Script API for your account at [script.google.com/home/usersettings](https://script.google.com/home/usersettings). clasp cannot push without it.
 2. Install clasp and sign in. The sign in opens a browser.
@@ -106,7 +105,7 @@ You need a Google account, Node 24 and `clasp`, Google's command line tool for A
    - Google shows "Google hasn't verified this app", because the script has not been submitted for Google's review. You deployed it yourself, so choose Advanced, then Go to the project, then Allow.
    - The permissions are one line each. Spreadsheets: read and write the Sheet. Documents: build the report from a template Doc. Drive: save the PDF and trash the working copy. Send mail: email the report. Forms: create the intake form. External requests: call the ad platform and the rates API. Triggers: run the intake form and the bulk job. Menus and sidebars: show the menu and sidebar. Email address: find your address for "Send to me first". The table in [maintenance.md](docs/maintenance.md) says which call needs each one.
 
-7. Load the sample data. In the Sheet open the **Clients** tab, click cell A1, then File, Import, Upload, choose `fixtures/clients.csv`, set the import location to "Replace data at selected cell", untick the option that converts text to numbers, dates and formulas, and import. Do the same with `fixtures/campaigns.csv` on the **Campaigns** tab and `fixtures/rates.csv` on the **Rates** tab. `node scripts/seed.js` rewrites the fixtures. The leads file is not imported, because leads arrive through the webhook.
+7. Load the sample data. In the Sheet open the **Clients** tab, click cell A1, then File, Import, Upload, choose `fixtures/clients.csv`, set the import location to "Replace data at selected cell", leave the option that converts text to numbers and dates ticked (the code reads real dates), and import. Do the same with `fixtures/campaigns.csv` on the **Campaigns** tab and `fixtures/rates.csv` on the **Rates** tab. `node scripts/seed.js` rewrites the fixtures. The leads file is not imported, because leads arrive through the webhook.
 8. Make the intake form. In the Sheet choose Extensions, then Apps Script to open the editor. Pick `installIntakeTrigger` in the function list at the top and press Run. Accept the permission screen. When it finishes, the execution log at the bottom shows the form link. Open that link to see the form.
 9. Deploy the web app and copy its URL.
 
@@ -149,12 +148,12 @@ The 50,000 row job has no menu item. In the editor pick `startBulkNormalize` and
 
 ```bash
 npm install
-npm test            # 227 tests
+npm test            # 228 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 142 mutants, about 15 minutes
+npm run mutation    # 143 mutants, about 15 minutes
 ```
 
-The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and all 142 mutants are caught. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
+The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and all 143 mutants are caught. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
 
 ## Limits
 
@@ -162,9 +161,10 @@ The tests run against a local fake of Google's services. `npm test` passes, `npm
 - The PDF in the fake is text with a PDF header. Page layout, fonts and the real Doc to PDF conversion are untested.
 - Apps Script quotas apply. One execution runs at most 6 minutes. A consumer account has 90 minutes of trigger runtime a day, 100 email recipients a day, 20,000 URL fetch calls a day and 20 triggers per script (Workspace accounts have more of the first three). The scale job keeps inside 6 minutes with a budget check, but its chunk size and budget are not tuned to real speeds.
 - The Frankfurter reply shape was checked by hand with a few `curl` requests on 2026-11-10. The script has not called it. The ad platform is invented, and real platforms need OAuth, which is not built.
+- The report PDF is plain text and a table, with no agency name, logo or chart. The `monthly_budget` column of the Clients tab is stored for the agency's own use and no report reads it yet, so the sample budgets do not line up with the sample spend.
 - The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs.
 - The sidebar did render in Google's iframe and `google.script.run` worked on 2026-11-10. The dialog and the web app dashboard page were not looked at in a browser there.
-- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It has not run yet, because the repo is not pushed. The mutation run is not in CI because it takes minutes.
+- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes minutes.
 
 ## Stack
 
