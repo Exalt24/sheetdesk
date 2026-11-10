@@ -10,8 +10,8 @@ const f = (name, ...args) => p.w.run(() => p.ctx[name](...args));
 // Every start a cell can be misread from, crossed with a few bodies: the class, not one example.
 const RISKY_STARTS = ['=', '+', '-', '@', '\t', '\r', "'"];
 const BODIES = ['1+1', 'SUM(A1:A2)', 'cmd|calc', ' x', 'IMPORTXML("http://e.example.test","//a")', '63 912 345 6789'];
-const LOOKS_LIKE_DATA = ['007', '12', '-5', '12.50', '2026-10-05', '2026-10-05 10:00', '2026-10-05T10:00:00', 'true', 'TRUE', 'False'];
-const PLAIN = ['hello', 'Ana Archer', 'a=b', 'x-1', '12 apples', '(555) 0100', 'Harbor Lane Bakery', '1e3', 'v1.2.3', '', 'a@b.co'];
+const LOOKS_LIKE_DATA = ['1e3', '1,000', '50%', '$5', '10:30', '2026-10', '3/4', 'Oct 5', '007', '12', '-5', '12.50', '2026-10-05', '2026-10-05 10:00', '2026-10-05T10:00:00', 'true', 'TRUE', 'False'];
+const PLAIN = ['hello', 'Ana Archer', 'a=b', 'x-1', '12 apples', '(555) 0100', 'Harbor Lane Bakery', 'v1.2.3', '', 'a@b.co'];
 
 test('sheetText_: anything Sheets could read as a formula, number, date or boolean gets an apostrophe', () => {
   const risky = [];

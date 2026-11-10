@@ -24,7 +24,7 @@ const BULK_CONTINUE_HANDLER = 'continueBulkJob';
 function cleanRow_(row, rowNumber, fmtDay, rateTable) {
   const p = parseCampaignRow_(row, fmtDay, rateTable);
   if (!p.ok) return [rowNumber, sheetText_(String(row[0]).trim()), '', '', '', 0, 0, 0, 'bad:' + p.reason];
-  return [rowNumber, sheetText_(p.client), sheetText_(p.channel), p.month, p.iso, p.spendUsd, p.clicks, p.conversions, 'ok'];
+  return [rowNumber, sheetText_(p.client), sheetText_(p.channel), sheetText_(p.month), p.iso, p.spendUsd, p.clicks, p.conversions, 'ok'];
 }
 
 /** @return {?Object} the saved cursor */
@@ -64,6 +64,7 @@ function replaceContinuationTrigger_(afterMs) {
  * @return {Object} status after the first run
  */
 function startBulkNormalize(options) {
+  const t0 = Date.now(); // the budget counts the clear and the grid growth below, which can take long on a big sheet
   const opts = options || {};
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(10000)) throw new Error('Another run holds the lock. Try again in a minute.');
@@ -86,7 +87,7 @@ function startBulkNormalize(options) {
   } finally {
     releaseLock_(lock);
   }
-  return runBulkSlice_();
+  return runBulkSlice_(t0);
 }
 
 /**
@@ -104,10 +105,11 @@ function bulkJobStatus() {
 
 /**
  * One execution of the job: as many chunks as the time budget allows.
+ * @param {number} [startedMs] when this execution began, if before this call
  * @return {{status: string, next: (number|undefined), rowsDone: (number|undefined), runs: (number|undefined)}}
  */
-function runBulkSlice_() {
-  const t0 = Date.now();
+function runBulkSlice_(startedMs) {
+  const t0 = startedMs === undefined ? Date.now() : startedMs;
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(5000)) return { status: 'locked' };
   try {
@@ -205,7 +207,7 @@ function writeRollup_(ss, total) {
   }
   const out = Object.keys(sums).sort().map(function (k) {
     const s = sums[k];
-    return [s.client, s.month, s.cents / 100, s.clicks, s.conversions, s.rows];
+    return [sheetText_(s.client), sheetText_(s.month), s.cents / 100, s.clicks, s.conversions, s.rows];
   });
   rollup.clearContents();
   rollup.getRange(1, 1, 1, SD.HEADERS.ROLLUP.length).setValues([SD.HEADERS.ROLLUP]);

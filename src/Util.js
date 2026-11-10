@@ -114,11 +114,16 @@ function round2_(n) {
   return Math.round(n * 100) / 100;
 }
 
+const SHEET_MONTH_WORD_ = '(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?|sep(t(ember)?)?|oct(ober)?|nov(ember)?|dec(ember)?)\\.?';
+
 /**
  * Makes untrusted text safe to write into a cell. Sheets treats a leading =, +,
- * -, @ as a formula when it is typed, and turns numeric or date looking text
- * into numbers and dates. A leading apostrophe stores the text as it is, and
- * Sheets does not keep the apostrophe in the value.
+ * -, @ as a formula when it is typed, and turns text that looks like a number
+ * or a date into a number or a date: 007, 1,000, 1e5, 50%, $5, 10:30, 2026-10,
+ * 2026-10-03, 3/4, Oct 5. A leading apostrophe stores the text as it is, and
+ * Sheets does not keep the apostrophe in the value. The dates and the
+ * thousands separators follow the US English reading, other locales read a few
+ * of them differently, so the guard covers the union.
  * @param {*} value
  * @return {string}
  */
@@ -126,8 +131,15 @@ function sheetText_(value) {
   const s = value === null || value === undefined ? '' : String(value);
   if (s === '') return s;
   const risky = /^[=+\-@\t\r']/.test(s) ||
-    /^-?\d+(\.\d+)?$/.test(s) ||
+    /^(\d{1,3}(,\d{3})+(\.\d+)?|\d+(\.\d+)?|\.\d+)([eE][-+]?\d+)?%?$/.test(s) ||
+    /^[$\u20ac\u00a3\u00a5\u20b1]\s*\d[\d,]*(\.\d+)?$/.test(s) ||
+    /^\d{1,2}:\d{2}(:\d{2})?(\s?[AaPp][Mm])?$/.test(s) ||
     /^\d{4}-\d{2}-\d{2}/.test(s) ||
+    /^\d{4}-(0[1-9]|1[0-2])$/.test(s) ||
+    /^\d{1,4}\/\d{1,2}(\/\d{1,4})?$/.test(s) ||
+    /^\d{1,2}-\d{1,2}(-\d{2,4})?$/.test(s) ||
+    new RegExp('^' + SHEET_MONTH_WORD_ + '\\s+\\d{1,4}(,?\\s+\\d{4})?$', 'i').test(s) ||
+    new RegExp('^\\d{1,2}\\s+' + SHEET_MONTH_WORD_ + '(,?\\s+\\d{4})?$', 'i').test(s) ||
     /^(true|false)$/i.test(s);
   return risky ? "'" + s : s;
 }
@@ -244,8 +256,11 @@ function isEmail_(s) {
  * @param {GoogleAppsScript.Lock.Lock} lock
  */
 function releaseLock_(lock) {
-  SpreadsheetApp.flush();
-  lock.releaseLock();
+  try {
+    SpreadsheetApp.flush();
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 /**
@@ -257,11 +272,14 @@ function releaseLock_(lock) {
 function writeJobLog_(ss, row) {
   const sheet = getOrCreateSheet_(ss, SD.SHEETS.JOB_LOG, SD.HEADERS.JOB_LOG);
   const data = readRows_(sheet, SD.HEADERS.JOB_LOG.length);
+  // The run id can be a month such as 2026-10. Sheets would turn it into a date and the match below would miss it.
+  const stored = row.slice();
+  stored[1] = sheetText_(row[1]);
   for (let i = 0; i < data.length; i++) {
     if (String(data[i][0]) === row[0] && String(data[i][1]) === String(row[1])) {
-      sheet.getRange(i + 2, 1, 1, row.length).setValues([row]);
+      sheet.getRange(i + 2, 1, 1, row.length).setValues([stored]);
       return;
     }
   }
-  sheet.appendRow(row);
+  sheet.appendRow(stored);
 }
