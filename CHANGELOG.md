@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+Changes after the fifth pass, a blind recall that found two severe problems and four smaller ones.
+
+- A report that would reach a client is checked where every report email passes, in `buildReport_`. Month close and Run report with the box unticked now say, before any email goes, how many Campaigns rows are left out of the figures and why (no currency rate, a text date, a client name that is not in the Clients tab), and need a second press (**Close month anyway**, **Send anyway**). Before, the sentence came after the emails and a rerun emailed again with different figures.
+- Run report with the box unticked is refused for a month that is still running, as the month close was. It used to email a client half a month.
+- A client whose status is a blank cell or a typo is named in the month close result and the sidebar, not skipped silently.
+- A summary tab whose client has no row left in the totals is emptied to its header and named, so last month's figures do not stay on it.
+- The ad sync accepts fractional conversions, and the Pull ad costs message says how many records were dropped and why (an unusable record, an account no client has, a record replaced by a later one).
+- The README and docs/webhook.md say at the once-only delivery promise that a refused lead still answers HTTP 200 and that Zapier or Make needs a step that checks `ok`.
+- The mutation wording names the equivalent mutants that are skipped, with the count from `scripts/mutation.js`.
+- The smaller findings that were left as they are, such as the 0 done count of an all current rerun, are listed in the README Limits.
+
 Changes after a fourth pass, a blind recall of the README, docs, source and tests that found seven problems.
 
 - Pull currency rates covers every month the foreign currency rows are in (up to 3 years back, in pieces of 92 days), not the last 30 days. A row with no rate was left out of the totals and nothing said so. The report result, the Run report line, the Rebuild summaries message and the month close dialog now count the rows left out and say why in one sentence, and a month where every row was left out no longer reads "No data for that month".

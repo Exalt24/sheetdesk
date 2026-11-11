@@ -68,10 +68,11 @@ function menuRebuildSummaries() {
 
 /**
  * The toast text for Rebuild summaries: the counts, then every name clash
- * that left clients out, every Campaigns row that matches no client and every
- * Campaigns row that was left out of the totals, with the reason.
+ * that left clients out, every Campaigns row that matches no client, every
+ * Campaigns row that was left out of the totals, with the reason, and every
+ * summary tab that was emptied because its client has no row left.
  * @param {{tabs: number, rows: number, skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined),
- *   leftOut: ({text: string}|undefined)}} r
+ *   leftOut: ({text: string}|undefined), emptied: ({text: string}|undefined)}} r
  * @return {string}
  */
 function summariesMessage_(r) {
@@ -79,13 +80,24 @@ function summariesMessage_(r) {
   if (r.skipped) more.push('Left out: ' + r.skipped.join(' '));
   if (r.unmatched) more.push(unmatchedText_(r.unmatched));
   if (r.leftOut) more.push(r.leftOut.text);
+  if (r.emptied) more.push(r.emptied.text);
   return r.tabs + ' tabs, ' + r.rows + ' rows' + (more.length ? '. ' + more.join(' ') : '');
+}
+
+/**
+ * The toast text for Pull ad costs: how many rows are new and changed, then, only when a record from
+ * the ad platform did not become its own Campaigns row, how many and why.
+ * @param {{inserted: number, updated: number, dropped: ({text: string}|undefined)}} r result of syncAdCosts
+ * @return {string}
+ */
+function adSyncMessage_(r) {
+  return r.inserted + ' new, ' + r.updated + ' changed' + (r.dropped ? '. ' + r.dropped.text : '');
 }
 
 /** Menu item: last 30 days of ad costs. */
 function menuSyncAdCosts() {
   const r = syncAdCosts(daysAgoIso_(30), daysAgoIso_(0));
-  SpreadsheetApp.getActiveSpreadsheet().toast(r.inserted + ' new, ' + r.updated + ' changed', 'Ad costs');
+  SpreadsheetApp.getActiveSpreadsheet().toast(adSyncMessage_(r), 'Ad costs');
 }
 
 /**
@@ -175,12 +187,15 @@ function setUp() {
 /**
  * Called by the sidebar on load. Returns plain data only: google.script.run
  * cannot return a Date.
- * @return {{clients: string[], months: string[], defaultMonth: (string|undefined)}} defaultMonth is the newest
- *   month in the list that has ended, left out when every month in the list is still running
+ * @return {{clients: string[], months: string[], defaultMonth: (string|undefined),
+ *   unknownStatus: ({count: number, clients: string[], text: string}|undefined)}} defaultMonth is the newest
+ *   month in the list that has ended, left out when every month in the list is still running. unknownStatus
+ *   names the clients that are not in the list because their status is none of the known ones.
  */
 function sidebarGetOptions() {
   const ss = spreadsheet_();
-  const clients = loadClients_(ss)
+  const everyone = loadClients_(ss);
+  const clients = everyone
     .filter(function (c) { return c.status === 'active'; })
     .map(function (c) { return c.client; })
     .sort();
@@ -194,6 +209,8 @@ function sidebarGetOptions() {
   }
   const list = Object.keys(months).sort().reverse();
   const out = { clients: clients, months: list };
+  const odd = unknownStatusOf_(everyone);
+  if (odd) out.unknownStatus = odd;
   // The newest month may still be running. The picker starts on the last month that has ended.
   const finished = previousMonth_();
   const start = list.filter(function (m) { return m <= finished; })[0];
@@ -208,11 +225,13 @@ function sidebarGetOptions() {
  * @param {boolean} [sendToMe] the "Send to me first" box. Only an explicit false
  *   emails the client. Anything else, including a missing value, sends the PDF
  *   to the person running the script.
+ * @param {boolean} [acknowledgeLeftOut] true after the sidebar showed that Campaigns rows are left out
+ *   of the totals and the user pressed Send anyway. Only an explicit true counts.
  * @return {Object} result of runClientReport
  */
-function sidebarRunReport(clientName, month, sendToMe) {
+function sidebarRunReport(clientName, month, sendToMe, acknowledgeLeftOut) {
   // runClientReport checks the month and that the client exists before it touches Drive or mail.
-  return runClientReport(clientName, month, { preview: sendToMe !== false });
+  return runClientReport(clientName, month, { preview: sendToMe !== false, acknowledgeLeftOut: acknowledgeLeftOut === true });
 }
 
 /**
@@ -228,16 +247,22 @@ function sidebarRequestMonthClose(month) {
 }
 
 /**
- * Dialog button: runs the month close.
+ * Dialog button: runs the month close. The first press only checks: when Campaigns rows are left out of
+ * the totals it returns `held` (the count and the reasons) and emails nobody, and the dialog asks again.
  * @param {string} month
+ * @param {boolean} [acknowledgeLeftOut] true on the second press, after the dialog said what is left out.
+ *   Only an explicit true counts.
  * @return {{month: string, done: number, errors: number, pending: number, emailed: number, emailFailed: number,
  *   clashes: (string[]|undefined), skipped: (string[]|undefined), unmatched: ({rows: number, clients: string[]}|undefined),
  *   leftOut: ({rows: number, reasons: Object, text: string}|undefined),
- *   noAddress: ({count: number, clients: string[], text: string}|undefined)}}
+ *   noAddress: ({count: number, clients: string[], text: string}|undefined),
+ *   unknownStatus: ({count: number, clients: string[], text: string}|undefined),
+ *   held: ({rows: number, text: string}|undefined)}}
  */
-function dialogConfirmMonthClose(month) {
+function dialogConfirmMonthClose(month, acknowledgeLeftOut) {
   // runMonthClose checks the month first.
-  const r = runMonthClose(month);
+  const r = runMonthClose(month, { acknowledgeLeftOut: acknowledgeLeftOut === true });
+  if (r.held) return { month: r.month, held: r.held };
   const out = {
     month: r.month,
     done: r.results.filter(function (x) { return x.status === 'ok' || x.status === 'no_data'; }).length,
@@ -252,5 +277,6 @@ function dialogConfirmMonthClose(month) {
   if (r.summaries.unmatched) out.unmatched = r.summaries.unmatched;
   if (r.summaries.leftOut) out.leftOut = r.summaries.leftOut;
   if (r.noAddress) out.noAddress = r.noAddress;
+  if (r.unknownStatus) out.unknownStatus = r.unknownStatus;
   return out;
 }

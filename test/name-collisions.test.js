@@ -241,7 +241,8 @@ test('CLASS-TABLE: a Campaigns row whose client matches no client is counted and
     const baseline = base.plain(base.call('runClientReport', 'Summit Yoga', '2026-10')).spend;
 
     const p = withRows(name, count);
-    const report = p.plain(p.call('runClientReport', 'Summit Yoga', '2026-10'));
+    // the rows that match no client hold a report to a client until it is confirmed; the confirmation is what this table sends
+    const report = p.plain(p.call('runClientReport', 'Summit Yoga', '2026-10', { acknowledgeLeftOut: true }));
     assert.deepEqual(report.unmatched, want, label + ': the report names it');
     assert.equal(report.spend, baseline, label + ': and the row is not in the figures');
 
@@ -259,10 +260,10 @@ test('CLASS-TABLE: a Campaigns row whose client matches no client is counted and
     assert.equal(toast, counts + (s.skipped ? ' ' : '. ') + sentence, label + ': the menu message names it');
 
     const c = withRows(name, count);
-    const close = c.plain(c.call('runMonthClose', '2026-10'));
+    const close = c.plain(c.call('runMonthClose', '2026-10', { acknowledgeLeftOut: true }));
     assert.deepEqual(close.summaries.unmatched, want, label + ': the month close names it');
     const d = withRows(name, count);
-    assert.deepEqual(d.plain(d.call('dialogConfirmMonthClose', '2026-10')).unmatched, want, label + ': the dialog names it');
+    assert.deepEqual(d.plain(d.call('dialogConfirmMonthClose', '2026-10', true)).unmatched, want, label + ': the dialog names it');
   }
 });
 
@@ -369,7 +370,7 @@ test('CLASS-TABLE: summary clashes reach the month close dialog and two clashes 
   p.append('Campaigns', [campaignRow('summit yoga'), campaignRow('LUMEN OPTICALS')]);
   const first = 'Clients "Lumen Opticals" and "LUMEN OPTICALS" would share one report file name.';
   const second = 'Clients "Summit Yoga" and "summit yoga" would share one report file name.';
-  const d = p.plain(p.call('dialogConfirmMonthClose', '2026-10'));
+  const d = p.plain(p.call('dialogConfirmMonthClose', '2026-10', true));
   assert.deepEqual(d.skipped, [second, first]);
   assert.equal(d.clashes, undefined, 'the Clients names do not clash');
   assert.equal(d.errors, 0);

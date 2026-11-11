@@ -22,12 +22,28 @@
     el.textContent = text;
     el.className = isError ? 'error' : '';
   }
+  // The month the dialog has already said rows are left out for. Pressing the button again for that month is the second confirmation.
+  var told = '';
+  function resetConfirm() {
+    told = '';
+    document.getElementById('confirm').textContent = 'Close month';
+  }
+  document.getElementById('month').oninput = resetConfirm;
   document.getElementById('cancel').onclick = function () { google.script.host.close(); };
   document.getElementById('confirm').onclick = function () {
+    var asked = document.getElementById('month').value;
     document.getElementById('confirm').disabled = true;
     setStatus('Working');
     google.script.run
       .withSuccessHandler(function (r) {
+        if (r.held) {
+          told = asked;
+          document.getElementById('confirm').textContent = 'Close month anyway';
+          document.getElementById('confirm').disabled = false;
+          setStatus('Nothing has been emailed yet. ' + r.held.text + ' A report built now is too low by those rows. Press Close month anyway to email the clients with these rows left out, or Cancel and fix the rows first.');
+          return;
+        }
+        resetConfirm();
         var text = r.done + ' done, ' + r.errors + ' failed, ' + r.pending + ' waiting, ' + r.emailed + ' emailed, ' +
           r.emailFailed + ' not emailed (mail refused; the next close sends them).';
         if (r.clashes) text += ' Not reported: ' + r.clashes.join(' ');
@@ -36,6 +52,7 @@
           r.unmatched.clients.join(', ') + ').';
         if (r.leftOut) text += ' ' + r.leftOut.text;
         if (r.noAddress) text += ' ' + r.noAddress.text;
+        if (r.unknownStatus) text += ' ' + r.unknownStatus.text;
         setStatus(text);
         document.getElementById('confirm').disabled = false;
       })
@@ -43,7 +60,7 @@
         document.getElementById('confirm').disabled = false;
         setStatus(err && err.message ? err.message : 'Something went wrong.', true);
       })
-      .dialogConfirmMonthClose(document.getElementById('month').value);
+      .dialogConfirmMonthClose(asked, told === asked);
   };
 </script>
 </body>

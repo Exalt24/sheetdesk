@@ -291,3 +291,26 @@ test('CLASS-TABLE: a budget keeps its cents and a budget below zero is refused',
     }
   }
 });
+
+// CLASS-TABLE: the contact name is kept trimmed and capped at 120 characters, and the primary channel is trimmed and capped at 40
+test('CLASS-TABLE: the contact name is trimmed and capped at 120 characters, and the primary channel at 40', () => {
+  const cases = [
+    [{ [T.CONTACT]: '  Rae Delgado  ' }, 'Rae Delgado'],
+    [{ [T.CONTACT]: 'n'.repeat(120) }, 'n'.repeat(120)],
+    [{ [T.CONTACT]: 'n'.repeat(130) }, 'n'.repeat(120)]
+  ];
+  for (const [over, contact] of cases) {
+    const p = loadProject();
+    assert.deepEqual(submit(p, over), { status: 'active', client: 'Bluebell Bikes', emailed: true }, contact.slice(0, 12));
+    assert.equal(lastRow(p)[1], contact, contact.slice(0, 12) + ': contact name');
+  }
+  // the channel is a fixed choice on the real form, so the 40 cap is checked on the parser itself
+  const p = loadProject();
+  const parsed = p.plain(p.call('checkIntake_', answers({ [T.CHANNEL]: '  ' + 'c'.repeat(60) + '  ' })));
+  assert.equal(parsed.channel, 'c'.repeat(40), 'channel trimmed then capped at 40');
+  assert.equal(p.plain(p.call('checkIntake_', answers({ [T.CHANNEL]: '  social  ' }))).channel, 'social');
+  // a missing answer is stored as an empty cell, not as a placeholder
+  const blank = p.plain(p.call('checkIntake_', answers({ [T.CONTACT]: undefined, [T.CHANNEL]: undefined })));
+  assert.equal(blank.contact, '', 'missing contact name is empty');
+  assert.equal(blank.channel, '', 'missing channel is empty');
+});

@@ -59,12 +59,12 @@ const TARGETS = [
   { file: 'Reporting.js', within: 'namesClash_', marker: /./, mode: 'all' },
   { file: 'Reporting.js', within: 'unmatchedRows_', marker: /./, mode: 'all' },
   { file: 'Reporting.js', within: 'unmatchedText_', marker: /./, mode: 'all' },
-  { file: 'Reporting.js', within: 'buildClientSummaries', marker: /clashes|skipped|unmatched|leftOut/, mode: 'inner' },
-  { file: 'Reporting.js', within: 'runClientReport', marker: /clash|unmatched|live|leftOut/, mode: 'inner' },
-  { file: 'Reporting.js', within: 'runMonthClose', marker: /clashes|clashed|noAddress|missing|assertMonthEnded_/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'summariesFrom_', marker: /clashes|skipped|unmatched|leftOut|emptied/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'runClientReport', marker: /clash|unmatched|live|leftOut|gate|held/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'runMonthClose', marker: /clashes|clashed|noAddress|missing|assertMonthEnded_|gate|held|acknowledged|odd/, mode: 'inner' },
   { file: 'Forms.js', within: 'onIntakeSubmit', marker: /taken|namesClash_|why|reason|ensureClientExtras_|const row/, mode: 'inner' },
   { file: 'Menu.js', within: 'summariesMessage_', marker: /./, mode: 'all' },
-  { file: 'Menu.js', within: 'dialogConfirmMonthClose', marker: /clashes|skipped|unmatched|leftOut|noAddress/, mode: 'inner' },
+  { file: 'Menu.js', within: 'dialogConfirmMonthClose', marker: /clashes|skipped|unmatched|leftOut|noAddress|held|unknownStatus|acknowledge/, mode: 'inner' },
   // round 4: a figure left out is shown, a close that emails is guarded and names who got nothing, a budget as people write it,
   // a row that is not a client stops no client, the sidebar starts on a finished month
   { file: 'Reporting.js', within: 'leftOutOf_', marker: /./, mode: 'all' },
@@ -72,14 +72,24 @@ const TARGETS = [
   { file: 'Reporting.js', within: 'assertMonthEnded_', marker: /./, mode: 'all' },
   { file: 'Reporting.js', within: 'currentMonth_', marker: /./, mode: 'all' },
   { file: 'Reporting.js', within: 'assertClient_', marker: /named|hit/, mode: 'inner' },
-  { file: 'Menu.js', within: 'sidebarGetOptions', marker: /defaultMonth|finished|start/, mode: 'inner' },
+  { file: 'Menu.js', within: 'sidebarGetOptions', marker: /defaultMonth|finished|start|odd|everyone/, mode: 'inner' },
   { file: 'Menu.js', within: 'sidebarRequestMonthClose', marker: /./, mode: 'all' },
   { file: 'Menu.js', within: 'ratePullRange_', marker: /./, mode: 'all' },
   { file: 'Menu.js', within: 'menuSyncRates', marker: /./, mode: 'all' },
   { file: 'AdPlatform.js', within: 'syncRatesInPieces_', marker: /./, mode: 'all' },
   { file: 'Forms.js', within: 'parseBudget_', marker: /./, mode: 'all' },
   { file: 'Forms.js', within: 'checkIntake_', marker: /budget|notes/, mode: 'inner' },
-  { file: 'Clients.js', within: 'ensureClientExtras_', marker: /./, mode: 'all' }
+  { file: 'Clients.js', within: 'ensureClientExtras_', marker: /./, mode: 'all' },
+  // round 5: nothing reaches a client before the guards, and a skipped client, tab or record is a count and a reason
+  { file: 'Reporting.js', within: 'buildReport_', marker: /mailsClient|gate|held|assertMonthEnded_/, mode: 'inner' },
+  { file: 'Reporting.js', within: 'sendPreCheck_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'unknownStatusOf_', marker: /./, mode: 'all' },
+  { file: 'Reporting.js', within: 'emptyStaleSummaries_', marker: /./, mode: 'all' },
+  { file: 'Menu.js', within: 'sidebarRunReport', marker: /./, mode: 'all' },
+  { file: 'Menu.js', within: 'adSyncMessage_', marker: /./, mode: 'all' },
+  { file: 'AdPlatform.js', within: 'checkAdItem_', marker: /./, mode: 'all' },
+  { file: 'AdPlatform.js', within: 'adDroppedOf_', marker: /./, mode: 'all' },
+  { file: 'AdPlatform.js', within: 'syncAdCosts', marker: /reasons|unknownIds|dropped|conversions|invalid|duplicates/, mode: 'inner' }
 ];
 
 const CONDITIONAL = ['IfStatement', 'ConditionalExpression', 'WhileStatement', 'ForStatement'];
@@ -167,7 +177,7 @@ function operators(node, text) {
 }
 
 /**
- * @return {Array<{id: string, file: string, start: number, end: number, find: string, replace: string, breaks: string}>}
+ * @return {Array<{id: string, file: string, within: (string|null), start: number, end: number, find: string, replace: string, breaks: string}>}
  */
 function astMutants() {
   const mutants = [];
@@ -186,7 +196,7 @@ function astMutants() {
           const line = target.loc.start.line;
           mutants.push({
             id: 'ast:' + t.file.replace('.js', '') + ':' + line + '@' + start + '+' + (end - start) + ':' + label.split(' ').join('-'),
-            file: t.file, start, end, find, replace,
+            file: t.file, within: t.within, start, end, find, replace,
             breaks: t.file + ' line ' + line + ': ' + label + ' (' + find.split(/\s+/).join(' ').slice(0, 50) + ')'
           });
         }

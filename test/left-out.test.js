@@ -55,7 +55,7 @@ test('CLASS-TABLE: a row left out of the totals is counted, with the reason, in 
       const want = { rows: count, reasons: { [code]: count }, text: sentence(count, [count + ' with ' + words]) };
 
       const p = withBad(row, count);
-      const report = p.plain(p.call('runClientReport', 'Summit Yoga', '2026-10'));
+      const report = p.plain(p.call('runClientReport', 'Summit Yoga', '2026-10', { acknowledgeLeftOut: true }));
       assert.deepEqual(report.leftOut, want, where + ': the report says it');
       assert.equal(report.spend, base, where + ': and the row is not in the figures');
 
@@ -69,9 +69,9 @@ test('CLASS-TABLE: a row left out of the totals is counted, with the reason, in 
       assert.equal(m.w.ui.toasts[0].msg, s.tabs + ' tabs, ' + s.rows + ' rows. ' + want.text, where + ': the menu message says it');
 
       const c = withBad(row, count);
-      assert.deepEqual(c.plain(c.call('runMonthClose', '2026-10')).summaries.leftOut, want, where + ': the month close says it');
+      assert.deepEqual(c.plain(c.call('runMonthClose', '2026-10', { acknowledgeLeftOut: true })).summaries.leftOut, want, where + ': the month close says it');
       const d = withBad(row, count);
-      assert.deepEqual(d.plain(d.call('dialogConfirmMonthClose', '2026-10')).leftOut, want, where + ': the dialog result says it');
+      assert.deepEqual(d.plain(d.call('dialogConfirmMonthClose', '2026-10', true)).leftOut, want, where + ': the dialog result says it');
     }
   }
 });
@@ -128,7 +128,7 @@ test('CLASS-TABLE: a month where every row was left out says so on the sidebar, 
   assert.ok(!/No data/.test(page.status()));
 
   const q = allLeftOut();
-  const d = q.plain(q.call('dialogConfirmMonthClose', '2026-10'));
+  const d = q.plain(q.call('dialogConfirmMonthClose', '2026-10', true));
   assert.equal(d.done, 1, 'the client counts as done, with nothing to send');
   assert.equal(d.emailed, 0);
   const closePage = openPage('Dialog.html', { dialogConfirmMonthClose: d });

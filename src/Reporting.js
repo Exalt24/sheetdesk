@@ -20,18 +20,25 @@ function currentMonth_() {
 }
 
 /**
- * Throws unless the month is over. A month close emails every client, so it
- * is refused for a month that is still running (or has not started), judged in
- * the Sheet time zone: a month ends when the first of the next month begins there.
+ * Throws unless the month is over. Anything that emails a client for a month is
+ * refused while the month is still running (or has not started), judged in the
+ * Sheet time zone: a month ends when the first of the next month begins there.
  * @param {string} month a valid month key
+ * @param {boolean} [forReport] true for a single report to a client, which gets its own wording
+ *   (a month close, the default, says that it emails every client)
  */
-function assertMonthEnded_(month) {
+function assertMonthEnded_(month, forReport) {
   if (month < currentMonth_()) return;
   const tz = spreadsheet_().getSpreadsheetTimeZone();
   const y = Number(month.slice(0, 4));
   const m = Number(month.slice(5, 7));
   const next = (m === 12 ? y + 1 : y) + '-' + String(m === 12 ? 1 : m + 1).padStart(2, '0') + '-01';
-  throw new Error('The month ' + month + ' has not ended yet: it is ' + Utilities.formatDate(new Date(), tz, 'yyyy-MM-dd') +
+  const today = Utilities.formatDate(new Date(), tz, 'yyyy-MM-dd');
+  if (forReport) {
+    throw new Error('The month ' + month + ' has not ended yet: it is ' + today + ' in the Sheet time zone (' + tz +
+      '), and a report emailed to the client now would hold only part of the month. Tick Send to me first to preview it, or send it on or after ' + next + '.');
+  }
+  throw new Error('The month ' + month + ' has not ended yet: it is ' + today +
     ' in the Sheet time zone (' + tz + '), and a month close emails every client. Close it on or after ' + next + '.');
 }
 
@@ -124,6 +131,66 @@ function noAddressOf_(names) {
   };
 }
 
+/** The statuses a Clients row can hold on purpose. Only `active` gets a report; the rest are left alone and need no mention. */
+const KNOWN_STATUSES_ = ['active', 'inactive', 'paused', 'needs_review'];
+
+/**
+ * The clients whose status is none of the known ones (a blank cell, "yes", "actve"). A month close and
+ * the report picker use only the `active` clients, so such a client gets no report and no email. This
+ * names it with the status it has, so a typo does not read as a client that has nothing to report. A
+ * name that also has an active row is reported through that row and is not named.
+ * @param {Client[]} clients
+ * @return {({count: number, clients: string[], text: string}|undefined)} nothing when every status is known
+ */
+function unknownStatusOf_(clients) {
+  const active = clients.filter(function (c) { return c.status === 'active'; }).map(function (c) { return c.client; });
+  const names = [];
+  const shown = [];
+  clients.forEach(function (c) {
+    if (KNOWN_STATUSES_.indexOf(c.status) !== -1 || active.indexOf(c.client) !== -1 || names.indexOf(c.client) !== -1) return;
+    names.push(c.client);
+    shown.push(c.client + ' (' + (c.status === '' ? 'blank' : '"' + c.status + '"') + ')');
+  });
+  if (!names.length) return;
+  const n = names.length;
+  const list = shown.slice(0, 10);
+  return {
+    count: n,
+    clients: names.slice(0, 10),
+    text: n + (n === 1 ? ' client has a status that is' : ' clients have a status that is') + ' none of active, inactive, paused or needs_review, so ' +
+      (n === 1 ? 'it gets' : 'they get') + ' no report and no email: ' + list.join(', ') + (n > list.length ? ' and ' + (n - list.length) + ' more' : '') + '.'
+  };
+}
+
+/**
+ * What a report emailed to a client now would leave out, said before any email goes: the Campaigns rows
+ * that are left out of the totals (leftOutOf_) and the rows that name a client that is not in the Clients
+ * tab (unmatchedRows_). Both are in no client's figures, so a report built over them is too low.
+ * @param {{rows: Object[], rejected: Array<{row: number, reason: string}>}} parsed from readCampaigns_
+ * @param {Client[]} clients
+ * @return {({rows: number, text: string, leftOut: (Object|undefined), unmatched: (Object|undefined)}|undefined)}
+ *   nothing when no row is left out
+ */
+function sendPreCheck_(parsed, clients) {
+  const leftOut = leftOutOf_(parsed.rejected);
+  const unmatched = unmatchedRows_(parsed.rows, clients);
+  if (!leftOut && !unmatched) return;
+  const parts = [];
+  const held = { rows: 0 };
+  if (leftOut) {
+    held.rows += leftOut.rows;
+    held.leftOut = leftOut;
+    parts.push(leftOut.text);
+  }
+  if (unmatched) {
+    held.rows += unmatched.rows;
+    held.unmatched = unmatched;
+    parts.push(unmatchedText_(unmatched));
+  }
+  held.text = parts.join(' ');
+  return held;
+}
+
 /**
  * One output line for a total: cost per click, cost per conversion and
  * conversion rate. Blank when the divisor is zero.
@@ -183,15 +250,28 @@ function summaryTable_(byMonth) {
  * no client in the Clients tab is counted and named in `unmatched`. A row that
  * was left out of every total (no currency rate for its day, no usable date, a
  * spend that is not a number) is counted in `rejected` and, with the reasons and
- * one sentence, in `leftOut`. The three keys are present only when there is
- * something to say.
+ * one sentence, in `leftOut`. A summary tab whose client has no row left in the
+ * totals is emptied to its header and named in `emptied`, so an old figure does
+ * not stay behind. The keys skipped, unmatched, leftOut and emptied are present
+ * only when there is something to say.
  * @return {{tabs: number, rows: number, rejected: number, skipped: (string[]|undefined),
  *   unmatched: ({rows: number, clients: string[]}|undefined),
- *   leftOut: ({rows: number, reasons: Object, text: string}|undefined)}}
+ *   leftOut: ({rows: number, reasons: Object, text: string}|undefined),
+ *   emptied: ({count: number, tabs: string[], text: string}|undefined)}}
  */
 function buildClientSummaries() {
   const ss = spreadsheet_();
-  const parsed = readCampaigns_(ss);
+  return summariesFrom_(ss, readCampaigns_(ss));
+}
+
+/**
+ * The work of buildClientSummaries on rows that are already read, so a month close reads the
+ * Campaigns sheet once for the check before any email, the summaries and the reports.
+ * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} ss
+ * @param {{rows: Object[], rejected: Array<{row: number, reason: string}>}} parsed from readCampaigns_
+ * @return {Object} as buildClientSummaries
+ */
+function summariesFrom_(ss, parsed) {
   const agg = aggregate_(parsed.rows);
   const clashes = nameClashes_(Object.keys(agg));
   const names = Object.keys(agg).sort().filter(function (n) { return clashes[n] === undefined; });
@@ -213,7 +293,44 @@ function buildClientSummaries() {
   if (unmatched) result.unmatched = unmatched;
   const leftOut = leftOutOf_(parsed.rejected);
   if (leftOut) result.leftOut = leftOut;
+  const emptied = emptyStaleSummaries_(ss, names, clashes);
+  if (emptied) result.emptied = emptied;
   return result;
+}
+
+/**
+ * Empties the summary tabs that no client was written to this run: a client whose Campaigns rows were
+ * all deleted, or are all left out of the totals, would otherwise keep last month's figures. A tab keeps
+ * only its header row. A tab that holds nothing below its header is left as it is and not named, so a
+ * rerun is quiet, and the tabs of the names that clash are left alone because the result already names them.
+ * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} ss
+ * @param {string[]} written client names whose tab was just written
+ * @param {Object} clashes from nameClashes_
+ * @return {({count: number, tabs: string[], text: string}|undefined)} nothing when no tab was stale
+ */
+function emptyStaleSummaries_(ss, written, clashes) {
+  const keep = Object.create(null);
+  written.concat(Object.keys(clashes)).forEach(function (n) { keep[summaryTabName_(n)] = true; });
+  const header = summaryTable_({});
+  const emptied = [];
+  ss.getSheets().forEach(function (sheet) {
+    const tab = sheet.getName();
+    if (tab.indexOf(SD.SHEETS.SUMMARY_PREFIX) !== 0 || keep[tab] || sheet.getLastRow() < 2) return;
+    sheet.clearContents();
+    ensureGrid_(sheet, header.length, header[0].length);
+    sheet.getRange(1, 1, header.length, header[0].length).setValues(header);
+    sheet.setFrozenRows(1);
+    emptied.push(tab);
+  });
+  if (!emptied.length) return;
+  const n = emptied.length;
+  const shown = emptied.slice(0, 10);
+  return {
+    count: n,
+    tabs: shown,
+    text: n + (n === 1 ? ' summary tab has' : ' summary tabs have') + ' no Campaigns rows left in the totals (the rows were deleted or are all left out), so ' +
+      (n === 1 ? 'it was' : 'they were') + ' emptied: ' + shown.join(', ') + (n > shown.length ? ' and ' + (n - shown.length) + ' more' : '') + '.'
+  };
 }
 
 /**
@@ -460,12 +577,17 @@ function findReportLog_(ss, client, month) {
  * changed since the last email, or when options.force is true.
  * @param {string} clientName
  * @param {string} month yyyy-MM
- * @param {{force: (boolean|undefined), sendEmail: (boolean|undefined), preview: (boolean|undefined)}} [options]
+ * @param {{force: (boolean|undefined), sendEmail: (boolean|undefined), preview: (boolean|undefined),
+ *   acknowledgeLeftOut: (boolean|undefined)}} [options]
  *   preview true sends the PDF to the person running the script (or to the
  *   REPORT_CC property when Google gives no address) and never to the client.
  *   A preview does not count as the client's email: the next real run sends it.
+ *   A report that would reach the client is refused for a month that has not ended, and is held
+ *   (status "held", nothing built or sent, the sentence in `held`) while Campaigns rows are left
+ *   out of the totals, until acknowledgeLeftOut is true.
  * @return {{status: string, client: string, month: string, pdfName: string, pdfId: string,
- *   replaced: number, email: string, spend: string, unmatched: (Object|undefined), leftOut: (Object|undefined)}}
+ *   replaced: number, email: string, spend: string, unmatched: (Object|undefined), leftOut: (Object|undefined),
+ *   held: (Object|undefined)}}
  */
 function runClientReport(clientName, month, options) {
   assertMonth_(month);
@@ -477,7 +599,9 @@ function runClientReport(clientName, month, options) {
   const clash = nameClashes_(live.map(function (c) { return c.client; }))[client.client];
   if (clash !== undefined) throw new Error(clash);
   const parsed = readCampaigns_(ss);
-  const result = buildReport_(ss, client, month, aggregate_(parsed.rows), options || {});
+  const gate = { month: month, held: sendPreCheck_(parsed, clients) };
+  const result = buildReport_(ss, client, month, aggregate_(parsed.rows), Object.assign({}, options, { gate: gate }));
+  if (result.status === 'held') return result;
   const unmatched = unmatchedRows_(parsed.rows, clients);
   if (unmatched) result.unmatched = unmatched;
   const leftOut = leftOutOf_(parsed.rejected);
@@ -489,15 +613,25 @@ function runClientReport(clientName, month, options) {
  * Report for one client from rows that are already read and grouped.
  * options.skipIfCurrent returns status "current" without touching Drive when
  * the last report was built from the same figures and its PDF still exists.
+ *
+ * This is the only place a report is mailed to a client, so it is where the two guards sit. A report
+ * that can reach the client (not a preview, not sendEmail false) is refused for a month that has not
+ * ended, and returns status "held" with nothing built or sent while Campaigns rows are left out of the
+ * totals, unless opts.acknowledgeLeftOut is true. opts.gate is the check of runClientReport or
+ * runMonthClose, so a close checks the sheet once and not once per client; with no gate the check is
+ * made here.
  * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} ss
  * @param {Client} client
  * @param {string} month
  * @param {Object} agg from aggregate_
  * @param {{force: (boolean|undefined), sendEmail: (boolean|undefined), skipIfCurrent: (boolean|undefined),
- *   preview: (boolean|undefined)}} opts
+ *   preview: (boolean|undefined), acknowledgeLeftOut: (boolean|undefined),
+ *   gate: ({month: string, held: (Object|undefined)}|undefined)}} opts
  * @return {Object}
  */
 function buildReport_(ss, client, month, agg, opts) {
+  const mailsClient = opts.sendEmail !== false && !opts.preview;
+  if (mailsClient) assertMonthEnded_(month, true);
   const byChannel = (agg[client.client] || {})[month];
   if (!byChannel) {
     return { status: 'no_data', client: client.client, month: month, pdfName: '', pdfId: '', replaced: 0, email: 'not_sent', spend: '' };
@@ -512,6 +646,12 @@ function buildReport_(ss, client, month, agg, opts) {
       status: 'current', client: client.client, month: month, pdfName: String(prior[2]),
       pdfId: String(prior[3]), replaced: 0, email: 'not_sent', spend: moneyText_(total.cents)
     };
+  }
+  if (mailsClient && opts.acknowledgeLeftOut !== true) {
+    const gate = opts.gate && opts.gate.month === month ? opts.gate : { held: sendPreCheck_(readCampaigns_(ss), loadClients_(ss)) };
+    if (gate.held) {
+      return { status: 'held', client: client.client, month: month, pdfName: '', pdfId: '', replaced: 0, email: 'not_sent', spend: '', held: gate.held };
+    }
   }
   const m = metricsOf_(total);
   const channels = Object.keys(byChannel).sort();
@@ -655,22 +795,34 @@ function pdfStillExists_(id) {
  * never stops an active client.
  *
  * A month close emails every client, so it is refused for a month that has not
- * ended in the Sheet time zone. An active client whose address is empty or not
- * one address gets its report built but no email, and is named in `noAddress`.
+ * ended in the Sheet time zone. Before anything is built or emailed it checks the
+ * Campaigns rows: when any is left out of the totals (no rate, no usable date, a
+ * client name that is not in the Clients tab) it returns `held` with the sentence
+ * and an empty `results`, and does nothing else, until it is called again with
+ * options.acknowledgeLeftOut true. An active client whose address is empty or not
+ * one address gets its report built but no email, and is named in `noAddress`. A client
+ * whose status is none of the known ones is named in `unknownStatus`.
  * @param {string} month yyyy-MM
+ * @param {{acknowledgeLeftOut: (boolean|undefined)}} [options]
  * @return {{month: string, results: Object[], pending: string[], summaries: Object, clashes: (string[]|undefined),
- *   noAddress: ({count: number, clients: string[], text: string}|undefined)}}
+ *   noAddress: ({count: number, clients: string[], text: string}|undefined),
+ *   unknownStatus: ({count: number, clients: string[], text: string}|undefined),
+ *   held: ({rows: number, text: string}|undefined)}}
  */
-function runMonthClose(month) {
+function runMonthClose(month, options) {
   assertMonth_(month);
   assertMonthEnded_(month);
   const started = Date.now();
   const ss = spreadsheet_();
   const allClients = loadClients_(ss);
+  const parsed = readCampaigns_(ss);
+  const gate = { month: month, held: sendPreCheck_(parsed, allClients) };
+  const acknowledged = !!options && options.acknowledgeLeftOut === true;
+  if (gate.held && !acknowledged) return { month: month, held: gate.held, results: [], pending: [], summaries: {} };
   const clients = allClients.filter(function (c) { return c.status === 'active'; });
   const clashes = nameClashes_(clients.map(function (c) { return c.client; }));
-  const summaries = buildClientSummaries();
-  const agg = aggregate_(readCampaigns_(ss).rows);
+  const summaries = summariesFrom_(ss, parsed);
+  const agg = aggregate_(parsed.rows);
   const results = [];
   const pending = [];
   const noAddress = [];
@@ -686,7 +838,7 @@ function runMonthClose(month) {
     }
     const t0 = Date.now();
     try {
-      const built = buildReport_(ss, c, month, agg, { skipIfCurrent: true });
+      const built = buildReport_(ss, c, month, agg, { skipIfCurrent: true, gate: gate, acknowledgeLeftOut: acknowledged });
       results.push(built);
       if ((built.status === 'ok' || built.status === 'current') && !isEmail_(c.contact_email)) noAddress.push(c.client);
     } catch (err) {
@@ -702,5 +854,7 @@ function runMonthClose(month) {
   if (clashed.length) out.clashes = clashed;
   const missing = noAddressOf_(noAddress);
   if (missing) out.noAddress = missing;
+  const odd = unknownStatusOf_(allClients);
+  if (odd) out.unknownStatus = odd;
   return out;
 }

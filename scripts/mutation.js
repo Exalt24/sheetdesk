@@ -9,6 +9,11 @@
  *   node scripts/mutation.js secret       run the mutants whose id contains "secret"
  *   node scripts/mutation.js --ast        run only the mutants derived from the syntax tree
  *   node scripts/mutation.js --from=N     skip the first N mutants of the list, to resume a stopped run
+ *   node scripts/mutation.js --limit=M    run at most M mutants (with --from, the M after the first N), so a long list can be
+ *                                         run in pieces that each finish inside a tool call; --list prints the ids and runs nothing
+ *   node scripts/mutation.js --file=Reporting.js,Menu.js   only the mutants of those source files (typed and syntax tree)
+ *   node scripts/mutation.js --within=buildReport_,runMonthClose   only the syntax tree mutants of those functions
+ *   node scripts/mutation.js --ids=survivors.txt   only the mutants whose ids are listed in that file, one per line, to rerun the survivors
  *
  * The mutants in M are typed as old text and new text and run against the
  * whole suite. The mutants of scripts/mutation-ast.js are derived from the
@@ -38,7 +43,7 @@ const PARALLEL = 4;
 /** [id, file, text to find (exactly once), replacement, what it breaks] */
 const M = [
   // ---- guards added after the second review (ad sync duplicates, bulk trigger re-arm, emailed time, month close dialog)
-  ['sync-counts-duplicates', 'AdPlatform.js', "    if (Object.prototype.hasOwnProperty.call(seenKeys, key)) duplicates++;\n", '', 'two ad records for one client, channel and day replace each other with no count in the sync result'],
+  ["sync-counts-duplicates", "AdPlatform.js", "      duplicates++;\n", "", "two ad records for one client, channel and day replace each other with no count in the sync result"],
   ['bulk-lock-rearms-trigger', 'BulkProcess.js', "    if (loadCursor_()) replaceContinuationTrigger_(SD.CONTINUE_AFTER_MS);\n", '', 'a continuation that finds the lock held leaves the running job with no trigger to resume it'],
   ['emailed-time-follows-figures', 'Reporting.js', "  let emailedAt = prior && String(prior[4]) === figures ? prior[5] : '';\n", "  let emailedAt = prior ? prior[5] : '';\n", 'changed figures keep the old emailed time, so a preview or a failed send marks them as already sent'],
   ['dialog-counts-failed-email', 'Menu.js', "    emailFailed: r.results.filter(function (x) { return /^failed/.test(String(x.email)); }).length\n", "    emailFailed: 0\n", 'the month close dialog reads a refused email as done'],
@@ -102,7 +107,7 @@ const M = [
   ['email-on-change', 'Reporting.js', "  const alreadySent = prior && String(prior[4]) === figures && prior[5] !== '';", "  const alreadySent = prior && prior[5] !== '';", 'changed figures are not emailed'],
   ['report-month-check', 'Reporting.js', 'function runClientReport(clientName, month, options) {\n  assertMonth_(month);', 'function runClientReport(clientName, month, options) {', 'a bad month reaches the report'],
   ['report-client-check', 'Reporting.js', '  const client = assertClient_(clients, clientName);', "  const client = clients.filter(function (c) { return c.client === clientName; })[0] || { client: clientName, contact_email: '' };", 'an unknown client gets a report'],
-  ['close-month-check', 'Reporting.js', 'function runMonthClose(month) {\n  assertMonth_(month);', 'function runMonthClose(month) {', 'a bad month reaches the month close'],
+  ["close-month-check", "Reporting.js", "function runMonthClose(month, options) {\n  assertMonth_(month);", "function runMonthClose(month, options) {", "a bad month reaches the month close"],
   ['distinct-names', 'Reporting.js', '  if (clash !== undefined) throw new Error(clash);\n', '', 'two clients can overwrite each other PDF'],
   ['summary-tab-names', 'Reporting.js', '.sort().filter(function (n) { return clashes[n] === undefined; });', '.sort();', 'two clients can share a summary tab'],
   ['summary-clear', 'Reporting.js', '    sheet.clearContents();\n    ensureGrid_(sheet, table.length, table[0].length);', '    ensureGrid_(sheet, table.length, table[0].length);', 'old rows stay in a rebuilt summary'],
@@ -115,7 +120,7 @@ const M = [
   // ---- menu and sidebar
   ['sidebar-month-check', 'Menu.js', '  assertMonth_(month);\n  assertMonthEnded_(month);\n  showMonthCloseDialog_(month);', '  assertMonthEnded_(month);\n  showMonthCloseDialog_(month);', 'the dialog opens for any text'],
   ['menu-handler-name', 'Menu.js', ".addItem('Open desk', 'openDesk')", ".addItem('Open desk', 'openDeskNow')", 'a menu item runs a function that does not exist'],
-  ['sidebar-call-name', 'Sidebar.html', '.sidebarRunReport(\n', '.sidebarRunReportNow(\n', 'the sidebar calls a function that does not exist'],
+  ["sidebar-call-name", "Sidebar.html", ".sidebarRunReport(client, month,", ".sidebarRunReportNow(client, month,", "the sidebar calls a function that does not exist"],
   ['setup-secret-kept', 'Menu.js', '  if (!props.getProperty(SD.PROPS.WEBHOOK_SECRET)) {', '  if (true) {', 'set up replaces the webhook secret every time'],
   ['sidebar-active-only', 'Menu.js', "    .filter(function (c) { return c.status === 'active'; })", '    .filter(function () { return true; })', 'the picker lists paused clients'],
   ['previous-month-year', 'Menu.js', '  const py = m === 1 ? y - 1 : y;', '  const py = y;', 'last month in January is a month in the future'],
@@ -148,8 +153,8 @@ const M = [
   ['ads-dates', 'AdPlatform.js', "  if (!isIsoDate_(fromIso) || !isIsoDate_(toIso)) throw new Error('Dates must look like 2026-10-31.');\n", '', 'the ad sync takes any date text'],
   ['ads-range', 'AdPlatform.js', "  if (days > 92) throw new Error('Ask for at most 92 days at a time.');\n", '', 'the ad sync takes any range'],
   ['ads-key', 'AdPlatform.js', "  if (!key) throw new Error('Set the AD_API_KEY script property first.');\n", '', 'the ad sync runs with no key'],
-  ['ads-unknown-account', 'AdPlatform.js', '    if (!client) {\n      unknownAccount++;\n      return;\n    }\n', '', 'costs of an unknown account are written'],
-  ['ads-cost-check', 'AdPlatform.js', "  if (parseCount_(item.cost_micros) === null) return 'bad cost_micros';\n", '', 'a negative cost is written'],
+  ["ads-unknown-account", "AdPlatform.js", "    if (!client) {\n      unknownAccount++;\n      reasons.unknown_account = (reasons.unknown_account || 0) + 1;\n      if (unknownIds.indexOf(it.account_id) === -1) unknownIds.push(it.account_id);\n      return;\n    }\n", "", "costs of an unknown account are written"],
+  ["ads-cost-check", "AdPlatform.js", "  if (parseCount_(item.cost_micros) === null) return 'bad_cost_micros';\n", "", "a negative cost is written"],
   ['ads-lock', 'AdPlatform.js', "  if (!lock.tryLock(30000)) throw new Error('Another run is writing to Campaigns. Try again in a minute.');\n", '', 'the ad sync writes without the lock'],
   ['fx-rate-check', 'AdPlatform.js', "      typeof r.rate !== 'number' || !(r.rate > 0)) {", "      typeof r.rate !== 'number') {", 'a zero or negative rate is accepted'],
   ['fx-usd-quote', 'AdPlatform.js', "/^[A-Z]{3}$/.test(c) || c === 'USD'", '/^[A-Z]{3}$/.test(c)', 'USD can be asked for as a quote currency'],
@@ -190,9 +195,9 @@ const M = [
   ['preview-copy', 'Reporting.js', "body, pdf, '');", 'body, pdf, PropertiesService.getScriptProperties().getProperty(SD.PROPS.REPORT_CC));', 'a preview is copied to the REPORT_CC address'],
   ['preview-fallback', 'Reporting.js', "  return cc && isEmail_(cc) ? cc : '';", "  return '';", 'with no address from Google a preview has nowhere to go'],
   ['preview-user', 'Reporting.js', '  if (isEmail_(mine)) return mine;\n', '', 'a preview ignores the person running the script'],
-  ['sidebar-preview-default', 'Menu.js', '{ preview: sendToMe !== false }', '{ preview: sendToMe === true }', 'a missing or odd value emails the client'],
+  ["sidebar-preview-default", "Menu.js", "preview: sendToMe !== false", "preview: sendToMe === true", "a missing or odd value emails the client"],
   ['sidebar-box-ticked', 'Sidebar.html', 'id="send-to-me" checked>', 'id="send-to-me">', '"Send to me first" starts unticked'],
-  ['sidebar-box-passed', 'Sidebar.html', "        document.getElementById('send-to-me').checked\n", '        false\n', 'the box is not passed to the server'],
+  ["sidebar-box-passed", "Sidebar.html", "document.getElementById('send-to-me').checked, told", "false, told", "the box is not passed to the server"],
   ['prop-notes', 'Config.js', "    AD_API_BASE: 'Optional. The base URL", "    AD_API_BASE_X: 'Optional. The base URL", 'a script property has no explanation'],
   // ---- time zones of the menu
   ['month-zone', 'Menu.js', '  const tz = spreadsheet_().getSpreadsheetTimeZone();', '  const tz = Session.getScriptTimeZone();', 'last month is read in the script zone, not the data zone'],
@@ -204,7 +209,7 @@ const M = [
   ['failure-log', 'Webhook.js', "  Logger.log(where + ' failed: ' + String(err && err.message ? err.message : err).slice(0, 300));\n", '', 'the cause of a failure is not logged'],
   ['failure-log-cut', 'Webhook.js', 'String(err && err.message ? err.message : err).slice(0, 300)', 'String(err && err.message ? err.message : err)', 'a long message is logged whole'],
   // ---- round 4: a figure left out is shown
-  ['left-out-summaries', 'Reporting.js', "  if (leftOut) result.leftOut = leftOut;\n  return result;\n}\n\n/**\n * A file name that is the same", "  return result;\n}\n\n/**\n * A file name that is the same", 'Rebuild summaries does not say how many rows were left out'],
+  ["left-out-summaries", "Reporting.js", "  if (leftOut) result.leftOut = leftOut;\n  const emptied", "  const emptied", "Rebuild summaries does not say how many rows were left out"],
   ['left-out-report', 'Reporting.js', "  if (leftOut) result.leftOut = leftOut;\n  return result;\n}\n\n/**\n * Report for one client", "  return result;\n}\n\n/**\n * Report for one client", 'a report does not say how many rows were left out'],
   ['left-out-dialog-result', 'Menu.js', '  if (r.summaries.leftOut) out.leftOut = r.summaries.leftOut;\n', '', 'the month close dialog result does not carry the rows left out'],
   ['left-out-toast', 'Menu.js', '  if (r.leftOut) more.push(r.leftOut.text);\n', '', 'the Rebuild summaries message does not mention the rows left out'],
@@ -244,7 +249,21 @@ const M = [
   ['intake-clash-active-only', 'Forms.js', "String(r[6]).trim().toLowerCase() === 'active' && ", '', 'a parked row holds a new name back'],
   ['close-clash-active-only', 'Reporting.js', '  const clashes = nameClashes_(clients.map(function (c) { return c.client; }));', '  const clashes = nameClashes_(allClients.map(function (c) { return c.client; }));', 'a parked row stops the month close of an active client'],
   ['report-clash-active-only', 'Reporting.js', "  const live = clients.filter(function (c) { return c.status === 'active' || c === client; });", '  const live = clients;', 'a parked row stops the report of an active client'],
-  ['report-prefers-active', 'Reporting.js', '  const hit = named.filter(function (c) { return c.status === \'active\'; })[0] || named[0];', '  const hit = named[0];', 'a paused row with the same name is reported instead of the active one']
+  ['report-prefers-active', 'Reporting.js', '  const hit = named.filter(function (c) { return c.status === \'active\'; })[0] || named[0];', '  const hit = named[0];', 'a paused row with the same name is reported instead of the active one'],
+  // ---- round 5: nothing reaches a client before the guards, a skip is a count and a reason
+  ["round5-month-report", "Reporting.js", "  if (mailsClient) assertMonthEnded_(month, true);\n", "", "a report emailed to a client for a month that is still running is not refused"],
+  ["round5-held-close", "Reporting.js", "if (gate.held && !acknowledged) return", "if (false) return", "a month close emails the clients before it says which rows are left out"],
+  ["round5-held-report", "Reporting.js", "  if (mailsClient && opts.acknowledgeLeftOut !== true) {", "  if (false) {", "a report to a client is built over left out rows without saying so first"],
+  ["round5-ack-report", "Menu.js", "preview: sendToMe !== false, acknowledgeLeftOut: acknowledgeLeftOut === true", "preview: sendToMe !== false, acknowledgeLeftOut: true", "the sidebar always confirms for the user"],
+  ["round5-ack-close", "Menu.js", "runMonthClose(month, { acknowledgeLeftOut: acknowledgeLeftOut === true })", "runMonthClose(month, { acknowledgeLeftOut: true })", "the dialog always confirms for the user"],
+  ["round5-ack-dialog-page", "Dialog.html", ".dialogConfirmMonthClose(asked, told === asked)", ".dialogConfirmMonthClose(asked, true)", "the dialog page confirms on the first press"],
+  ["round5-ack-sidebar-page", "Sidebar.html", "told === client + '|' + month)", "true)", "the sidebar page confirms on the first press"],
+  ["round5-stale-summaries", "Reporting.js", "  const emptied = emptyStaleSummaries_(ss, names, clashes);\n  if (emptied) result.emptied = emptied;\n", "", "a client with no rows left keeps its old summary tab"],
+  ["round5-unknown-status-close", "Reporting.js", "  if (odd) out.unknownStatus = odd;\n", "", "a month close does not name a client whose status is a typo"],
+  ["round5-unknown-status-picker", "Menu.js", "  if (odd) out.unknownStatus = odd;\n", "", "the picker does not name a client whose status is a typo"],
+  ["round5-ads-fraction", "AdPlatform.js", "  const conversions = parseNumber_(item.conversions);\n  if (conversions === null || conversions < 0) return 'bad_conversions';", "  if (parseCount_(item.conversions) === null) return 'bad_conversions';", "a record with fractional conversions is dropped"],
+  ["round5-ads-toast", "Menu.js", "(r.dropped ? '. ' + r.dropped.text : '')", "''", "the ad cost message does not say how many records were dropped"],
+  ["round5-ads-dropped-key", "AdPlatform.js", "  if (dropped) summary.dropped = dropped;\n", "", "the ad sync result does not say how many records were dropped"]
 ];
 
 /**
@@ -255,16 +274,16 @@ const EQUIVALENT = {
   'ast:Clients:51@1650+1:number---1': 'ensureGrid_(sheet, 0, ...) asks for no rows, and a grid never needs fewer rows than one, so the call grows nothing either way',
   'ast:Forms:165@7120+17:string-to-empty': 'the text of a Logger.log line that only an owner reading the script log sees, with no effect on any row, return value or email',
   'ast:Webhook:154@7237+1:number-+-1':'the duplicate check reads four columns of the Leads tab instead of three and compares only the first and the third, so the extra column is read and never used',
-  'ast:Reporting:32@1133+1:number-+-1': 'assertMonthEnded_ is reached only after assertMonth_, so the month is exactly seven characters (yyyy-MM) and slice(5, 8) holds the same two characters as slice(5, 7)',
-  'ast:Menu:138@5095+1:<-to-<=': 'the two sides are equal days only when the new day is the earliest one already held, and first is then set to the value it already has',
-  'ast:Menu:139@5131+1:>-to->=': 'the two sides are equal days only when the new day is the latest one already held, and last is then set to the value it already has',
-  'ast:Menu:145@5347+1:<-to-<=': 'the two sides are equal days only when the first of the month is exactly three years back, and either branch then returns that same day',
-  'ast:Menu:145@5386+1:>-to->=': 'the two sides are equal days only when the latest foreign row is today, and either branch then returns that same day',
-  'ast:AdPlatform:123@5074+12:string-to-empty': 'a date written as yyyy-MM-dd alone is read as midnight UTC by Date.parse, the same instant as with T00:00:00Z, so the piece end is the same day',
-  'ast:AdPlatform:123@5122+8:number-+-1': 'the piece end is one day count in milliseconds plus a few milliseconds (91 times the extra one), and toISOString().slice(0, 10) keeps only the day, so the day string is the same',
-  'ast:AdPlatform:124@5204+1:<-to-<=': 'the two sides are equal days only when a piece ends on the last day asked for, and either branch then passes that same day to the pull',
-  'ast:AdPlatform:130@5424+12:string-to-empty': 'a date written as yyyy-MM-dd alone is read as midnight UTC by Date.parse, the same instant as with T00:00:00Z, so the next piece starts on the same day',
-  'ast:AdPlatform:130@5466+8:number-+-1': 'the next piece start is whole days in milliseconds plus a few milliseconds (92 times the extra one), and toISOString().slice(0, 10) keeps only the day, so the day string is the same',
+  'ast:Reporting:34@1309+1:number-+-1': 'assertMonthEnded_ is reached only after assertMonth_, so the month is exactly seven characters (yyyy-MM) and slice(5, 8) holds the same two characters as slice(5, 7)',
+  'ast:Menu:150@5668+1:<-to-<=': 'the two sides are equal days only when the new day is the earliest one already held, and first is then set to the value it already has',
+  'ast:Menu:151@5704+1:>-to->=': 'the two sides are equal days only when the new day is the latest one already held, and last is then set to the value it already has',
+  'ast:Menu:157@5920+1:<-to-<=': 'the two sides are equal days only when the first of the month is exactly three years back, and either branch then returns that same day',
+  'ast:Menu:157@5959+1:>-to->=': 'the two sides are equal days only when the latest foreign row is today, and either branch then returns that same day',
+  'ast:AdPlatform:186@8406+12:string-to-empty': 'a date written as yyyy-MM-dd alone is read as midnight UTC by Date.parse, the same instant as with T00:00:00Z, so the piece end is the same day',
+  'ast:AdPlatform:186@8454+8:number-+-1': 'the piece end is one day count in milliseconds plus a few milliseconds (91 times the extra one), and toISOString().slice(0, 10) keeps only the day, so the day string is the same',
+  'ast:AdPlatform:187@8536+1:<-to-<=': 'the two sides are equal days only when a piece ends on the last day asked for, and either branch then passes that same day to the pull',
+  'ast:AdPlatform:193@8756+12:string-to-empty': 'a date written as yyyy-MM-dd alone is read as midnight UTC by Date.parse, the same instant as with T00:00:00Z, so the next piece starts on the same day',
+  'ast:AdPlatform:193@8798+8:number-+-1': 'the next piece start is whole days in milliseconds plus a few milliseconds (92 times the extra one), and toISOString().slice(0, 10) keeps only the day, so the day string is the same',
   'ast:Clients:55@1906+13:return-value-dropped':'ensureClientExtras_ returns undefined instead of false when the tab holds its own text in J1 or K1; its only caller tests the value for truth, so undefined and false read the same'
 };
 
@@ -275,6 +294,13 @@ function classTestFiles() {
   return fs.readdirSync(TEST_DIR).filter((f) => f.endsWith('.test.js'))
     .filter((f) => f === 'corpus.test.js' || fs.readFileSync(path.join(TEST_DIR, f), 'utf8').includes('CLASS-TABLE'))
     .map((f) => 'test/' + f);
+}
+
+// A position moves when the source above it changes. An entry whose id no longer names a mutant would skip nothing and
+// leave the mutant it was written for to run, so a stale entry is an error and not a silent loss of the exclusion.
+const AST_IDS = new Set(astMutants().map((m) => m.id));
+for (const id of Object.keys(EQUIVALENT)) {
+  if (!AST_IDS.has(id)) throw new Error('EQUIVALENT names a mutant that does not exist (the source moved?): ' + id);
 }
 
 const HAND = M.map(([id, file, find, replace, breaks]) => ({ id, file, find, replace, breaks }));
@@ -329,7 +355,15 @@ async function main() {
   const filter = process.argv.slice(2).find((a) => !a.startsWith('--'));
   const pool = flags.includes('--ast') ? AST : MUTANTS;
   const fromFlag = flags.find((f) => /^--from=[0-9]+$/.test(f));
-  const list = pool.filter((m) => !filter || m.id.includes(filter)).slice(fromFlag ? Number(fromFlag.slice(7)) : 0);
+  const limitFlag = flags.find((f) => /^--limit=[0-9]+$/.test(f));
+  const first = fromFlag ? Number(fromFlag.slice(7)) : 0;
+  const fileFlag = flags.find((f) => /^--file=[A-Za-z.,]+$/.test(f));
+  const files = fileFlag ? fileFlag.slice(7).split(',') : null;
+  const withinFlag = flags.find((f) => /^--within=[A-Za-z_,]+$/.test(f));
+  const within = withinFlag ? withinFlag.slice(9).split(',') : null;
+  const idsFlag = flags.find((f) => /^--ids=.+$/.test(f));
+  const only = idsFlag ? new Set(fs.readFileSync(idsFlag.slice(6), 'utf8').split('\n').map((l) => l.trim()).filter(Boolean)) : null;
+  const list = pool.filter((m) => (!filter || m.id.includes(filter)) && (!files || files.includes(m.file)) && (!within || within.includes(m.within)) && (!only || only.has(m.id))).slice(first, limitFlag ? first + Number(limitFlag.slice(8)) : undefined);
   const ids = new Set();
   for (const m of MUTANTS) {
     if (ids.has(m.id)) throw new Error('duplicate mutant id ' + m.id);
@@ -339,6 +373,11 @@ async function main() {
   if (bad.length) {
     for (const [m, why] of bad) console.log('INVALID  ' + m.id + ': ' + why);
     process.exit(2);
+  }
+  if (flags.includes('--list')) {
+    list.forEach((m) => console.log(m.id));
+    console.log('listed ' + list.length + ' mutants');
+    process.exit(0);
   }
   if (flags.includes('--check')) {
     // No test is run: every mutant still finds its text in the source, so a source edit that moves a guard

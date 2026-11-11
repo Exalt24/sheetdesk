@@ -6,6 +6,8 @@ Source: `src/Webhook.js`, `src/Dashboard.html`, `src/Clients.js`. Tests: `test/w
 
 `doPost(e)` takes a lead from Zapier or Make and appends it to the Leads sheet.
 
+**Every reply is HTTP 200, so add an `ok` check.** An Apps Script web app cannot set a status code. A lead that is refused (`unknown_client`, `unknown_field`, `invalid_field`, `unauthorized`, `busy`) comes back with HTTP 200 and `{"ok": false, ...}`, and Zapier and Make count a 200 as a success. Add one step after the webhook call in the Zap or the Make scenario that stops the run, or sends you an alert, when `ok` is not true. Without it a refused lead is lost without a sign, and the once-only delivery below only holds for the leads that were accepted. A client row typed by hand into the Clients tab can answer `unknown_client` for up to 5 minutes, because the name list is cached; the check step then catches it and a retry works.
+
 ```json
 {
   "secret": "the value of the WEBHOOK_SECRET script property",

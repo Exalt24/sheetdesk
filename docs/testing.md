@@ -6,16 +6,16 @@ Tests: `test/*.test.js`. Mutation harness: `scripts/mutation.js`. Fake: `test/fa
 
 ```bash
 npm install
-npm test            # 418 tests
+npm test            # 493 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 151 typed and 345 syntax tree mutants, about 70 minutes
+npm run mutation    # well over an hour for the whole list
 ```
 
 | Command | Result |
 |---|---|
-| `npm test` | 418 tests (416 run, 2 skipped by name) pass in about 30 seconds on Windows 11 with Node 24 |
+| `npm test` | 493 tests (491 pass, 2 skipped by name, none fail) on Windows 11 with Node 24 |
 | `npm run lint` | 0 errors, 0 warnings |
-| `npm run mutation` | a full run on 2026-11-11: 496 mutants (151 typed, 345 from the syntax tree), 496 caught, 0 survived |
+| `npm run mutation` | the list holds 1,522 mutants (203 typed, 1,319 from the syntax tree) and 14 equivalent mutants that are skipped (`EQUIVALENT` in `scripts/mutation.js`, each with its reason, listed below). After the fifth pass the mutants of the touched files (`Reporting.js`, `Menu.js`, `AdPlatform.js`, `Dialog.html`, `Sidebar.html`) were run: 1,087 mutants (90 typed, 997 from the syntax tree), 1,074 caught on the first run, 13 survived for want of an assertion and were caught on a rerun after the assertions were added, none survives. The full set is rerun by the lead; no total for the whole list is claimed until then |
 
 The tests do not touch Google. One run by hand on a live account is written up in [live-run.md](live-run.md). The tests prove the code against [a local fake of Google's services](fake-and-seed.md) that was written from Google's reference, so they are as accurate as that fake.
 
@@ -33,6 +33,8 @@ The tests load the files in `src/` into one `vm` context beside the fake, the wa
 - **Text that Sheets would read as a value.** `sheetText_` is run against numbers, thousands separators, percents, currency, times and dates. The fake converts each form the way Sheets does, so a cell written without the guard changes and a test fails. See [webhook.md](webhook.md).
 - **Scopes.** The manifest must list exactly the scopes in the table in [maintenance.md](maintenance.md), and the tests run every feature once with each scope removed in turn. A scope that no feature needs would show up as a run that still passes.
 - **Send to me first.** The preview goes to the person running the script and never to the client, and it does not count as the email to the client.
+- **Nothing reaches a client before the guards.** Mail is sent in two places only, the report send and the intake confirmation. `test/send-gate.test.js` runs every entry that can mail a report (a single report, a forced one, the sidebar with the box unticked, the month close, its dialog, and the report send called with nothing around it) against a finished month, a running month at several clocks and zones, and each kind of Campaigns row that is left out, with and without the confirmation. It also reads a call graph from `src/` and fails when a function that reaches the report send is not in its table, so a new caller cannot skip the month check or the hold.
+- **A skip is a count and a reason.** `test/skips.test.js` runs every value of a client's status cell and every shape of stale summary tab, and `test/ad-dropped.test.js` every reason an ad record is dropped, each against the result and the message that must name it.
 
 ## Mutation testing
 

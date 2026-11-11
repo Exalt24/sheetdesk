@@ -217,7 +217,10 @@ const RUNNERS = {
     const p = loadSeeded();
     p.append('Campaigns', [c.input.row]);
     const want = { rows: 1, clients: ['summit yoga'] };
-    const report = p.plain(p.call('runClientReport', 'Summit Yoga', '2026-10'));
+    // the row that matches no client holds the report to the client until it is confirmed (round 5)
+    assert.equal(p.plain(p.call('runClientReport', 'Summit Yoga', '2026-10')).status, 'held');
+    assert.equal(p.w.sent.length, 0);
+    const report = p.plain(p.call('runClientReport', 'Summit Yoga', '2026-10', { acknowledgeLeftOut: true }));
     assert.equal(report.spend, 'USD 4,116.38');
     assert.deepEqual(report.unmatched, want, 'the row left out of the PDF is counted and named');
     const s = p.plain(p.call('buildClientSummaries'));
@@ -225,7 +228,9 @@ const RUNNERS = {
     assert.equal(s.tabs, 8, 'the two colliding names are left out, the other eight clients are rebuilt');
     const q = loadSeeded();
     q.append('Campaigns', [c.input.row]);
-    const d = q.plain(q.call('dialogConfirmMonthClose', '2026-10'));
+    assert.deepEqual(q.plain(q.call('dialogConfirmMonthClose', '2026-10')).held.unmatched, want);
+    assert.equal(q.w.sent.length, 0, 'the first press emails nobody');
+    const d = q.plain(q.call('dialogConfirmMonthClose', '2026-10', true));
     assert.deepEqual([d.done, d.errors, d.emailed], [8, 0, 8]);
     assert.deepEqual(d.unmatched, want);
   },

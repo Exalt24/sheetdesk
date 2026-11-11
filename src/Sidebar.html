@@ -44,8 +44,18 @@
     fill('client', options.clients);
     fill('month', options.months);
     if (options.defaultMonth) document.getElementById('month').value = options.defaultMonth;
-    setStatus('');
+    // A client whose status is none of the known ones is not in the list: say so, so a typo is not read as no report.
+    setStatus(options.unknownStatus ? options.unknownStatus.text : '');
   }
+  // The client and month the sidebar has already said rows are left out for. Pressing the button again for them is the second confirmation.
+  var told = '';
+  function resetRun() {
+    told = '';
+    document.getElementById('run-report').textContent = 'Run report';
+  }
+  document.getElementById('client').onchange = resetRun;
+  document.getElementById('month').onchange = resetRun;
+  document.getElementById('send-to-me').onchange = resetRun;
   function emailWords(code) {
     var words = {
       sent: 'sent to the client',
@@ -63,6 +73,13 @@
   }
   function done(result) {
     busy(false);
+    if (result.status === 'held') {
+      told = result.client + '|' + result.month;
+      document.getElementById('run-report').textContent = 'Send anyway';
+      setStatus('Nothing was emailed. ' + result.held.text + ' A report built now is too low by those rows. Press Send anyway to email the client with these rows left out, or fix the rows first.', true);
+      return;
+    }
+    resetRun();
     var text = result.status === 'no_data'
       ? (result.leftOut ? 'No report for that month.' : 'No data for that month.')
       : 'Report ready: ' + result.pdfName + '. Email: ' + emailWords(result.email) + '.';
@@ -72,16 +89,14 @@
     setStatus(text, false);
   }
   document.getElementById('run-report').onclick = function () {
+    var client = document.getElementById('client').value;
+    var month = document.getElementById('month').value;
     busy(true);
     setStatus('Working');
     google.script.run
       .withSuccessHandler(done)
       .withFailureHandler(function (err) { busy(false); fail(err); })
-      .sidebarRunReport(
-        document.getElementById('client').value,
-        document.getElementById('month').value,
-        document.getElementById('send-to-me').checked
-      );
+      .sidebarRunReport(client, month, document.getElementById('send-to-me').checked, told === client + '|' + month);
   };
   document.getElementById('close-month').onclick = function () {
     google.script.run

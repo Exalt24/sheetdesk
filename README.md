@@ -24,10 +24,10 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 
 A small agency repeats the same chores every month. Add up each client's ad spend, build a report, email it, and keep new leads and new clients in the right place. sheetdesk does these chores from one Google Sheet.
 
-- **Reports.** Pick a client and a month in a sidebar and get a PDF report. Tick "Send to me first" and the PDF comes to you. Check it, then untick the box and send it to the client.
-- **Month close.** One button builds a report for every active client and emails each client the PDF, so it only runs for a month that has ended. A client is not emailed the same figures twice.
+- **Reports.** Pick a client and a month in a sidebar and get a PDF report. Tick "Send to me first" and the PDF comes to you. Check it, then untick the box and send it to the client. A report to a client is refused for a month that is still running, and when Campaigns rows are left out of the figures the sidebar says how many and why before anything is emailed, and asks again.
+- **Month close.** One button builds a report for every active client and emails each client the PDF, so it only runs for a month that has ended. A client is not emailed the same figures twice. Before any email goes it says how many Campaigns rows are left out of the figures and why (no currency rate pulled yet, a date typed as text, a client name that is not in the Clients tab), and it needs a second press when any are. Clients whose status is a typo are named, not skipped silently.
 - **Summaries.** One tab per client with spend, clicks, conversions, cost per click and cost per conversion, by month and channel. Money in euros or pounds is converted to dollars with the rate of the day.
-- **Leads.** Zapier or Make posts new leads to a web address. Each lead lands in the Leads tab once, even when Zapier retries.
+- **Leads.** Zapier or Make posts new leads to a web address. Each lead lands in the Leads tab once, even when Zapier retries. Apps Script web apps always answer HTTP 200, even for a lead they refuse, so add one step in Zapier or Make that stops the run when `ok` is not true, or a refused lead looks like a delivered one ([webhook.md](docs/webhook.md)).
 - **New clients.** A Google Form collects a client's details, adds a row to the Clients tab and sends a confirmation.
 - **Ad costs and rates.** Pull daily ad costs and currency rates into the Sheet.
 - **Big sheets.** Clean and roll up 50,000 rows inside Google's 6 minute limit, in several runs.
@@ -156,12 +156,12 @@ The 50,000 row job has no menu item. In the editor pick `startBulkNormalize` and
 
 ```bash
 npm install
-npm test            # 418 tests
+npm test            # 493 tests
 npm run lint        # ESLint, zero warnings allowed
-npm run mutation    # 151 typed and 345 syntax tree mutants, about 70 minutes
+npm run mutation    # well over an hour for the whole list
 ```
 
-The tests run against a local fake of Google's services. `npm test` passes, `npm run lint` is clean, and a full mutation run on 2026-11-11 caught all 496 mutants (151 typed, 345 from the syntax tree), none survived. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
+The tests run against a local fake of Google's services. `npm test` passes and `npm run lint` is clean. The mutation list holds 1,522 mutants (203 typed, 1,319 from the syntax tree, counted by `node scripts/mutation.js --check`) and 14 equivalent mutants that the run skips on purpose: each is a change that cannot alter what the code does, such as the `T00:00:00Z` added to a date that is read as the same instant without it, with its reason in `EQUIVALENT` in `scripts/mutation.js`. After the fifth review pass the mutants of the files that pass touched (`Reporting.js`, `Menu.js`, `AdPlatform.js`, `Dialog.html`, `Sidebar.html`) were run: 1,087 mutants (90 typed, 997 from the syntax tree). 1,074 were caught on the first run and 13 survived because a test asserted too little; the assertions were added and those 13 were caught on a rerun, so none of the 1,087 survives. The rest of the list was last run in full before this pass. The full set is rerun by the lead, and until then no total for the whole list is claimed here. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
 
 ## Limits
 
@@ -173,6 +173,7 @@ The tests run against a local fake of Google's services. `npm test` passes, `npm
 - The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs. An optional lead field (email, name, phone, source, campaign, message) is stored as typed even when it looks wrong, and the reply lists it in `warnings`. Nothing checks that an email exists or that a phone number is one.
 - The sidebar did render in Google's iframe and `google.script.run` worked on 2026-11-10. The dialog and the web app dashboard page were not looked at in a browser there.
 - The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes minutes.
+- Known and left as they are: the month close dialog counts as done only the clients that were built or had no data, so a rerun where every report is already current reads "0 done". A client name with no Latin letter or digit (Japanese, Arabic) gets the file name `client` and clashes with the next such name, which is named and left out. A repeated `lead_id` for one client is answered `duplicate` even when the other fields changed, and the first lead is kept. A client name with a dollar sign cannot be used in a PDF, and a backslash in a name has not been tried. A month close emails again when the figures changed by one cent. Each Campaigns row's converted spend is rounded to the cent before the rows are added, so a total can differ by a cent from converting the sum.
 
 ## Stack
 
