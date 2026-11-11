@@ -55,6 +55,10 @@ Columns are read by position, so a new column goes at the end.
 
 Months such as `2026-10` are written as text in both logs and in the summary tabs. Sheets would otherwise turn them into dates.
 
+## More than one person runs reports
+
+The report folder and the template Doc are made in the Drive of the first person who runs a report, and their ids are kept in the shared script properties. A second person who opens the Sheet needs access to that folder and that Doc (share both with them in Drive), or Run report fails with a Drive "not found" error. Reports and the emails to clients are sent from the account of whoever presses the button, so they use that person's mail quota and show that person's address as the sender. If the agency has one shared account, run reports from it.
+
 ## Script properties
 
 Open the editor, Project settings, Script properties. The properties are listed with a note each in `SD.PROP_NOTES` in `src/Config.js`.

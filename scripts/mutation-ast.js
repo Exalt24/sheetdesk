@@ -89,7 +89,9 @@ const TARGETS = [
   { file: 'Menu.js', within: 'adSyncMessage_', marker: /./, mode: 'all' },
   { file: 'AdPlatform.js', within: 'checkAdItem_', marker: /./, mode: 'all' },
   { file: 'AdPlatform.js', within: 'adDroppedOf_', marker: /./, mode: 'all' },
-  { file: 'AdPlatform.js', within: 'syncAdCosts', marker: /reasons|unknownIds|dropped|conversions|invalid|duplicates/, mode: 'inner' }
+  { file: 'AdPlatform.js', within: 'syncAdCosts', marker: /reasons|unknownIds|dropped|conversions|invalid|duplicates/, mode: 'inner' },
+  // the final recall: a blank currency cell on a client whose other rows are in another currency is left out
+  { file: 'Campaigns.js', within: 'readCampaigns_', marker: /foreign|no_currency|isBlankCell_/, mode: 'inner' }
 ];
 
 const CONDITIONAL = ['IfStatement', 'ConditionalExpression', 'WhileStatement', 'ForStatement'];

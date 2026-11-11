@@ -119,12 +119,21 @@ function readCampaigns_(ss) {
   const data = readRows_(sheet, SD.HEADERS.CAMPAIGNS.length);
   const fmtDay = makeDateFormatter_(ss.getSpreadsheetTimeZone(), 'yyyy-MM-dd');
   const rates = loadRateTable_(ss);
+  // A blank currency cell means dollars. On a client whose other rows are in another currency it is far more
+  // likely a pasted row that lost its column, and a euro month reported as dollars goes out about 12 percent low
+  // with nothing to warn of it, so such a row is left out and named instead.
+  const foreign = {};
+  data.forEach(function (r) {
+    const code = String(r[6]).trim().toUpperCase();
+    if (code && code !== 'USD') foreign[String(r[0]).trim()] = true;
+  });
   const rows = [];
   const rejected = [];
   for (let i = 0; i < data.length; i++) {
     const p = parseCampaignRow_(data[i], fmtDay, rates);
-    if (p.ok) rows.push(p);
-    else rejected.push({ row: i + 2, reason: p.reason });
+    if (!p.ok) rejected.push({ row: i + 2, reason: p.reason });
+    else if (isBlankCell_(data[i][6]) && foreign[p.client]) rejected.push({ row: i + 2, reason: 'no_currency' });
+    else rows.push(p);
   }
   return { rows: rows, rejected: rejected };
 }

@@ -22,6 +22,7 @@ const NO_RATE = 'no currency rate for the day (sheetdesk, Data, Pull currency ra
 /** Reasons: [code, a Campaigns row that is left out for it, the words of the sentence for it]. */
 const REASONS = [
   ['no_rate', ['Summit Yoga', 'search', '2026-10-05', 100, 10, 1, 'JPY'], NO_RATE],
+  ['no_currency', ['Orchard & Vine', 'search', '2026-10-05', 100, 10, 1, ''], 'an empty currency cell on a client whose other rows are in another currency'],
   ['bad_date', ['Summit Yoga', 'search', 'sometime in October', 100, 10, 1, 'USD'], 'no usable date'],
   ['no_client', ['', 'search', '2026-10-05', 100, 10, 1, 'USD'], 'no client name'],
   ['no_channel', ['Summit Yoga', '', '2026-10-05', 100, 10, 1, 'USD'], 'no channel'],
@@ -352,5 +353,36 @@ test('CLASS-TABLE: syncRatesInPieces_ adds the changed counts of every piece int
       assert.equal(r.pieces, 2);
       assert.deepEqual([r.fetched, r.inserted, r.updated], [all.length, 0, inFirst + inSecond], 'first ' + inFirst + ', second ' + inSecond);
     }
+  }
+});
+
+/** A blank currency cell: the client's other rows decide. [label, rows to append to the seeded project, how many rows are left out as no_currency]. */
+const BLANK_SHAPES = [
+  ['a client with only dollar rows keeps a blank as dollars', [['Summit Yoga', 'search', '2026-10-20', 10, 1, 0, '']], 0],
+  ['a client whose other rows are in euros has the blank row left out', [['Orchard & Vine', 'search', '2026-10-20', 10, 1, 0, '']], 1],
+  ['a cell with only spaces is blank', [['Orchard & Vine', 'search', '2026-10-20', 10, 1, 0, '   ']], 1],
+  ['two blank rows are both left out', [['Orchard & Vine', 'search', '2026-10-20', 10, 1, 0, ''], ['Orchard & Vine', 'social', '2026-10-20', 10, 1, 0, '']], 2],
+  ['the client name is matched without its stray spaces', [['  Orchard & Vine ', 'search', '2026-10-20', 10, 1, 0, '']], 1],
+  ['a euro row in lower case with spaces makes a new client foreign', [['Acme Co', 'search', '2026-10-20', 10, 1, 0, ' eur '], ['Acme Co', 'social', '2026-10-20', 10, 1, 0, '']], 1],
+  ['a lower case usd row does not make a client foreign', [['Acme Co', 'search', '2026-10-20', 10, 1, 0, 'usd'], ['Acme Co', 'social', '2026-10-20', 10, 1, 0, '']], 0],
+  ['another client is not touched by the first one being foreign', [['Acme Co', 'search', '2026-10-20', 10, 1, 0, 'EUR'], ['Beta Co', 'search', '2026-10-20', 10, 1, 0, '']], 0],
+  ['a blank row with a bad date keeps its own reason', [['Orchard & Vine', 'search', 'sometime', 10, 1, 0, '']], 0]
+];
+
+// CLASS-TABLE: when a blank currency cell is dollars and when it is left out
+test('CLASS-TABLE: a blank currency cell is dollars unless the same client has rows in another currency, and then it is left out and named', () => {
+  for (const [label, rows, want] of BLANK_SHAPES) {
+    const p = loadSeeded();
+    p.append('Campaigns', rows);
+    const r = p.plain(p.call('buildClientSummaries'));
+    const got = (r.leftOut && r.leftOut.reasons && r.leftOut.reasons.no_currency) || 0;
+    assert.equal(got, want, label);
+    if (want) assert.match(r.leftOut.text, /an empty currency cell on a client whose other rows are in another currency/, label + ': the sentence says why');
+    // the row number each left out row is reported with is the row of the Sheet that holds the blank cell
+    const read = p.w.run(() => p.ctx.readCampaigns_(p.ctx.spreadsheet_()));
+    const named = JSON.parse(JSON.stringify(read.rejected)).filter((x) => x.reason === 'no_currency');
+    assert.equal(named.length, want, label + ': the rejected list carries the same rows');
+    const sheet = p.rows('Campaigns');
+    for (const x of named) assert.equal(String(sheet[x.row - 1][6]).trim(), '', label + ': row ' + x.row + ' is the row with the empty cell');
   }
 });

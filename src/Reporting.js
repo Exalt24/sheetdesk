@@ -78,6 +78,7 @@ function aggregate_(rows) {
 /** Why a Campaigns row is left out of the totals, by reason code, in the order a sentence lists them. */
 const REJECT_WORDS_ = [
   ['no_rate', 'no currency rate for the day (sheetdesk, Data, Pull currency rates fetches them)'],
+  ['no_currency', 'an empty currency cell on a client whose other rows are in another currency'],
   ['bad_date', 'no usable date'],
   ['no_client', 'no client name'],
   ['no_channel', 'no channel'],
