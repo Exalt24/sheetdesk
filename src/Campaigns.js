@@ -39,8 +39,9 @@ function loadRateTable_(ss) {
 }
 
 /**
- * Units of a currency per 1 USD on a day. Weekends and holidays have no
- * published rate, so the latest earlier day within 7 days is used.
+ * Units of a currency per 1 USD on a day. A day with no stored rate (a feed
+ * that publishes weekdays only leaves weekend gaps) uses the latest earlier
+ * day within 7 days.
  * @param {Object} table
  * @param {string} ccy upper case ISO code
  * @param {string} iso yyyy-MM-dd

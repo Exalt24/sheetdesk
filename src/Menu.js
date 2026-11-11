@@ -108,7 +108,8 @@ function menuSyncAdCosts() {
 function menuSyncRates() {
   const range = ratePullRange_();
   const r = syncRatesInPieces_(range.from, range.to);
-  SpreadsheetApp.getActiveSpreadsheet().toast(r.inserted + ' new, ' + r.updated + ' changed', 'Rates');
+  const skipped = (r.invalid || []).map(function (x) { return x.value + ' on row ' + x.rows.join(', '); });
+  SpreadsheetApp.getActiveSpreadsheet().toast(r.inserted + ' new, ' + r.updated + ' changed' + (skipped.length ? '. Fix the currency cell: ' + skipped.join('; ') : ''), 'Rates');
 }
 
 /** Menu item: first run set up. */

@@ -18,7 +18,7 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 
 ![A Data Studio report of the same Sheet: a line chart of daily ad spend from August to October and a table of conversions, clicks and spend for the nine clients](docs/live-run/data-studio-report.png)
 
-*A Data Studio (Looker Studio) report on the same Sheet, built by hand in the editor and shared by link: [open the report](https://datastudio.google.com/reporting/e3ad4a80-d1d2-47cb-bdfd-20df33d35874). Its figures match the Summary and Campaigns tabs. How it was built: [docs/live-run.md](docs/live-run.md).*
+*A Data Studio (Looker Studio) report on the same Sheet, built by hand in the editor and shared by link: [open the report](https://datastudio.google.com/reporting/e3ad4a80-d1d2-47cb-bdfd-20df33d35874). Its figures match the Campaigns tab in each client's own currency; the Summary tab converts to dollars, so the euro and pound clients differ there, and the report's spend column adds the currencies as they are. How it was built: [docs/live-run.md](docs/live-run.md).*
 
 ## What it does
 
@@ -172,7 +172,7 @@ The tests run against a local fake of Google's services. `npm test` passes and `
 - The report PDF is plain text and a table, with no agency name, logo or chart. The `monthly_budget` column of the Clients tab is stored and no report reads it yet.
 - The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs. An optional lead field (email, name, phone, source, campaign, message) is stored as typed even when it looks wrong, and the reply lists it in `warnings`. Nothing checks that an email exists or that a phone number is one.
 - The sidebar did render in Google's iframe and `google.script.run` worked on 2026-11-10. The dialog and the web app dashboard page were not looked at in a browser there.
-- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes minutes.
+- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes well over an hour.
 - Known and left as they are: the month close dialog counts as done only the clients that were built or had no data, so a rerun where every report is already current reads "0 done". A client name with no Latin letter or digit (Japanese, Arabic) gets the file name `client` and clashes with the next such name, which is named and left out. A repeated `lead_id` for one client is answered `duplicate` even when the other fields changed, and the first lead is kept. A client name with a dollar sign cannot be used in a PDF, and a backslash in a name has not been tried. A month close emails again when the figures changed by one cent. Each Campaigns row's converted spend is rounded to the cent before the rows are added, so a total can differ by a cent from converting the sum.
 
 ## Stack

@@ -176,16 +176,17 @@ function checkRatesBody_(body, quotes) {
  * the size of one ad cost pull, and adds the counts up.
  * @param {string} fromIso
  * @param {string} toIso
- * @return {{currencies: string[], fetched: number, inserted: number, updated: number, pieces: number}}
+ * @return {{currencies: string[], fetched: number, inserted: number, updated: number, pieces: number, invalid: Array<{value: string, rows: number[]}>}}
  */
 function syncRatesInPieces_(fromIso, toIso) {
   if (!isIsoDate_(fromIso) || !isIsoDate_(toIso) || fromIso > toIso) throw new Error('Give a valid date range.');
-  const total = { currencies: [], fetched: 0, inserted: 0, updated: 0, pieces: 0 };
+  const total = { currencies: [], fetched: 0, inserted: 0, updated: 0, pieces: 0, invalid: [] };
   let start = fromIso;
   while (start <= toIso) {
     const stop = new Date(Date.parse(start + 'T00:00:00Z') + (SD.RATE_PULL_PIECE_DAYS - 1) * 86400000).toISOString().slice(0, 10);
     const r = syncCurrencyRates(start, stop < toIso ? stop : toIso);
     total.currencies = r.currencies;
+    total.invalid = r.invalid;
     total.fetched += r.fetched;
     total.inserted += r.inserted;
     total.updated += r.updated;
@@ -202,25 +203,30 @@ function syncRatesInPieces_(fromIso, toIso) {
  * @param {string} fromIso
  * @param {string} toIso
  * @param {string[]} [currencies] upper case codes, default every non USD code in Campaigns
- * @return {{currencies: string[], fetched: number, inserted: number, updated: number}}
+ * @return {{currencies: string[], fetched: number, inserted: number, updated: number, invalid: Array<{value: string, rows: number[]}>}} invalid lists Campaigns currency cells that are not a 3 letter code, with their sheet rows; they are skipped, not allowed to stop the other currencies
  */
 function syncCurrencyRates(fromIso, toIso, currencies) {
   if (!isIsoDate_(fromIso) || !isIsoDate_(toIso) || fromIso > toIso) throw new Error('Give a valid date range.');
   const ss = spreadsheet_();
   let quotes = currencies;
+  let invalid = [];
   if (!quotes) {
     const sheet = getOrCreateSheet_(ss, SD.SHEETS.CAMPAIGNS, SD.HEADERS.CAMPAIGNS);
     const seen = {};
-    readRows_(sheet, SD.HEADERS.CAMPAIGNS.length).forEach(function (r) {
+    const bad = {};
+    readRows_(sheet, SD.HEADERS.CAMPAIGNS.length).forEach(function (r, i) {
       const c = String(r[6]).trim().toUpperCase();
-      if (c && c !== 'USD') seen[c] = true;
+      if (!c || c === 'USD') return;
+      if (/^[A-Z]{3}$/.test(c)) seen[c] = true;
+      else (bad[c] = bad[c] || []).push(i + 2);
     });
     quotes = Object.keys(seen).sort();
+    invalid = Object.keys(bad).sort().map(function (v) { return { value: v, rows: bad[v] }; });
   }
   if (!Array.isArray(quotes) || quotes.some(function (c) { return !/^[A-Z]{3}$/.test(c) || c === 'USD'; })) {
     throw new Error('Currencies must be 3 letter upper case codes other than USD.');
   }
-  if (!quotes.length) return { currencies: [], fetched: 0, inserted: 0, updated: 0 };
+  if (!quotes.length) return { currencies: [], fetched: 0, inserted: 0, updated: 0, invalid: invalid };
   const url = SD.FRANKFURTER_BASE + '?base=USD&quotes=' + quotes.join(',') + '&from=' + fromIso + '&to=' + toIso;
   const res = httpJson_(url, { validate: function (b) { return checkRatesBody_(b, quotes); } });
 
@@ -258,5 +264,5 @@ function syncCurrencyRates(fromIso, toIso, currencies) {
   } finally {
     releaseLock_(lock);
   }
-  return { currencies: quotes, fetched: res.json.length, inserted: inserted, updated: updated };
+  return { currencies: quotes, fetched: res.json.length, inserted: inserted, updated: updated, invalid: invalid };
 }

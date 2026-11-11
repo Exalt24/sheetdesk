@@ -60,4 +60,4 @@ node scripts/mutation.js --ast        # only the mutants derived from the syntax
 
 - The fake can differ from Google's services in ways this repo cannot see. Where the reference is silent the fake is strict, so it may refuse something the real service accepts.
 - The mutants are guards that were chosen by hand. A guard nobody thought of has no mutant.
-- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes minutes.
+- The CI workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npm run lint` and `npm test` on `ubuntu-latest` with Node 24, for pushes to `main` and for pull requests. It runs green on GitHub. The mutation run is not in CI because it takes well over an hour.

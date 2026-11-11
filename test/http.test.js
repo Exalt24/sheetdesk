@@ -361,6 +361,40 @@ test('syncCurrencyRates asks for the currencies in Campaigns, in the Frankfurter
   assert.deepEqual([row[0].slice(0, 10), row[1], row[2]], [wanted[0].date, wanted[0].quote, wanted[0].rate]);
 });
 
+// CLASS-TABLE: a malformed currency cell in Campaigns never stops the rates of the other currencies (the final recall: one US$ cell made the whole pull throw)
+for (const bad of ['US$', 'eur1', 'EU', 'EURO', '\u20ac', 'E R']) {
+  test('syncCurrencyRates skips the malformed currency cell ' + JSON.stringify(bad) + ', pulls the rest and names the cell', () => {
+    const { p, rates, fx } = fxSetup();
+    p.fill('Campaigns', HEADERS.campaigns, [
+      ['Euro Co', 'search', '2026-10-05', 100, 10, 1, 'EUR'],
+      ['Odd Co', 'search', '2026-10-06', 100, 10, 1, bad],
+      ['Odd Co', 'search', '2026-10-07', 100, 10, 1, bad]
+    ]);
+    const r = p.plain(p.call('syncCurrencyRates', '2026-10-01', '2026-10-10'));
+    assert.deepEqual(r.currencies, ['EUR']);
+    assert.match(fx.requests[0].url, /quotes=EUR&/);
+    assert.deepEqual(r.invalid, [{ value: bad.toUpperCase(), rows: [3, 4] }]);
+    const wanted = rates.filter((x) => x.date <= '2026-10-10' && x.quote === 'EUR');
+    assert.equal(r.inserted, wanted.length);
+  });
+}
+
+test('the menu rate pull names a malformed currency cell in its message and still pulls the others', () => {
+  const { p } = fxSetup();
+  p.fill('Campaigns', HEADERS.campaigns, [
+    ['Euro Co', 'search', '2026-10-05', 100, 10, 1, 'EUR'],
+    ['Odd Co', 'search', '2026-10-06', 100, 10, 1, 'US$']
+  ]);
+  p.call('menuSyncRates');
+  assert.match(p.w.ui.toasts[0].msg, /new,.*changed\. Fix the currency cell: US\$ on row 3/);
+  assert.ok(p.rows('Rates').length > 1);
+});
+
+test('a currency list given to syncCurrencyRates is still refused when one code is malformed', () => {
+  const { p } = fxSetup();
+  assert.throws(() => p.call('syncCurrencyRates', '2026-10-01', '2026-10-10', ['EUR', 'US$']), /3 letter upper case/);
+});
+
 test('syncCurrencyRates: a rerun changes nothing, a restated rate is updated, a gap is filled', () => {
   const { p, rates } = fxSetup();
   p.call('syncCurrencyRates', '2026-10-01', '2026-10-10');
@@ -387,7 +421,7 @@ test('syncCurrencyRates with only USD asks for nothing', () => {
   const { p, fx } = fxSetup();
   p.w.run(() => p.ss.getSheetByName('Campaigns').getRange(2, 7, 2, 1).setValues([['USD'], ['USD']]));
   const r = p.plain(p.call('syncCurrencyRates', '2026-10-01', '2026-10-10'));
-  assert.deepEqual(r, { currencies: [], fetched: 0, inserted: 0, updated: 0 });
+  assert.deepEqual(r, { currencies: [], fetched: 0, inserted: 0, updated: 0, invalid: [] });
   assert.equal(fx.requests.length, 0);
 });
 
