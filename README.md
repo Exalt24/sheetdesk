@@ -134,12 +134,12 @@ The click-through, a test lead with curl, Zapier and Make, and the 50,000 row jo
 
 ```bash
 npm install
-npm test            # 493 tests
+npm test            # 502 tests
 npm run lint        # ESLint, zero warnings allowed
 npm run mutation    # well over an hour for the whole list
 ```
 
-The tests run against a local fake of Google's services. `npm test` passes and `npm run lint` is clean. The mutation list holds 1,522 mutants (203 typed, 1,319 from the syntax tree, counted by `node scripts/mutation.js --check`) and 14 equivalent mutants that the run skips on purpose: each is a change that cannot alter what the code does, such as the `T00:00:00Z` added to a date that is read as the same instant without it, with its reason in `EQUIVALENT` in `scripts/mutation.js`. After the fifth review pass the mutants of the files that pass touched (`Reporting.js`, `Menu.js`, `AdPlatform.js`, `Dialog.html`, `Sidebar.html`) were run: 1,087 mutants (90 typed, 997 from the syntax tree). 1,074 were caught on the first run and 13 survived because a test asserted too little; the assertions were added and those 13 were caught on a rerun, so none of the 1,087 survives. The rest of the list was last run in full before this pass. The full set is rerun by the lead, and until then no total for the whole list is claimed here. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
+The tests run against a local fake of Google's services. `npm test` passes and `npm run lint` is clean. The mutation list holds 1,547 mutants (203 typed, 1,344 from the syntax tree, counted by `node scripts/mutation.js --check`) and 14 equivalent mutants that the run skips on purpose: each is a change that cannot alter what the code does, such as the `T00:00:00Z` added to a date that is read as the same instant without it, with its reason in `EQUIVALENT` in `scripts/mutation.js`. After the fifth review pass the mutants of the files that pass touched (`Reporting.js`, `Menu.js`, `AdPlatform.js`, `Dialog.html`, `Sidebar.html`) were run: 1,087 mutants (90 typed, 997 from the syntax tree). 1,074 were caught on the first run and 13 survived because a test asserted too little; the assertions were added and those 13 were caught on a rerun, so none of the 1,087 survives. The rest of the list was last run in full before this pass. The full set is rerun by the lead, and until then no total for the whole list is claimed here. [docs/testing.md](docs/testing.md) explains what a mutant is and what the tests check.
 
 ## Limits
 

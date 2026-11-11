@@ -6,16 +6,16 @@ Tests: `test/*.test.js`. Mutation harness: `scripts/mutation.js`. Fake: `test/fa
 
 ```bash
 npm install
-npm test            # 493 tests
+npm test            # 502 tests
 npm run lint        # ESLint, zero warnings allowed
 npm run mutation    # well over an hour for the whole list
 ```
 
 | Command | Result |
 |---|---|
-| `npm test` | 493 tests (491 pass, 2 skipped by name, none fail) on Windows 11 with Node 24 |
+| `npm test` | 502 tests (500 pass, 2 skipped by name, none fail) on Windows 11 with Node 24 |
 | `npm run lint` | 0 errors, 0 warnings |
-| `npm run mutation` | the list holds 1,522 mutants (203 typed, 1,319 from the syntax tree) and 14 equivalent mutants that are skipped (`EQUIVALENT` in `scripts/mutation.js`, each with its reason, listed below). After the fifth pass the mutants of the touched files (`Reporting.js`, `Menu.js`, `AdPlatform.js`, `Dialog.html`, `Sidebar.html`) were run: 1,087 mutants (90 typed, 997 from the syntax tree), 1,074 caught on the first run, 13 survived for want of an assertion and were caught on a rerun after the assertions were added, none survives. The full set is rerun by the lead; no total for the whole list is claimed until then |
+| `npm run mutation` | the list holds 1,547 mutants (203 typed, 1,344 from the syntax tree) and 14 equivalent mutants that are skipped (`EQUIVALENT` in `scripts/mutation.js`, each with its reason, listed below). After the fifth pass the mutants of the touched files (`Reporting.js`, `Menu.js`, `AdPlatform.js`, `Dialog.html`, `Sidebar.html`) were run: 1,087 mutants (90 typed, 997 from the syntax tree), 1,074 caught on the first run, 13 survived for want of an assertion and were caught on a rerun after the assertions were added, none survives. The full set is rerun by the lead; no total for the whole list is claimed until then |
 
 The tests do not touch Google. One run by hand on a live account is written up in [live-run.md](live-run.md). The tests prove the code against [a local fake of Google's services](fake-and-seed.md) that was written from Google's reference, so they are as accurate as that fake.
 
