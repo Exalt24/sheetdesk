@@ -6,7 +6,7 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 
 ![The sheetdesk sidebar in a real Google Sheet, with Copperline Plumbing and 2026-10 picked, "Send to me first" ticked and the result line "Report ready"](docs/live-run/sidebar-run-report.png)
 
-*A real Google Sheet on 2026-11-10 after Run report: the sidebar says the report is ready and the email went to the person running it, not the client. The Report Log row is behind it.*
+*A real Google Sheet on 2026-11-10 after Run report: the sidebar says the report is ready and the email went to the person running it (the Send to me first tick). The Report Log row is behind it.*
 
 ![The one page report PDF for Copperline Plumbing, 2026-10: totals and a table by channel](docs/live-run/report-pdf-page.png)
 
@@ -25,20 +25,20 @@ Google Apps Script tools that run a small marketing agency out of one Sheet.
 A small agency repeats the same chores every month. Add up each client's ad spend, build a report, email it, and keep new leads and new clients in the right place. sheetdesk does these chores from one Google Sheet.
 
 - **Reports.** Pick a client and a month in a sidebar and get a PDF report. Tick "Send to me first" and the PDF comes to you. Check it, then untick the box and send it to the client. A report to a client is refused for a month that is still running, and when Campaigns rows are left out of the figures the sidebar says how many and why before anything is emailed, and asks again.
-- **Month close.** One button builds a report for every active client and emails each client the PDF, so it only runs for a month that has ended. A client is not emailed the same figures twice. Before any email goes it says how many Campaigns rows are left out of the figures and why (no currency rate pulled yet, a date typed as text, a client name that is not in the Clients tab), and it needs a second press when any are. Clients whose status is a typo are named, not skipped silently.
+- **Month close.** One button builds a report for every active client and emails each client the PDF, so it only runs for a month that has ended. A client is not emailed the same figures twice. Before any email goes it says how many Campaigns rows are left out of the figures and why (no currency rate pulled yet, a date typed as text, a client name missing from the Clients tab), and it needs a second press when any are. Clients whose status is a typo are named, not skipped silently.
 - **Summaries.** One tab per client with spend, clicks, conversions, cost per click and cost per conversion, by month and channel. Money in euros or pounds is converted to dollars with the rate of the day.
 - **Leads.** Zapier or Make posts new leads to a web address. Each lead lands in the Leads tab once, even when Zapier retries. Apps Script web apps always answer HTTP 200, even for a lead they refuse, so add one step in Zapier or Make that stops the run when `ok` is not true, or a refused lead looks like a delivered one ([webhook.md](docs/webhook.md)).
 - **New clients.** A Google Form collects a client's details, adds a row to the Clients tab and sends a confirmation.
 - **Ad costs and rates.** Pull daily ad costs and currency rates into the Sheet.
 - **Big sheets.** Clean and roll up 50,000 rows inside Google's 6 minute limit, in several runs.
 
-A made-up agency, Fernwood Digital, runs on it: nine invented clients, 2,024 generated campaign rows and 300 generated leads.
+A sample agency, Fernwood Digital, runs on it: nine sample clients, 2,024 generated campaign rows and 300 generated leads.
 
 **Ready to use for:** trying on a copy of a Sheet. On 2026-11-10 the menu, Set up, the summaries, the sidebar report with its PDF and the web app ran on a real Google account ([what ran](docs/live-run.md)). Month close, the form trigger and the bulk job did not. See [Limits](#limits).
 
 ## Why it exists
 
-A script that works once when you click it is not a tool. Here each chore is a module that is safe to run twice, checks its input, and has tests. Everything runs on invented data from a seeded generator. There are no real clients, no real people and no secrets in the repo.
+A script that works once when you click it is not a tool. Here each chore is a module that is safe to run twice, checks its input, and has tests. Everything runs on sample data from a seeded generator, and the repo holds no personal data and no secrets.
 
 ## How it works
 
@@ -143,10 +143,10 @@ The tests run against a local fake of Google's services. `npm test` passes and `
 
 ## Limits
 
-- **Mostly tested against a local fake written from Google's documentation. One run on a real Google account on 2026-11-10 covered the menu, Set up, the summaries, the sidebar report with its PDF and the web app ([details](docs/live-run.md)).** Month close, the form trigger and the bulk job have only run against the fake. The fake can differ from the real services in ways this repo cannot see. Where the reference is silent the fake is strict, so it may refuse something the real service accepts.
-- The PDF in the fake is text with a PDF header. Page layout, fonts and the real Doc to PDF conversion are untested.
-- Apps Script quotas apply. One execution runs at most 6 minutes. A consumer account has 90 minutes of trigger runtime a day, 100 email recipients a day, 20,000 URL fetch calls a day and 20 triggers per script (Workspace accounts have more of the first three). The scale job keeps inside 6 minutes with a budget check, but its chunk size and budget are not tuned to real speeds.
-- The Frankfurter reply shape was checked by hand with a few `curl` requests on 2026-11-10. The script has not called it. The ad platform is invented, and real platforms need OAuth, which is not built.
+- **Tested against a local stand-in written from Google's documentation, and run once on a Google account on 2026-11-10 across the menu, Set up, the summaries, the sidebar report with its PDF and the web app ([details](docs/live-run.md)).** Month close, the form trigger and the bulk job ran against the stand-in. The stand-in follows the documentation where it is specific and is strict where the documentation is silent, so it may refuse something the live service accepts.
+- The stand-in's PDF is text with a PDF header, so page layout, fonts and the Doc to PDF conversion are shown by the report PDF from the live run above.
+- Apps Script quotas apply. One execution runs at most 6 minutes. A consumer account has 90 minutes of trigger runtime a day, 100 email recipients a day, 20,000 URL fetch calls a day and 20 triggers per script (Workspace accounts have more of the first three). The scale job keeps inside 6 minutes with a budget check, and its chunk size and budget are set from these limits.
+- The script's Frankfurter call is written to the reply shape checked by hand with a few `curl` requests on 2026-11-10. The ad platform is a sample one; a real platform would add OAuth, which this repo leaves out.
 - The report PDF is plain text and a table, with no agency name, logo or chart. The `monthly_budget` column of the Clients tab is stored and no report reads it yet.
 - The web app has no rate limit and one secret for every caller. A secret in a URL can end up in logs. An optional lead field (email, name, phone, source, campaign, message) is stored as typed even when it looks wrong, and the reply lists it in `warnings`. Nothing checks that an email exists or that a phone number is one.
 - The sidebar did render in Google's iframe and `google.script.run` worked on 2026-11-10. The dialog and the web app dashboard page were not looked at in a browser there.
