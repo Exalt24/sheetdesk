@@ -271,3 +271,64 @@ test('CLASS-TABLE: the sidebar refuses a value that is not a month before it ope
     assert.equal(p.w.ui.dialog, null);
   }
 });
+
+// Found by a blind recall (F02): the month close took no lock, so two overlapping runs each saw no Report Log row yet and emailed the same client twice.
+test('CLASS-TABLE: a month close that cannot take the lock sends nothing, writes nothing and says why', () => {
+  const p = loadSeeded();
+  p.w.otherHoldsScriptLock(Infinity);
+  const waitedFrom = p.w.now;
+  assert.throws(() => p.call('runMonthClose', '2026-10'), /Another run is closing the month\. Try again in a minute\./);
+  assert.throws(() => p.call('dialogConfirmMonthClose', '2026-10'), /Another run is closing the month\. Try again in a minute\./);
+  assert.ok(p.w.now - waitedFrom >= 60000 && p.w.now - waitedFrom < 60300, 'each of the two attempts waited 30 seconds for the lock');
+  assert.equal(p.w.sent.length, 0, 'no email');
+  assert.equal(p.sheet('Report Log'), undefined, 'no Report Log row');
+  p.w.releaseOtherLocks();
+  const r = p.plain(p.call('runMonthClose', '2026-10'));
+  assert.equal(r.results.filter((x) => x.email === 'sent').length, 8, 'once the other run is gone the close runs');
+  assert.deepEqual(p.w.violations, []);
+});
+
+test('CLASS-TABLE: a second month close that starts while the first is sending is refused, so each client is emailed once with one Report Log row', () => {
+  const p = loadSeeded();
+  const original = p.ctx.sendReportMail_;
+  let second = null;
+  p.w.run(() => {
+    p.ctx.sendReportMail_ = function (...args) {
+      if (second === null) {
+        try {
+          p.ctx.runMonthClose('2026-10');
+          second = 'ran';
+        } catch (err) {
+          second = String(err.message);
+        }
+      }
+      return original.apply(this, args);
+    };
+  });
+  const first = p.plain(p.call('runMonthClose', '2026-10'));
+  assert.equal(second, 'Another run is closing the month. Try again in a minute.');
+  assert.equal(first.results.filter((x) => x.email === 'sent').length, 8);
+  assert.equal(p.w.sent.length, 8, 'one email per client');
+  const log = p.rows('Report Log').slice(1);
+  assert.equal(new Set(log.map((r) => r[0] + '|' + r[1])).size, log.length, 'one Report Log row per client and month');
+  assert.equal(log.length, 8);
+});
+
+test('CLASS-TABLE: the month close gives the lock back, after a run and after a throw, so a run in the same execution is not refused', () => {
+  const p = loadSeeded();
+  const original = p.ctx.summariesFrom_;
+  const outcome = p.w.run(() => {
+    p.ctx.summariesFrom_ = function () { throw new Error('boom'); };
+    let first = 'did not throw';
+    try {
+      p.ctx.runMonthClose('2026-10');
+    } catch (err) {
+      first = err.message;
+    }
+    p.ctx.summariesFrom_ = original;
+    const second = p.ctx.runMonthClose('2026-10');
+    const third = p.ctx.runMonthClose('2026-10');
+    return { first, sent: second.results.filter((x) => x.email === 'sent').length, again: third.results.filter((x) => x.email === 'sent').length };
+  });
+  assert.deepEqual(p.plain(outcome), { first: 'boom', sent: 8, again: 0 });
+});

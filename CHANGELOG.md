@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Changes after a blind recall that reproduced three problems.
+
+- Pull ad costs starts on the first day of last month and runs through today, in the Sheet's time zone, where it used to ask for the last 30 days. A month close run in the first days of a month had the early days of the month that just ended missing, so clients were emailed totals that were too low. The sync upserts, so days pulled twice change nothing.
+- The month close takes the script lock for the whole check, send and log section and gives it back when it ends or throws. A second close that starts meanwhile is refused with "Another run is closing the month. Try again in a minute.", where two overlapping closes used to email the same client twice and leave one Report Log row.
+- One currency code that has the right shape but that the rates API does not know (a transposed `GPB`) no longer stops the rates of every currency. The API answers 422 for the whole request, so a 422 is followed by one request per currency, and the refused code is named with its Campaigns rows in the `invalid` list and in the Pull currency rates message. The test stand-in for the rates API now answers an unknown code with 422 too, as the real one does, where it used to answer 200 with an empty list.
+
 Changes after the fifth pass, a blind recall that found two severe problems and four smaller ones.
 
 - A report that would reach a client is checked where every report email passes, in `buildReport_`. Month close and Run report with the box unticked now say, before any email goes, how many Campaigns rows are left out of the figures and why (no currency rate, a text date, a client name that is not in the Clients tab), and need a second press (**Close month anyway**, **Send anyway**). Before, the sentence came after the emails and a rerun emailed again with different figures.

@@ -221,7 +221,7 @@ const M = [
   ['rate-pull-month-start', 'Menu.js', "  const from = first.slice(0, 7) + '-01';", '  const from = first;', 'the pull starts on the day of the first foreign row, not the first of its month'],
   ['rate-pull-cap', 'Menu.js', '  return { from: from < earliest ? earliest : from, to: last > today ? last : today };', '  return { from: from, to: last > today ? last : today };', 'one old row makes the pull ask for decades'],
   // ---- round 4: a month close that emails clients is guarded and says so
-  ['close-month-ended', 'Reporting.js', '  assertMonth_(month);\n  assertMonthEnded_(month);\n  const started', '  assertMonth_(month);\n  const started', 'a month close runs for a month that has not ended and emails a partial report'],
+  ['close-month-ended', 'Reporting.js', '  assertMonth_(month);\n  assertMonthEnded_(month);\n  // Two overlapping closes', '  assertMonth_(month);\n  // Two overlapping closes', 'a month close runs for a month that has not ended and emails a partial report'],
   ['sidebar-close-month-ended', 'Menu.js', '  assertMonthEnded_(month);\n  showMonthCloseDialog_(month);', '  showMonthCloseDialog_(month);', 'the dialog opens for a month that has not ended'],
   ['month-ended-zone', 'Reporting.js', "  return Utilities.formatDate(new Date(), spreadsheet_().getSpreadsheetTimeZone(), 'yyyy-MM');", "  return Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM');", 'the end of a month is judged in the script zone, not the Sheet zone'],
   ['picker-default', 'Menu.js', '  if (start) out.defaultMonth = start;\n', '', 'the sidebar does not say which month to start on'],
@@ -263,6 +263,11 @@ const M = [
   ["round5-unknown-status-picker", "Menu.js", "  if (odd) out.unknownStatus = odd;\n", "", "the picker does not name a client whose status is a typo"],
   ["round5-ads-fraction", "AdPlatform.js", "  const conversions = parseNumber_(item.conversions);\n  if (conversions === null || conversions < 0) return 'bad_conversions';", "  if (parseCount_(item.conversions) === null) return 'bad_conversions';", "a record with fractional conversions is dropped"],
   ["round5-ads-toast", "Menu.js", "(r.dropped ? '. ' + r.dropped.text : '')", "''", "the ad cost message does not say how many records were dropped"],
+  ['blind-ads-menu-from', 'Menu.js', "syncAdCosts(previousMonth_() + '-01', daysAgoIso_(0))", 'syncAdCosts(daysAgoIso_(30), daysAgoIso_(0))', 'Pull ad costs starts 30 days back, so a close run early in the month has the month just ended short'],
+  ['blind-close-lock', 'Reporting.js', "  if (!lock.tryLock(30000)) throw new Error('Another run is closing the month. Try again in a minute.');\n", '', 'two month closes overlap and email the same client twice'],
+  ['blind-close-lock-release', 'Reporting.js', '    return out;\n  } finally {\n    releaseLock_(lock);\n  }', '    return out;\n  } finally {\n  }', 'a month close keeps the script lock after it ends'],
+  ['blind-rates-422', 'AdPlatform.js', '    if (!err || err.status !== 422) throw err;\n    if (quotes.length === 1)', '    throw err;\n    if (quotes.length === 1)', 'one currency code the API does not know stops the rates of every currency'],
+  ['blind-rates-named', 'AdPlatform.js', '    invalid = invalid.concat(pulled.refused.map(function (c) { return { value: c, rows: rowsOf[c] || [] }; }));\n', '', 'a currency code the API refuses is dropped without being named'],
   ["round5-ads-dropped-key", "AdPlatform.js", "  if (dropped) summary.dropped = dropped;\n", "", "the ad sync result does not say how many records were dropped"]
 ];
 
@@ -271,14 +276,16 @@ const M = [
  * skipped, not counted. An entry that matches no mutant any more is an error.
  */
 const EQUIVALENT = {
+  'ast:Reporting:819@35060+5:number-+-1': 'the month close waits 30001 ms for the lock instead of 30000: one millisecond of waiting that no run can tell apart',
+  'ast:Reporting:819@35060+5:number---1': 'the month close waits 29999 ms for the lock instead of 30000: one millisecond of waiting that no run can tell apart',
   'ast:Clients:51@1650+1:number---1': 'ensureGrid_(sheet, 0, ...) asks for no rows, and a grid never needs fewer rows than one, so the call grows nothing either way',
   'ast:Forms:165@7120+17:string-to-empty': 'the text of a Logger.log line that only an owner reading the script log sees, with no effect on any row, return value or email',
   'ast:Webhook:154@7237+1:number-+-1':'the duplicate check reads four columns of the Leads tab instead of three and compares only the first and the third, so the extra column is read and never used',
   'ast:Reporting:34@1309+1:number-+-1': 'assertMonthEnded_ is reached only after assertMonth_, so the month is exactly seven characters (yyyy-MM) and slice(5, 8) holds the same two characters as slice(5, 7)',
-  'ast:Menu:151@5851+1:<-to-<=': 'the two sides are equal days only when the new day is the earliest one already held, and first is then set to the value it already has',
-  'ast:Menu:152@5887+1:>-to->=': 'the two sides are equal days only when the new day is the latest one already held, and last is then set to the value it already has',
-  'ast:Menu:158@6103+1:<-to-<=': 'the two sides are equal days only when the first of the month is exactly three years back, and either branch then returns that same day',
-  'ast:Menu:158@6142+1:>-to->=': 'the two sides are equal days only when the latest foreign row is today, and either branch then returns that same day',
+  'ast:Menu:154@6051+1:<-to-<=': 'the two sides are equal days only when the new day is the earliest one already held, and first is then set to the value it already has',
+  'ast:Menu:155@6087+1:>-to->=': 'the two sides are equal days only when the new day is the latest one already held, and last is then set to the value it already has',
+  'ast:Menu:161@6303+1:<-to-<=': 'the two sides are equal days only when the first of the month is exactly three years back, and either branch then returns that same day',
+  'ast:Menu:161@6342+1:>-to->=': 'the two sides are equal days only when the latest foreign row is today, and either branch then returns that same day',
   'ast:AdPlatform:186@8468+12:string-to-empty': 'a date written as yyyy-MM-dd alone is read as midnight UTC by Date.parse, the same instant as with T00:00:00Z, so the piece end is the same day',
   'ast:AdPlatform:186@8516+8:number-+-1': 'the piece end is one day count in milliseconds plus a few milliseconds (91 times the extra one), and toISOString().slice(0, 10) keeps only the day, so the day string is the same',
   'ast:AdPlatform:187@8598+1:<-to-<=': 'the two sides are equal days only when a piece ends on the last day asked for, and either branch then passes that same day to the pull',

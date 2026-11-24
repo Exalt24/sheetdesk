@@ -197,6 +197,41 @@ function syncRatesInPieces_(fromIso, toIso) {
 }
 
 /**
+ * Asks the rates API for the given currencies. The API answers 422 for the whole request when one code is
+ * not a currency it has (a transposed GPB has the right shape), so a 422 is followed by one request per
+ * currency, and the codes that are refused alone are returned by name instead of stopping the others.
+ * @param {string[]} quotes upper case codes
+ * @param {string} fromIso
+ * @param {string} toIso
+ * @return {{json: Array<Object>, refused: string[]}} the rate records, and the codes the API does not know
+ */
+function fetchRates_(quotes, fromIso, toIso) {
+  const urlFor = function (list) {
+    return SD.FRANKFURTER_BASE + '?base=USD&quotes=' + list.join(',') + '&from=' + fromIso + '&to=' + toIso;
+  };
+  const ask = function (list) {
+    return httpJson_(urlFor(list), { validate: function (b) { return checkRatesBody_(b, list); } }).json;
+  };
+  try {
+    return { json: ask(quotes), refused: [] };
+  } catch (err) {
+    if (!err || err.status !== 422) throw err;
+    if (quotes.length === 1) return { json: [], refused: quotes };
+  }
+  const json = [];
+  const refused = [];
+  quotes.forEach(function (c) {
+    try {
+      ask([c]).forEach(function (r) { json.push(r); });
+    } catch (err) {
+      if (!err || err.status !== 422) throw err;
+      refused.push(c);
+    }
+  });
+  return { json: json, refused: refused };
+}
+
+/**
  * Pulls daily USD based rates for the currencies used in Campaigns (or the
  * ones given) and upserts them into the Rates sheet.
  * Not called against the live API by this repo: see docs/ad-and-fx.md.
@@ -210,6 +245,7 @@ function syncCurrencyRates(fromIso, toIso, currencies) {
   const ss = spreadsheet_();
   let quotes = currencies;
   let invalid = [];
+  const rowsOf = {};
   if (!quotes) {
     const sheet = getOrCreateSheet_(ss, SD.SHEETS.CAMPAIGNS, SD.HEADERS.CAMPAIGNS);
     const seen = {};
@@ -217,8 +253,12 @@ function syncCurrencyRates(fromIso, toIso, currencies) {
     readRows_(sheet, SD.HEADERS.CAMPAIGNS.length).forEach(function (r, i) {
       const c = String(r[6]).trim().toUpperCase();
       if (!c || c === 'USD') return;
-      if (/^[A-Z]{3}$/.test(c)) seen[c] = true;
-      else (bad[c] = bad[c] || []).push(i + 2);
+      if (/^[A-Z]{3}$/.test(c)) {
+        seen[c] = true;
+        (rowsOf[c] = rowsOf[c] || []).push(i + 2);
+      } else {
+        (bad[c] = bad[c] || []).push(i + 2);
+      }
     });
     quotes = Object.keys(seen).sort();
     invalid = Object.keys(bad).sort().map(function (v) { return { value: v, rows: bad[v] }; });
@@ -227,8 +267,13 @@ function syncCurrencyRates(fromIso, toIso, currencies) {
     throw new Error('Currencies must be 3 letter upper case codes other than USD.');
   }
   if (!quotes.length) return { currencies: [], fetched: 0, inserted: 0, updated: 0, invalid: invalid };
-  const url = SD.FRANKFURTER_BASE + '?base=USD&quotes=' + quotes.join(',') + '&from=' + fromIso + '&to=' + toIso;
-  const res = httpJson_(url, { validate: function (b) { return checkRatesBody_(b, quotes); } });
+  const pulled = fetchRates_(quotes, fromIso, toIso);
+  const res = { json: pulled.json };
+  if (pulled.refused.length) {
+    invalid = invalid.concat(pulled.refused.map(function (c) { return { value: c, rows: rowsOf[c] || [] }; }));
+    quotes = quotes.filter(function (c) { return pulled.refused.indexOf(c) === -1; });
+    if (!quotes.length) return { currencies: [], fetched: 0, inserted: 0, updated: 0, invalid: invalid };
+  }
 
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(30000)) throw new Error('Another run is writing rates. Try again in a minute.');

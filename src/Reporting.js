@@ -813,49 +813,57 @@ function pdfStillExists_(id) {
 function runMonthClose(month, options) {
   assertMonth_(month);
   assertMonthEnded_(month);
-  const started = Date.now();
-  const ss = spreadsheet_();
-  const allClients = loadClients_(ss);
-  const parsed = readCampaigns_(ss);
-  const gate = { month: month, held: sendPreCheck_(parsed, allClients) };
-  const acknowledged = !!options && options.acknowledgeLeftOut === true;
-  if (gate.held && !acknowledged) return { month: month, held: gate.held, results: [], pending: [], summaries: {} };
-  const clients = allClients.filter(function (c) { return c.status === 'active'; });
-  const clashes = nameClashes_(clients.map(function (c) { return c.client; }));
-  const summaries = summariesFrom_(ss, parsed);
-  const agg = aggregate_(parsed.rows);
-  const results = [];
-  const pending = [];
-  const noAddress = [];
-  let slowest = 0;
-  clients.forEach(function (c) {
-    if (clashes[c.client] !== undefined) {
-      results.push({ status: 'error', client: c.client, month: month, error: clashes[c.client] });
-      return;
-    }
-    if (Date.now() - started + slowest * 1.5 > SD.BUDGET_MS) {
-      pending.push(c.client);
-      return;
-    }
-    const t0 = Date.now();
-    try {
-      const built = buildReport_(ss, c, month, agg, { skipIfCurrent: true, gate: gate, acknowledgeLeftOut: acknowledged });
-      results.push(built);
-      if ((built.status === 'ok' || built.status === 'current') && !isEmail_(c.contact_email)) noAddress.push(c.client);
-    } catch (err) {
-      results.push({ status: 'error', client: c.client, month: month, error: String(err && err.message ? err.message : err).slice(0, 200) });
-    }
-    slowest = Math.max(slowest, Date.now() - t0);
-  });
-  writeJobLog_(ss, ['month close', month, new Date(started), new Date(), results.length,
-    pending.length ? 'pending: ' + pending.join('; ') : 'complete']);
-  SpreadsheetApp.flush();
-  const out = { month: month, results: results, pending: pending, summaries: summaries };
-  const clashed = clashMessages_(clashes);
-  if (clashed.length) out.clashes = clashed;
-  const missing = noAddressOf_(noAddress);
-  if (missing) out.noAddress = missing;
-  const odd = unknownStatusOf_(allClients);
-  if (odd) out.unknownStatus = odd;
-  return out;
+  // Two overlapping closes would each see no Report Log row yet and email the same client twice, so the
+  // check, the sends and the log all happen under one script lock.
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(30000)) throw new Error('Another run is closing the month. Try again in a minute.');
+  try {
+    const started = Date.now();
+    const ss = spreadsheet_();
+    const allClients = loadClients_(ss);
+    const parsed = readCampaigns_(ss);
+    const gate = { month: month, held: sendPreCheck_(parsed, allClients) };
+    const acknowledged = !!options && options.acknowledgeLeftOut === true;
+    if (gate.held && !acknowledged) return { month: month, held: gate.held, results: [], pending: [], summaries: {} };
+    const clients = allClients.filter(function (c) { return c.status === 'active'; });
+    const clashes = nameClashes_(clients.map(function (c) { return c.client; }));
+    const summaries = summariesFrom_(ss, parsed);
+    const agg = aggregate_(parsed.rows);
+    const results = [];
+    const pending = [];
+    const noAddress = [];
+    let slowest = 0;
+    clients.forEach(function (c) {
+      if (clashes[c.client] !== undefined) {
+        results.push({ status: 'error', client: c.client, month: month, error: clashes[c.client] });
+        return;
+      }
+      if (Date.now() - started + slowest * 1.5 > SD.BUDGET_MS) {
+        pending.push(c.client);
+        return;
+      }
+      const t0 = Date.now();
+      try {
+        const built = buildReport_(ss, c, month, agg, { skipIfCurrent: true, gate: gate, acknowledgeLeftOut: acknowledged });
+        results.push(built);
+        if ((built.status === 'ok' || built.status === 'current') && !isEmail_(c.contact_email)) noAddress.push(c.client);
+      } catch (err) {
+        results.push({ status: 'error', client: c.client, month: month, error: String(err && err.message ? err.message : err).slice(0, 200) });
+      }
+      slowest = Math.max(slowest, Date.now() - t0);
+    });
+    writeJobLog_(ss, ['month close', month, new Date(started), new Date(), results.length,
+      pending.length ? 'pending: ' + pending.join('; ') : 'complete']);
+    SpreadsheetApp.flush();
+    const out = { month: month, results: results, pending: pending, summaries: summaries };
+    const clashed = clashMessages_(clashes);
+    if (clashed.length) out.clashes = clashed;
+    const missing = noAddressOf_(noAddress);
+    if (missing) out.noAddress = missing;
+    const odd = unknownStatusOf_(allClients);
+    if (odd) out.unknownStatus = odd;
+    return out;
+  } finally {
+    releaseLock_(lock);
+  }
 }

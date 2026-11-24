@@ -4,7 +4,7 @@ Source: `src/Menu.js`, `src/Sidebar.html`, `src/Dialog.html`. Tests: `test/menu.
 
 ## What it does
 
-`onOpen()` adds a **sheetdesk** menu: open the desk, close a month, rebuild summaries, a Data submenu (pull ad costs, pull currency rates) and set up. `onOpen` is a simple trigger, so it only builds the menu.
+`onOpen()` adds a **sheetdesk** menu: open the desk, close a month, rebuild summaries, a Data submenu (pull ad costs from the first of last month through today, pull currency rates) and set up. `onOpen` is a simple trigger, so it only builds the menu.
 
 The sidebar has a client picker, a month picker, a **Send to me first** box (ticked when the sidebar opens), **Run report** and **Close month**. It calls four server functions through `google.script.run`:
 

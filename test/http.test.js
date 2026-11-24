@@ -328,12 +328,33 @@ test('syncCurrencyRates also takes the lock', () => {
   assert.deepEqual(p.w.violations, []);
 });
 
-test('the menu items pull the last 30 days', () => {
+test('CLASS-TABLE: Pull ad costs asks from the first of last month to today', () => {
   const { p, ad } = adSetup();
   installFrankfurter(p.w, p.fx.rates);
   p.call('menuSyncAdCosts');
-  assert.match(ad.requests[0].url, /from=2026-10-11&to=2026-11-10/);
+  assert.match(ad.requests[0].url, /from=2026-10-01&to=2026-11-10/);
   assert.match(p.w.ui.toasts[0].msg, /new,.*changed/);
+});
+
+// CLASS-TABLE: the pull starts on the first of the month before today in the Sheet time zone, so the month just ended is whole on any day of the next month (blind recall F01)
+test('CLASS-TABLE: Pull ad costs on any day of a month starts on the first of the month before, in the Sheet time zone', () => {
+  const cases = [
+    ['Asia/Manila', '2026-11-01T01:00:00Z', '2026-10-01', '2026-11-01'],
+    ['Asia/Manila', '2026-10-31T16:00:00Z', '2026-10-01', '2026-11-01'],
+    ['Asia/Manila', '2026-10-31T15:59:59Z', '2026-09-01', '2026-10-31'],
+    ['America/Chicago', '2026-11-01T01:00:00Z', '2026-09-01', '2026-10-31'],
+    ['Asia/Manila', '2026-11-30T15:59:59Z', '2026-10-01', '2026-11-30'],
+    ['Asia/Manila', '2027-01-15T04:00:00Z', '2026-12-01', '2027-01-15'],
+    ['Asia/Manila', '2028-03-01T04:00:00Z', '2028-02-01', '2028-03-01'],
+    ['Pacific/Auckland', '2026-11-30T20:00:00Z', '2026-11-01', '2026-12-01']
+  ];
+  for (const [zone, instant, from, to] of cases) {
+    const { p, ad } = adSetup();
+    p.ss.setSpreadsheetTimeZone(zone);
+    p.w.now = Date.parse(instant);
+    p.call('menuSyncAdCosts');
+    assert.match(ad.requests[0].url, new RegExp('from=' + from + '&to=' + to), zone + ' ' + instant);
+  }
 });
 
 // -------------------------------------------------------------- currency
@@ -378,6 +399,89 @@ for (const bad of ['US$', 'eur1', 'EU', 'EURO', '\u20ac', 'E R']) {
     assert.equal(r.inserted, wanted.length);
   });
 }
+
+// CLASS-TABLE: one currency code of the right shape that the rates API does not know (a transposed GPB) never stops the other currencies, and is named (blind recall F03)
+test('the stand-in answers an unknown currency code with 422 for the whole request, as the real API does', () => {
+  const { p, fx } = fxSetup();
+  const res = p.w.run(() => p.ctx.UrlFetchApp.fetch('https://api.frankfurter.dev/v2/rates?base=USD&quotes=EUR,GPB&from=2026-10-01&to=2026-10-10', { muteHttpExceptions: true }));
+  assert.equal(res.getResponseCode(), 422);
+  assert.match(res.getContentText(), /GPB/);
+  assert.equal(fx.requests.length, 1);
+});
+
+test('CLASS-TABLE: syncCurrencyRates pulls each currency alone when the API refuses one code, and names the bad code and its rows', () => {
+  const { p, rates, fx } = fxSetup();
+  p.fill('Campaigns', HEADERS.campaigns, [
+    ['Euro Co', 'search', '2026-10-05', 100, 10, 1, 'EUR'],
+    ['Pound Co', 'search', '2026-10-06', 100, 10, 1, 'GPB'],
+    ['Pound Co', 'search', '2026-10-07', 100, 10, 1, 'GBP'],
+    ['Pound Co', 'search', '2026-10-08', 100, 10, 1, 'GPB']
+  ]);
+  const r = p.plain(p.call('syncCurrencyRates', '2026-10-01', '2026-10-10'));
+  assert.deepEqual(r.currencies, ['EUR', 'GBP']);
+  assert.deepEqual(r.invalid, [{ value: 'GPB', rows: [3, 5] }]);
+  const wanted = rates.filter((x) => x.date <= '2026-10-10');
+  assert.equal(r.inserted, wanted.length);
+  assert.equal(r.fetched, wanted.length);
+  assert.deepEqual(fx.requests.map((q) => new URL(q.url).searchParams.get('quotes')), ['EUR,GBP,GPB', 'EUR', 'GBP', 'GPB']);
+  assert.equal(p.rows('Rates').length, wanted.length + 1);
+});
+
+test('CLASS-TABLE: syncCurrencyRates with only an unknown code pulls nothing, writes nothing and names it', () => {
+  const { p, fx } = fxSetup();
+  p.fill('Campaigns', HEADERS.campaigns, [
+    ['Pound Co', 'search', '2026-10-06', 100, 10, 1, 'GPB'],
+    ['Plain Co', 'search', '2026-10-07', 100, 10, 1, 'USD'],
+    ['Plain Co', 'search', '2026-10-08', 100, 10, 1, 'USD']
+  ]);
+  const r = p.plain(p.call('syncCurrencyRates', '2026-10-01', '2026-10-10'));
+  assert.deepEqual(r, { currencies: [], fetched: 0, inserted: 0, updated: 0, invalid: [{ value: 'GPB', rows: [2] }] });
+  assert.equal(p.sheet('Rates'), undefined);
+  assert.equal(fx.requests.length, 1, 'one code alone is not asked twice');
+});
+
+/** A rates API that answers by the quotes asked for: a reply for each list of codes, in the order asked, or 422 when none is given. */
+function ratesRoute(p, replies) {
+  const asked = [];
+  p.w.route((u) => u.startsWith('https://api.frankfurter.dev/v2/rates'), (req) => {
+    const quotes = new URL(req.url).searchParams.get('quotes');
+    asked.push(quotes);
+    return replies[quotes] || { code: 422, body: { message: 'not found' } };
+  });
+  return asked;
+}
+
+const goodRate = (quote) => ({ date: '2026-10-05', base: 'USD', quote, rate: 0.9 });
+
+test('CLASS-TABLE: after a 422 each currency is checked like the whole request, and another error stops the pull', () => {
+  const rows = [['Euro Co', 'search', '2026-10-05', 100, 10, 1, 'EUR'], ['Pound Co', 'search', '2026-10-06', 100, 10, 1, 'GPB']];
+  const bad = { code: 200, body: [Object.assign(goodRate('EUR'), { rate: -1 })] };
+  const p = loadProject();
+  p.fill('Campaigns', HEADERS.campaigns, rows);
+  ratesRoute(p, { 'EUR': bad });
+  assert.throws(() => p.call('syncCurrencyRates', '2026-10-01', '2026-10-10'), /bad rate record/, 'a bad rate in a single currency reply is refused too');
+  assert.equal(p.sheet('Rates'), undefined);
+  // a status other than 422 is not a bad code: it stops the pull, whether it comes for the whole request or for one currency
+  for (const [label, replies] of [['one currency', { 'EUR': { code: 404, body: { message: 'gone' } } }], ['the whole request', { 'EUR,GPB': { code: 403, body: { message: 'no' } } }]]) {
+    const q = loadProject();
+    q.fill('Campaigns', HEADERS.campaigns, rows);
+    const asked = ratesRoute(q, replies);
+    assert.throws(() => q.call('syncCurrencyRates', '2026-10-01', '2026-10-10'), /HTTP 40[34]/, label);
+    assert.equal(q.sheet('Rates'), undefined, label);
+    assert.deepEqual(asked, label === 'one currency' ? ['EUR,GPB', 'EUR'] : ['EUR,GPB'], label + ': nothing more is asked');
+  }
+});
+
+test('CLASS-TABLE: the menu rate pull names an unknown currency code on its row and still pulls the others', () => {
+  const { p } = fxSetup();
+  p.fill('Campaigns', HEADERS.campaigns, [
+    ['Euro Co', 'search', '2026-10-05', 100, 10, 1, 'EUR'],
+    ['Pound Co', 'search', '2026-10-06', 100, 10, 1, 'GPB']
+  ]);
+  p.call('menuSyncRates');
+  assert.match(p.w.ui.toasts[0].msg, /new,.*changed\. Fix the currency cell: GPB on row 3/);
+  assert.ok(p.rows('Rates').length > 1);
+});
 
 test('the menu rate pull names a malformed currency cell in its message and still pulls the others', () => {
   const { p } = fxSetup();

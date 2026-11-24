@@ -32,6 +32,10 @@ function installAdPlatform(w, { days, apiKey = 'test-key', pageSize = 100, base 
   return state;
 }
 
+/** The currency codes the stand-in knows, as the real API knows them: it answers an unknown one with 422 for the whole request. */
+const FRANKFURTER_CODES = ['AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'ISK',
+  'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'SEK', 'SGD', 'THB', 'TRY', 'ZAR'];
+
 function installFrankfurter(w, rates) {
   const state = { requests: [] };
   w.route((url) => url.startsWith('https://api.frankfurter.dev/v2/rates'), (req) => {
@@ -39,6 +43,8 @@ function installFrankfurter(w, rates) {
     const q = new URL(req.url).searchParams;
     if (q.get('base') !== 'USD') return json(422, { status: 422, message: 'unsupported base in this stand-in' });
     const quotes = (q.get('quotes') || '').split(',').filter(Boolean);
+    const unknown = quotes.filter((c) => !FRANKFURTER_CODES.includes(c) && !rates.some((r) => r.quote === c));
+    if (unknown.length) return json(422, { status: 422, message: 'not found: ' + unknown.join(',') });
     const from = q.get('from') || '0000-00-00';
     const to = q.get('to') || '9999-99-99';
     return json(200, rates.filter((r) => quotes.includes(r.quote) && r.date >= from && r.date <= to));

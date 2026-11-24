@@ -94,9 +94,12 @@ function adSyncMessage_(r) {
   return r.inserted + ' new, ' + r.updated + ' changed' + (r.dropped ? '. ' + r.dropped.text : '');
 }
 
-/** Menu item: last 30 days of ad costs. */
+/**
+ * Menu item: ad costs from the first day of last month through today, in the Sheet time zone, so the month
+ * that just ended is whole on any day of the month after it. The sync upserts, so pulling days again changes nothing.
+ */
 function menuSyncAdCosts() {
-  const r = syncAdCosts(daysAgoIso_(30), daysAgoIso_(0));
+  const r = syncAdCosts(previousMonth_() + '-01', daysAgoIso_(0));
   SpreadsheetApp.getActiveSpreadsheet().toast(adSyncMessage_(r), 'Ad costs');
 }
 
